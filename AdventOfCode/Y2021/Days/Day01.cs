@@ -48,7 +48,13 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
+            var prevInput = inputs[0];
 
+            foreach (var input in inputs.GetRange(1, inputs.Count() - 1))
+            {
+                if (input > prevInput) result++;
+                prevInput = input;
+            }
 
             #endregion
 
@@ -66,7 +72,14 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
+            var prevSum = inputs.GetRange(0,3).Sum();
 
+            for (int i = 1; i < inputs.Count() - 2; i++)
+            {
+                var sum = inputs.GetRange(i, 3).Sum();
+                if (sum > prevSum) result++;
+                prevSum = sum;
+            }
 
             #endregion
 
