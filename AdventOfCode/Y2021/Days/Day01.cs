@@ -4,6 +4,7 @@ namespace AdventOfCode.Y2021.Days
 {
     public static class Day01
     {
+        static int day = 1;
         static List<int>? inputs;
 
         public static string? Answer1 { get; set; }
@@ -11,7 +12,7 @@ namespace AdventOfCode.Y2021.Days
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsInts(1, test);
+            inputs = InputManager.GetInputAsInts(day, test);
 
             var start = DateTime.Now;
 
@@ -34,7 +35,7 @@ namespace AdventOfCode.Y2021.Days
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
-            Console.WriteLine($"Day 1 ({ms}ms):");
+            Console.WriteLine($"Day {day} ({ms}ms):");
             if (part1 != "") Console.WriteLine($"    {part1}");
             if (part2 != "") Console.WriteLine($"    {part2}");
         }
@@ -46,6 +47,9 @@ namespace AdventOfCode.Y2021.Days
             var start = DateTime.Now;
 
             #region Solution
+
+
+
             #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
@@ -61,6 +65,9 @@ namespace AdventOfCode.Y2021.Days
             var start = DateTime.Now;
 
             #region Solution
+
+
+
             #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);

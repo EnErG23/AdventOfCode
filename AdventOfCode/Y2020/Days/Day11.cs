@@ -1,22 +1,18 @@
 ﻿using AdventOfCode.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Y2020.Days
 {
     public static class Day11
     {
-        static List<int>? inputs;
+        static int day = 11;
+        static List<string>? inputs;
 
         public static string? Answer1 { get; set; }
         public static string? Answer2 { get; set; }
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsInts(11, test);
+            inputs = InputManager.GetInputAsStrings(day, test);
 
             var start = DateTime.Now;
 
@@ -39,7 +35,7 @@ namespace AdventOfCode.Y2020.Days
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
-            Console.WriteLine($"Day 1 ({ms}ms):");
+            Console.WriteLine($"Day {day} ({ms}ms):");
             if (part1 != "") Console.WriteLine($"    {part1}");
             if (part2 != "") Console.WriteLine($"    {part2}");
         }
@@ -50,7 +46,31 @@ namespace AdventOfCode.Y2020.Days
 
             var start = DateTime.Now;
 
-            // SOLUTION            
+            #region Solution
+
+            foreach (string input in inputs)
+            {
+                var i = input;
+                int min = Convert.ToInt32(i.Substring(0, i.IndexOf('-')));
+
+                i = i.Substring(i.IndexOf('-') + 1);
+                int max = Convert.ToInt32(i.Substring(0, i.IndexOf(' ')));
+
+                i = i.Substring(i.IndexOf(' ') + 1);
+                char letter = Convert.ToChar(i.Substring(0, 1));
+
+                i = i.Substring(i.IndexOf(' ') + 1);
+                string password = i;
+
+                var count = password.Count(s => s == letter);
+
+                if (count >= min && count <= max)
+                {
+                    result++;
+                }
+            }
+
+            #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
@@ -64,7 +84,42 @@ namespace AdventOfCode.Y2020.Days
 
             var start = DateTime.Now;
 
-            // SOLUTION
+            #region Solution
+
+            foreach (string input in inputs)
+            {
+                var i = input;
+                int pos1 = Convert.ToInt32(i.Substring(0, i.IndexOf('-')));
+
+                i = i.Substring(i.IndexOf('-') + 1);
+                int pos2 = Convert.ToInt32(i.Substring(0, i.IndexOf(' ')));
+
+                i = i.Substring(i.IndexOf(' ') + 1);
+                string letter = i.Substring(0, 1);
+
+                i = i.Substring(i.IndexOf(' ') + 1);
+                string password = i;
+
+                var pos1HasChar = password.Substring(pos1 - 1, 1) == letter;
+                var pos2HasChar = password.Substring(pos2 - 1, 1) == letter;
+
+                if (pos1HasChar)
+                {
+                    if (!pos2HasChar)
+                    {
+                        result++;
+                    }
+                }
+                else
+                {
+                    if (pos2HasChar)
+                    {
+                        result++;
+                    }
+                }
+            }
+
+            #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 

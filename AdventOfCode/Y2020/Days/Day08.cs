@@ -1,22 +1,18 @@
 ﻿using AdventOfCode.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Y2020.Days
 {
     public static class Day08
     {
-        static List<int>? inputs;
+        static int day = 8;
+        static List<string>? inputs;
 
         public static string? Answer1 { get; set; }
         public static string? Answer2 { get; set; }
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsInts(8, test);
+            inputs = InputManager.GetInputAsStrings(day, test);
 
             var start = DateTime.Now;
 
@@ -29,17 +25,17 @@ namespace AdventOfCode.Y2020.Days
                     part1 = Part1();
                     break;
                 case 2:
-                    part2 = Part2();
+                    part2 = Part2(test);
                     break;
                 default:
                     part1 = Part1();
-                    part2 = Part2();
+                    part2 = Part2(test);
                     break;
             }
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
-            Console.WriteLine($"Day 1 ({ms}ms):");
+            Console.WriteLine($"Day {day} ({ms}ms):");
             if (part1 != "") Console.WriteLine($"    {part1}");
             if (part2 != "") Console.WriteLine($"    {part2}");
         }
@@ -50,7 +46,55 @@ namespace AdventOfCode.Y2020.Days
 
             var start = DateTime.Now;
 
-            // SOLUTION            
+            #region Solution
+
+            var ranLines = new List<int>();
+
+            var i = 0;
+
+            while (true)
+            {
+                if (ranLines.Contains(i))
+                {
+                    break;
+                }
+
+                ranLines.Add(i);
+
+                var command = inputs[i].Substring(0, 3);
+
+                switch (command)
+                {
+                    case "acc":
+                        var accValue = Convert.ToInt32(inputs[i].Substring(5));
+                        if (inputs[i].Contains("+"))
+                        {
+                            result += accValue;
+                        }
+                        else
+                        {
+                            result -= accValue;
+                        }
+                        i++;
+                        break;
+                    case "jmp":
+                        var jmpValue = Convert.ToInt32(inputs[i].Substring(5));
+                        if (inputs[i].Contains("+"))
+                        {
+                            i += jmpValue;
+                        }
+                        else
+                        {
+                            i -= jmpValue;
+                        }
+                        break;
+                    default:
+                        i++;
+                        break;
+                }
+            }
+
+            #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
@@ -58,13 +102,90 @@ namespace AdventOfCode.Y2020.Days
             return $"Part 1 ({ms}ms): {result} ";
         }
 
-        static string Part2()
+        static string Part2(bool test)
         {
             long result = 0;
 
             var start = DateTime.Now;
 
-            // SOLUTION
+            #region Solution
+
+            for (int j = 0; j < inputs.Count() - 1; j++)
+            {
+                result = 0;
+
+                inputs = InputManager.GetInputAsStrings(day, test);
+
+                if (inputs[j].Contains("jmp"))
+                {
+                    inputs[j] = inputs[j].Replace("jmp", "nop");
+                }
+                else if (inputs[j].Contains("nop"))
+                {
+                    inputs[j] = inputs[j].Replace("nop", "jmp");
+                }
+                else
+                {
+                    continue;
+                }
+
+                var ranLines = new List<int>();
+
+                var i = 0;
+                var found = false;
+
+                while (true)
+                {
+                    if (i > inputs.Count() - 1)
+                    {
+                        found = true;
+                        break;
+                    }
+
+                    if (ranLines.Contains(i))
+                    {
+                        break;
+                    }
+
+                    ranLines.Add(i);
+
+                    var command = inputs[i].Substring(0, 3);
+
+                    switch (command)
+                    {
+                        case "acc":
+                            var accValue = Convert.ToInt32(inputs[i].Substring(5));
+                            if (inputs[i].Contains("+"))
+                            {
+                                result += accValue;
+                            }
+                            else
+                            {
+                                result -= accValue;
+                            }
+                            i++;
+                            break;
+                        case "jmp":
+                            var jmpValue = Convert.ToInt32(inputs[i].Substring(5));
+                            if (inputs[i].Contains("+"))
+                            {
+                                i += jmpValue;
+                            }
+                            else
+                            {
+                                i -= jmpValue;
+                            }
+                            break;
+                        default:
+                            i++;
+                            break;
+                    }
+                }
+
+                if (found) break;
+            }
+
+            #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 

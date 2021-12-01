@@ -10,8 +10,9 @@
         public static List<string> GetInputAsStrings(int day, bool test)
         {
             var inputs = new List<string>();
+            var year = AocManager.Year;
 
-            StreamReader file = test ? new StreamReader($@"Inputs\{day}-test.txt") : new StreamReader($@"Inputs\{day}.txt");
+            StreamReader file = test ? new StreamReader($@"Y{year}\Inputs\{day}-test.txt") : new StreamReader($@"Y{year}\Inputs\{day}.txt");
             string? line;
 
             while ((line = file.ReadLine()) != null)
@@ -21,8 +22,7 @@
 
             return inputs;
         }
-        public static List<int> GetInputAsInts(int day, bool test) => GetInputAsStrings(day, test).Select(i => int.Parse(i)).ToList();        
-        public static List<long> GetInputAsLongs(int day, bool test) => GetInputAsStrings(day, test).Select(i => long.Parse(i)).ToList();        
-
+        public static List<int> GetInputAsInts(int day, bool test) => GetInputAsStrings(day, test).Select(i => int.Parse(i)).ToList();
+        public static List<long> GetInputAsLongs(int day, bool test) => GetInputAsStrings(day, test).Select(i => long.Parse(i)).ToList();
     }
 }

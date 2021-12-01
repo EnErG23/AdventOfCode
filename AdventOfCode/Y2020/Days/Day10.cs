@@ -1,14 +1,10 @@
 ﻿using AdventOfCode.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Y2020.Days
 {
     public static class Day10
     {
+        static int day = 10;
         static List<int>? inputs;
 
         public static string? Answer1 { get; set; }
@@ -16,7 +12,11 @@ namespace AdventOfCode.Y2020.Days
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsInts(10, test);
+            inputs = InputManager.GetInputAsInts(day, test);
+
+            inputs.Add(0);
+            inputs = inputs.OrderBy(i => i).ToList();
+            inputs.Add(inputs[inputs.Count() - 1] + 3);
 
             var start = DateTime.Now;
 
@@ -39,7 +39,7 @@ namespace AdventOfCode.Y2020.Days
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
-            Console.WriteLine($"Day 1 ({ms}ms):");
+            Console.WriteLine($"Day {day} ({ms}ms):");
             if (part1 != "") Console.WriteLine($"    {part1}");
             if (part2 != "") Console.WriteLine($"    {part2}");
         }
@@ -50,7 +50,25 @@ namespace AdventOfCode.Y2020.Days
 
             var start = DateTime.Now;
 
-            // SOLUTION            
+            #region Solution
+
+            var a = 0;
+            var ones = 0;
+            var threes = 0;
+
+            foreach (var intInput in inputs.Skip(1))
+            {
+                var difference = intInput - inputs[a];
+
+                if (difference == 1) ones++;
+                else if (difference == 3) threes++;
+
+                a++;
+            }
+
+            result = ones * threes;
+
+            #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
@@ -64,7 +82,50 @@ namespace AdventOfCode.Y2020.Days
 
             var start = DateTime.Now;
 
-            // SOLUTION
+            #region Solution
+
+            result = 1;
+
+            var count = 0;
+            var a = 0;
+
+            foreach (var l in inputs.Skip(1).Take(inputs.Count() - 2))
+            {
+                if (inputs[a + 2] - inputs[a] < 4)
+                {
+                    count++;
+                }
+                else
+                {
+                    if (count > 0)
+                    {
+                        var fact = count;
+
+                        for (var i = count - 1; i >= 1; i--)
+                        {
+                            fact = fact * i;
+                        }
+
+                        if (l - inputs[a - count] < 4)
+                        {
+                            fact++;
+                        }
+
+                        if (count > 1)
+                        {
+                            fact++;
+                        }
+
+                        result *= fact;
+
+                        count = 0;
+                    }
+                }
+
+                a++;
+            }
+
+            #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 

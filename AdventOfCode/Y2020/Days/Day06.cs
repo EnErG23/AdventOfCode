@@ -1,22 +1,17 @@
 ﻿using AdventOfCode.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace AdventOfCode.Y2020.Days
 {
     public static class Day06
     {
-        static List<int>? inputs;
+        static int day = 6;
+        static List<string>? inputs;
 
         public static string? Answer1 { get; set; }
         public static string? Answer2 { get; set; }
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsInts(6, test);
+            inputs = InputManager.GetInputAsStrings(day, test);
 
             var start = DateTime.Now;
 
@@ -39,7 +34,7 @@ namespace AdventOfCode.Y2020.Days
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
-            Console.WriteLine($"Day 1 ({ms}ms):");
+            Console.WriteLine($"Day {day} ({ms}ms):");
             if (part1 != "") Console.WriteLine($"    {part1}");
             if (part2 != "") Console.WriteLine($"    {part2}");
         }
@@ -50,7 +45,26 @@ namespace AdventOfCode.Y2020.Days
 
             var start = DateTime.Now;
 
-            // SOLUTION            
+            #region Solution
+
+            List<string> passports = new List<string>();
+            string passport = "";
+
+            foreach (string input in inputs)
+            {
+                if (input == "")
+                {
+                    passports.Add(passport);
+                    passport = "";
+                }
+                passport += input;
+            }
+
+            passports.Add(passport);
+
+            result = passports.Select(p => p.Distinct().Count()).Sum();
+
+            #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
@@ -64,7 +78,56 @@ namespace AdventOfCode.Y2020.Days
 
             var start = DateTime.Now;
 
-            // SOLUTION
+            #region Solution
+
+            List<string> passports = new List<string>();
+            string passport = "";
+
+            bool reset = true;
+
+            foreach (string input in inputs)
+            {
+                if (input == "")
+                {
+                    passports.Add(passport);
+                    passport = "";
+                    reset = true;
+                }
+                else
+                {
+                    if (reset)
+                    {
+                        passport = input;
+                        reset = false;
+                    }
+                    else
+                    {
+                        var ppLetters = passport.Distinct();
+                        foreach (var letter in ppLetters)
+                        {
+                            if (!input.Contains(letter))
+                            {
+                                passport = passport.Replace(letter.ToString(), "");
+                            }
+                        }
+
+                        var letters = input.Distinct();
+                        foreach (var letter in letters)
+                        {
+                            if (!passport.Contains(letter))
+                            {
+                                passport = passport.Replace(letter.ToString(), "");
+                            }
+                        }
+                    }
+                }
+            }
+
+            passports.Add(passport);
+
+            result = passports.Select(p => p.Distinct().Count()).Sum();
+
+            #endregion
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 

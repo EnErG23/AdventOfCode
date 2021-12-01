@@ -7,7 +7,7 @@ namespace AdventOfCode.Helpers
     {
         public static int Year { get; set; } = GetYear();
 
-        static readonly string website = $"https://adventofcode.com/{Year}";
+        static string website = $"https://adventofcode.com";
         static readonly string? sessionID = new ConfigurationBuilder()
                                             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                                             .AddUserSecrets<Program>()
@@ -23,7 +23,7 @@ namespace AdventOfCode.Helpers
         }
         public static void OpenAoc(int day)
         {
-            var url = $"{website}/day/{day}";
+            var url = $"{website}/{Year}/day/{day}";
 
             var prs = new ProcessStartInfo(@"C:\Program Files (x86)\BraveSoftware\Brave-Browser\Application\brave.exe")
             {
@@ -32,15 +32,15 @@ namespace AdventOfCode.Helpers
 
             Process.Start(prs);
 
-            if (!File.Exists($"Inputs\\{day}-test.txt"))
+            if (!File.Exists($"Y{Year}\\Inputs\\{day}-test.txt"))
                 GetTestInput(day);
 
-            if (!File.Exists($"Inputs\\{day}.txt"))
+            if (!File.Exists($"Y{Year}\\Inputs\\{day}.txt"))
                 GetInput(day);
         }
         public static async void GetTestInput(int day)
         {
-            var url = $"{website}/day/{day}";
+            var url = $"{website}/{Year}/day/{day}";
 
             HttpClient client = new();
             client.DefaultRequestHeaders.Add("cookie", $"session={sessionID}");
@@ -49,7 +49,8 @@ namespace AdventOfCode.Helpers
             using StreamReader? streamReader = new(response.Content.ReadAsStreamAsync().Result);
             var result = streamReader.ReadToEnd() ?? "";
 
-            result = result.IndexOf("For example") < 0 ? result : result[result.IndexOf("For example")..];
+            result = result.IndexOf("For example") < 0 ? result : result[(result.IndexOf("For example") + 4)..];
+            result = result.IndexOf("example") < 0 ? result : result[(result.IndexOf("example") + 7)..];
             result = result.IndexOf("<code>") < 0 ? result : result[(result.IndexOf("<code>") + 6)..];
             result = result.IndexOf("</code>") < 0 ? result : result[..result.IndexOf("</code>")];
 
@@ -58,7 +59,7 @@ namespace AdventOfCode.Helpers
         }
         public static async void GetInput(int day)
         {
-            var url = $"{website}/day/{day}/input";
+            var url = $"{website}/{Year}/day/{day}/input";
 
             HttpClient client = new();
             client.DefaultRequestHeaders.Add("cookie", $"session={sessionID}");
@@ -88,7 +89,7 @@ namespace AdventOfCode.Helpers
 
             var content = new FormUrlEncodedContent(values);
 
-            var url = $"{website}/day/{day}/answer";
+            var url = $"{website}/{Year}/day/{day}/answer";
             var response = await client.PostAsync(url, content);
 
             using StreamReader? streamReader = new(response.Content.ReadAsStreamAsync().Result);
