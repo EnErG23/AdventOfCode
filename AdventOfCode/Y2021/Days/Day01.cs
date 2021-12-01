@@ -48,7 +48,7 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
-            for (int i = 1; i < inputs.Count(); i++)
+            for (int i = 1; i < inputs.Count; i++)
                 if (inputs[i] > inputs[i - 1])
                     result++;
 
@@ -68,7 +68,7 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
-            for (int i = 3; i < inputs.Count(); i++)
+            for (int i = 3; i < inputs.Count; i++)
                 if (inputs[i] > inputs[i - 3])
                     result++;
 

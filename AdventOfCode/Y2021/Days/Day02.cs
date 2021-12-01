@@ -10,14 +10,14 @@ namespace AdventOfCode.Y2021.Days
     public static class Day02
     {
         static int day = 2;
-        static List<string>? inputs;
+        static List<int>? inputs;
 
         public static string? Answer1 { get; set; }
         public static string? Answer2 { get; set; }
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsStrings(day, test);
+            inputs = InputManager.GetInputAsInts(day, test);
 
             var start = DateTime.Now;
 
