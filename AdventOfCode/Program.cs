@@ -14,13 +14,13 @@ while (true)
     Console.WriteLine();
     Console.WriteLine("What would you like to do?");
 
-    string? input = Console.ReadLine();
+    string? input = Console.ReadLine().ToLower();
     bool test = input.Contains("test");
     var inputs = input.Replace("test ", "").Replace(" test", "").Replace(" day", "").Replace(" part", "").Replace(" year", "").Split(' ');
     Console.WriteLine();
 
     var command = inputs[0];
-    day = inputs.Length > 1 ? Convert.ToInt32(inputs[1]) : 0;
+    day = inputs.Length > 1 ? Convert.ToInt32(inputs[1]) : day;
     part = inputs.Length > 2 ? Convert.ToInt32(inputs[2]) : 0;
 
     switch (command)
@@ -38,7 +38,7 @@ while (true)
             InputManager.PrintInput(day, test);
             break;
         case "run":
-            if (day == 0)
+            if (inputs.Length == 1)
                 RunAllDays(test);
             else
                 RunDay(day, part, test);
@@ -114,7 +114,10 @@ void RunAllDays(bool test)
             Console.WriteLine("---------------------------------------");
         }
         else
+        {
             RunDay(i, 0, test);
+            day = i;
+        }
 
     var time = DateTime.Now - start;
 
