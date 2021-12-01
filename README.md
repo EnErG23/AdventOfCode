@@ -21,7 +21,7 @@ command [obligatory] (optional)
 
 year [year]                //Changes year (Overrides the automatically chosen year for AoC, starting from the release of the first task)
 
-read [day]                 //Opens task in browser tab (change location of broswer exe in AocManager.OpenAoC()), gets possible test input and gets actual input.
+read [day]                 //Opens task in browser tab (change location of broswer exe in AocManager.OpenAoC()), tries to get possible test input and gets actual input.
 
 print [day] ("test")       //Prints (test) day data of current year
 
