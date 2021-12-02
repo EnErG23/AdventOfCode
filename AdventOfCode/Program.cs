@@ -15,54 +15,46 @@ while (true)
     Console.WriteLine("What would you like to do?");
 
     string? input = Console.ReadLine().ToLower();
-    bool test = input.Contains("test");
-    var inputs = input.Replace("test ", "").Replace(" test", "").Replace(" day", "").Replace(" part", "").Replace(" year", "").Split(' ');
+    bool test = input.Contains("test") || input.Contains("t ") || input.Contains(" t") || input.Contains(" t ");
+    var inputs = input.Replace("test ", "").Replace(" test", "").Replace("t ", "").Replace(" t ", "").Replace(" t", "").Replace(" day", "").Replace(" part", "").Split(' ');
     Console.WriteLine();
 
-    var command = inputs[0];
-    day = inputs.Length > 1 ? Convert.ToInt32(inputs[1]) : day;
-    part = inputs.Length > 2 ? Convert.ToInt32(inputs[2]) : 0;
+    var command = inputs[0][0];
+    try { day = inputs.Length > 1 ? Convert.ToInt32(inputs[1]) : day; } catch { Console.WriteLine("Wrong parameter"); continue; }
+    try { part = inputs.Length > 2 ? Convert.ToInt32(inputs[2]) : 0; } catch { Console.WriteLine("Wrong parameter"); continue; }
 
     switch (command)
     {
-        case "year":
-        case "y":
+        case 'y': //year
             year = day;
             AocManager.Year = year;
             Console.Clear();
             PrintHeader();
             break;
-        case "open":
-        case "o":
+        case 'o': //open
             AocManager.OpenAoc(day);
             break;
-        case "print":
-        case "p":
+        case 'p': //print
             InputManager.PrintInput(day, test);
             break;
-        case "run":
-        case "r":
+        case 'r': //run
             if (inputs.Length == 1)
                 RunAllDays(test);
             else
                 RunDay(day, part, test);
             break;
-        case "submit":
-        case "s":
+        case 's': //submit
             AocManager.SubmitAnswer(day);
             Thread.Sleep(2000);
             break;
-        case "visualize":
-        case "v":
+        case 'v': //visualize
             VisualizeDay(day, part, test);
             break;
-        case "clear":
-        case "c":
+        case 'c': //clear
             Console.Clear();
             PrintHeader();
             break;
-        case "exit":
-        case "e":
+        case 'e': //exit
             return;
         default:
             Console.WriteLine("Invalid command");
