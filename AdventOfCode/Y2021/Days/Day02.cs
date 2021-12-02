@@ -53,9 +53,9 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
-            var commands = inputs.Select(i => new { direction = i.Split(' ')[0], units = Convert.ToInt32(i.Split(' ')[1]) });
+            var coms = inputs.Select(i => new { dir = i.Split(' ')[0], u = Convert.ToInt32(i.Split(' ')[1]) });
 
-            result = commands.Where(c => c.direction == "forward").Sum(c => c.units) * (commands.Where(c => c.direction == "down").Sum(c => c.units) - commands.Where(c => c.direction == "up").Sum(c => c.units));
+            result = coms.Where(c => c.dir == "forward").Sum(c => c.u) * (coms.Where(c => c.dir == "down").Sum(c => c.u) - coms.Where(c => c.dir == "up").Sum(c => c.u));
 
             #endregion
 
@@ -79,21 +79,21 @@ namespace AdventOfCode.Y2021.Days
 
             foreach (var input in inputs)
             {
-                var command = input.Split(" ");
-                var direction = command[0];
-                var units = Convert.ToInt32(command[1]);
+                var com = input.Split(" ");
+                var dir = com[0];
+                var u = Convert.ToInt32(com[1]);
 
-                switch (direction)
+                switch (dir)
                 {
                     case "down":
-                        aim += units;
+                        aim += u;
                         break;
                     case "up":
-                        aim -= units;
+                        aim -= u;
                         break;
                     default:
-                        x += units;
-                        y += units * aim;
+                        x += u;
+                        y += u * aim;
                         break;
                 }
             }
