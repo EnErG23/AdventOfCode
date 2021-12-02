@@ -53,30 +53,9 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
-            var x = 0;
-            var y = 0;
+            var commands = inputs.Select(i => new { direction = i.Split(' ')[0], units = Convert.ToInt32(i.Split(' ')[1]) });
 
-            foreach (var input in inputs)
-            {
-                var commands = input.Split(" ");
-
-                switch (commands[0])
-                {
-                    case "forward":
-                        x += Convert.ToInt32(commands[1]);
-                        break;
-                    case "down":
-                        y += Convert.ToInt32(commands[1]);
-                        break;
-                    case "up":
-                        y -= Convert.ToInt32(commands[1]);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            result = x * y;
+            result = commands.Where(c => c.direction == "forward").Sum(c => c.units) * (commands.Where(c => c.direction == "down").Sum(c => c.units) - commands.Where(c => c.direction == "up").Sum(c => c.units));
 
             #endregion
 
@@ -100,27 +79,26 @@ namespace AdventOfCode.Y2021.Days
 
             foreach (var input in inputs)
             {
-                var commands = input.Split(" ");
+                var command = input.Split(" ");
+                var direction = command[0];
+                var units = Convert.ToInt32(command[1]);
 
-                switch (commands[0])
+                switch (direction)
                 {
-                    case "forward":
-                        x += Convert.ToInt32(commands[1]);
-                        y += Convert.ToInt32(commands[1]) * aim;
-                        break;
                     case "down":
-                        aim += Convert.ToInt32(commands[1]);
+                        aim += units;
                         break;
                     case "up":
-                        aim -= Convert.ToInt32(commands[1]);
+                        aim -= units;
                         break;
                     default:
+                        x += units;
+                        y += units * aim;
                         break;
                 }
             }
 
             result = x * y;
-
 
             #endregion
 
