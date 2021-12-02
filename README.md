@@ -33,6 +33,6 @@ v("isualize") [day] (part) --- Shows visualization of [day] (part)
 
 c("lear") --- Clears console
 
-e("xit")  //Closes console
+e("xit") --- Closes console
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
