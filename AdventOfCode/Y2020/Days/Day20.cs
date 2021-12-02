@@ -73,8 +73,6 @@ namespace AdventOfCode.Y2020.Days
 
             FindMonsters();
 
-            WriteImage();
-
             var n = Math.Sqrt(image.Length);
 
             for (int x = 0; x < n; x++)
@@ -468,7 +466,50 @@ namespace AdventOfCode.Y2020.Days
             return result;
         }
 
-        static void WriteImage()
+        // AUX
+        public static string Reverse(string s)
+        {
+            char[] charArray = s.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+        }
+
+        // Visualize
+        public static void Visualize(int part, bool test)
+        {
+            Run(0, test);
+
+            inputs = InputManager.GetInputAsStrings(day, test);
+
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+
+            if (part == 1)
+                VisualizePart1();
+            else if (part == 2)
+                VisualizePart2();
+            else
+            {
+                VisualizePart1();
+                VisualizePart2();
+            }
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+        }
+
+        static void VisualizePart1()
+        {
+        }
+
+        static void VisualizePart2()
+        {
+            VisualizeImage();
+        }
+
+        static void VisualizeImage()
         {
             var n = Convert.ToInt32(Math.Sqrt(image.Length));
 
@@ -477,7 +518,7 @@ namespace AdventOfCode.Y2020.Days
                 for (int y = 0; y < n; y++)
                 {
                     if (image[x, y] == '0')
-                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.ForegroundColor = ConsoleColor.White;
                     else
                         Console.ForegroundColor = ConsoleColor.DarkBlue;
 
@@ -485,17 +526,6 @@ namespace AdventOfCode.Y2020.Days
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine();
-
-            Console.ForegroundColor = ConsoleColor.Cyan;
-        }
-
-        // AUX
-        public static string Reverse(string s)
-        {
-            char[] charArray = s.ToCharArray();
-            Array.Reverse(charArray);
-            return new string(charArray);
         }
     }
 }
