@@ -10,14 +10,14 @@ namespace AdventOfCode.Y2021.Days
     public static class Day02
     {
         static int day = 2;
-        static List<int>? inputs;
+        static List<string>? inputs;
 
         public static string? Answer1 { get; set; }
         public static string? Answer2 { get; set; }
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsInts(day, test);
+            inputs = InputManager.GetInputAsStrings(day, test);
 
             var start = DateTime.Now;
 
@@ -53,7 +53,30 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
+            var x = 0;
+            var y = 0;
 
+            foreach (var input in inputs)
+            {
+                var commands = input.Split(" ");
+
+                switch (commands[0])
+                {
+                    case "forward":
+                        x += Convert.ToInt32(commands[1]);
+                        break;
+                    case "down":
+                        y += Convert.ToInt32(commands[1]);
+                        break;
+                    case "up":
+                        y -= Convert.ToInt32(commands[1]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            result = x * y;
 
             #endregion
 
@@ -71,6 +94,32 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
+            var x = 0;
+            var y = 0;
+            var aim = 0;
+
+            foreach (var input in inputs)
+            {
+                var commands = input.Split(" ");
+
+                switch (commands[0])
+                {
+                    case "forward":
+                        x += Convert.ToInt32(commands[1]);
+                        y += Convert.ToInt32(commands[1]) * aim;
+                        break;
+                    case "down":
+                        aim += Convert.ToInt32(commands[1]);
+                        break;
+                    case "up":
+                        aim -= Convert.ToInt32(commands[1]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            result = x * y;
 
 
             #endregion
