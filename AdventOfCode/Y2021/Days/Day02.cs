@@ -79,7 +79,7 @@ namespace AdventOfCode.Y2021.Days
 
             foreach (var input in inputs)
             {
-                var com = input.Split(" ");
+                var com = input.Split(' ');
                 var dir = com[0];
                 var u = Convert.ToInt32(com[1]);
 
