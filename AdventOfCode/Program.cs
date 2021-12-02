@@ -26,35 +26,43 @@ while (true)
     switch (command)
     {
         case "year":
+        case "y":
             year = day;
             AocManager.Year = year;
             Console.Clear();
             PrintHeader();
             break;
-        case "read":
+        case "open":
+        case "o":
             AocManager.OpenAoc(day);
             break;
         case "print":
+        case "p":
             InputManager.PrintInput(day, test);
             break;
         case "run":
+        case "r":
             if (inputs.Length == 1)
                 RunAllDays(test);
             else
                 RunDay(day, part, test);
             break;
         case "submit":
+        case "s":
             AocManager.SubmitAnswer(day);
             Thread.Sleep(2000);
             break;
         case "visualize":
+        case "v":
             VisualizeDay(day, part, test);
             break;
         case "clear":
+        case "c":
             Console.Clear();
             PrintHeader();
             break;
-        case "exit": 
+        case "exit":
+        case "e":
             return;
         default:
             Console.WriteLine("Invalid command");
