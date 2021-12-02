@@ -103,16 +103,54 @@ namespace AdventOfCode.Y2020.Days
             return result;
         }
 
-        static void Visualize(List<string> inputs, int right, int down)
+        // Visualize
+
+        public static void Visualize(int part, bool test)
+        {
+            inputs = InputManager.GetInputAsStrings(day, test);
+
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+
+            if (part == 1)
+                VisualizePart1();
+            else if (part == 2)
+                VisualizePart2();
+            else
+            {
+                VisualizePart1();
+                VisualizePart2();
+            }
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+        }
+
+        static void VisualizePart1()
+        {
+            VisualizeSlope(inputs, 3, 1);
+        }
+
+        static void VisualizePart2()
+        {
+
+        }
+
+        static void VisualizeSlope(List<string> inputs, int right, int down)
         {
             var maxX = inputs[0].Length - 1;
             var x = right;
+            var y = 0;
 
             var skip = down;
 
             foreach (var input in inputs)
             {
-                var row = input;
+                var row = input.Replace('.', ' ');
+
+                y++;
 
                 if (skip > 0)
                 {
@@ -121,15 +159,34 @@ namespace AdventOfCode.Y2020.Days
                     continue;
                 }
 
-                if (input[x] == '#')                
-                    row = input[..x] + 'X' + input[(x + 1)..];
-                else                
-                    row = input[..x] + 'O' + input[(x + 1)..];
+                VisualizeRow(row, x);
 
-                Console.WriteLine(row);
+                Thread.Sleep(100);
 
                 x = x + right > maxX ? x + right - maxX - 1 : x + right;
                 skip = down - 1;
+            }
+        }
+
+        static void VisualizeRow(string row, int x)
+        {
+            if (row[x] == '#')
+            {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.Write(row[..x]);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write('X');
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine(row[(x + 1)..]);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.Write(row[..x]);
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.Write('O');
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine(row[(x + 1)..]);
             }
         }
     }

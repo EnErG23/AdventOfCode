@@ -47,6 +47,9 @@ while (true)
             AocManager.SubmitAnswer(day);
             Thread.Sleep(2000);
             break;
+        case "visualize":
+            VisualizeDay(day, part, test);
+            break;
         case "clear":
             Console.Clear();
             PrintHeader();
@@ -139,4 +142,21 @@ void RunDay(int day, int part, bool test)
     }
 
     Console.WriteLine("---------------------------------------");
+}
+
+void VisualizeDay(int day, int part, bool test)
+{
+    try
+    {
+        var zero = day < 10 ? "0" : "";
+        Type? dayClass = Type.GetType($"AdventOfCode.Y{year}.Days.Day{zero}{day}");
+        var method = dayClass.GetMethod("Visualize");
+        method.Invoke(null, new object[] { part, test });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.ToString());
+    }
+
+    Console.WriteLine();
 }
