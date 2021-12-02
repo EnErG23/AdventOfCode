@@ -62,12 +62,6 @@ namespace AdventOfCode.Y2020.Days
 
             #region Solution
 
-            Console.WriteLine(CheckSlope(inputs, 1, 1));
-            Console.WriteLine(CheckSlope(inputs, 3, 1));
-            Console.WriteLine(CheckSlope(inputs, 5, 1));
-            Console.WriteLine(CheckSlope(inputs, 7, 1));
-            Console.WriteLine(CheckSlope(inputs, 1, 2));
-
             result = 1 * CheckSlope(inputs, 1, 1) * CheckSlope(inputs, 3, 1) * CheckSlope(inputs, 5, 1) * CheckSlope(inputs, 7, 1) * CheckSlope(inputs, 1, 2);
 
             #endregion
@@ -96,7 +90,8 @@ namespace AdventOfCode.Y2020.Days
                 }
 
                 result += input[x] == '#' ? 1 : 0;
-                x = x + right > maxX ? x + right - maxX - 1 : x + right;
+                x = x + right > maxX ? (x + right) % maxX - 1 : x + right;   
+
                 skip = down - 1;
             }
 
