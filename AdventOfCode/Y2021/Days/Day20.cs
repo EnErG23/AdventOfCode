@@ -24,18 +24,14 @@ namespace AdventOfCode.Y2021.Days
             string part1 = "";
             string part2 = "";
 
-            switch (part)
+            if (part == 1)
+                part1 = Part1();
+            else if (part == 2)
+                part2 = Part2();
+            else
             {
-                case 1:
-                    part1 = Part1();
-                    break;
-                case 2:
-                    part2 = Part2();
-                    break;
-                default:
-                    part1 = Part1();
-                    part2 = Part2();
-                    break;
+                part1 = Part1();
+                part2 = Part2();
             }
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);

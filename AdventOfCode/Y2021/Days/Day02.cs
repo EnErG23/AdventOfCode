@@ -24,18 +24,14 @@ namespace AdventOfCode.Y2021.Days
             string part1 = "";
             string part2 = "";
 
-            switch (part)
+            if (part == 1)
+                part1 = Part1();
+            else if (part == 2)
+                part2 = Part2();
+            else
             {
-                case 1:
-                    part1 = Part1();
-                    break;
-                case 2:
-                    part2 = Part2();
-                    break;
-                default:
-                    part1 = Part1();
-                    part2 = Part2();
-                    break;
+                part1 = Part1();
+                part2 = Part2();
             }
 
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
@@ -52,6 +48,7 @@ namespace AdventOfCode.Y2021.Days
             var start = DateTime.Now;
 
             #region Solution
+
             var x = 0;
             var y = 0;
 
@@ -61,9 +58,12 @@ namespace AdventOfCode.Y2021.Days
                 var dir = com[0];
                 var u = Convert.ToInt32(com[1]);
 
-                if (dir == "down") y += u;
-                else if (dir == "up") y -= u;
-                else x += u;
+                if (dir == "down")
+                    y += u;
+                else if (dir == "up")
+                    y -= u;
+                else
+                    x += u;
             }
 
             result = x * y;
@@ -94,9 +94,15 @@ namespace AdventOfCode.Y2021.Days
                 var dir = com[0];
                 var u = Convert.ToInt32(com[1]);
 
-                if (dir == "down") aim += u;
-                else if (dir == "up") aim -= u;
-                else { x += u; y += u * aim; }
+                if (dir == "down")
+                    aim += u;
+                else if (dir == "up")
+                    aim -= u;
+                else
+                {
+                    x += u;
+                    y += u * aim;
+                }
             }
 
             result = x * y;

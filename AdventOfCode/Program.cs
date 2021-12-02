@@ -51,6 +51,8 @@ while (true)
             Console.Clear();
             PrintHeader();
             break;
+        case "exit": 
+            return;
         default:
             Console.WriteLine("Invalid command");
             break;
@@ -108,12 +110,7 @@ void RunAllDays(bool test)
     DateTime start = DateTime.Now;
 
     for (int i = 1; i <= 25; i++)
-        if (skipDays.Contains($"{year}{i}"))
-        {
-            Console.WriteLine($"Skip day {i}");
-            Console.WriteLine("---------------------------------------");
-        }
-        else
+        if (!skipDays.Contains($"{year}{i}"))
         {
             RunDay(i, 0, test);
             day = i;
