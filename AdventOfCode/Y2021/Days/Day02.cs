@@ -52,9 +52,8 @@ namespace AdventOfCode.Y2021.Days
             var start = DateTime.Now;
 
             #region Solution
-                        
             var x = 0;
-            var y = 0;            
+            var y = 0;
 
             foreach (var input in inputs)
             {
@@ -62,18 +61,9 @@ namespace AdventOfCode.Y2021.Days
                 var dir = com[0];
                 var u = Convert.ToInt32(com[1]);
 
-                switch (dir)
-                {
-                    case "down":
-                        y += u;
-                        break;
-                    case "up":
-                        y -= u;
-                        break;
-                    default:
-                        x += u;
-                        break;
-                }
+                if (dir == "down") y += u;
+                else if (dir == "up") y -= u;
+                else x += u;
             }
 
             result = x * y;
@@ -83,7 +73,7 @@ namespace AdventOfCode.Y2021.Days
             var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
 
             if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+            return $"Part 1 ({ms}ms): {result}";
         }
 
         static string Part2()
@@ -104,19 +94,9 @@ namespace AdventOfCode.Y2021.Days
                 var dir = com[0];
                 var u = Convert.ToInt32(com[1]);
 
-                switch (dir)
-                {
-                    case "down":
-                        aim += u;
-                        break;
-                    case "up":
-                        aim -= u;
-                        break;
-                    default:
-                        x += u;
-                        y += u * aim;
-                        break;
-                }
+                if (dir == "down") aim += u;
+                else if (dir == "up") aim -= u;
+                else { x += u; y += u * aim; }
             }
 
             result = x * y;
