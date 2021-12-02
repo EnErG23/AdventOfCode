@@ -44,23 +44,7 @@ namespace AdventOfCode.Y2020.Days
 
             #region Solution
 
-            var c = 30;
-
-            var i = 3;
-            foreach (var input in inputs.Skip(1))
-            {
-                if (input[i] == '#')
-                {
-                    result++;
-                }
-
-                i += 3;
-
-                if (i > c)
-                {
-                    i -= (c + 1);
-                }
-            }
+            result = CheckSlope(inputs, 3, 1);
 
             #endregion
 
@@ -72,118 +56,19 @@ namespace AdventOfCode.Y2020.Days
 
         static string Part2()
         {
-            long result = 0;
+            long result = 1;
 
             var start = DateTime.Now;
 
             #region Solution
 
-            result = 1;
-            var c = 30;
+            Console.WriteLine(CheckSlope(inputs, 1, 1));
+            Console.WriteLine(CheckSlope(inputs, 3, 1));
+            Console.WriteLine(CheckSlope(inputs, 5, 1));
+            Console.WriteLine(CheckSlope(inputs, 7, 1));
+            Console.WriteLine(CheckSlope(inputs, 1, 2));
 
-            //1-1
-            var tempTrees = 0;
-            var i = 1;
-            foreach (var input in inputs.Skip(1))
-            {
-                if (input[i] == '#')
-                {
-                    tempTrees++;
-                }
-
-                i += 1;
-
-                if (i > c)
-                {
-                    i -= (c + 1);
-                }
-            }
-            result = result * tempTrees;
-
-            //3-1
-            tempTrees = 0;
-            i = 3;
-            foreach (var input in inputs.Skip(1))
-            {
-                if (input[i] == '#')
-                {
-                    tempTrees++;
-                }
-
-                i += 3;
-
-                if (i > c)
-                {
-                    i -= (c + 1);
-                }
-            }
-            result = result * tempTrees;
-
-            //5-1
-            tempTrees = 0;
-            i = 5;
-            foreach (var input in inputs.Skip(1))
-            {
-                if (input[i] == '#')
-                {
-                    tempTrees++;
-                }
-
-                i += 5;
-
-                if (i > c)
-                {
-                    i -= (c + 1);
-                }
-            }
-            result = result * tempTrees;
-
-            //7-1
-            tempTrees = 0;
-            i = 7;
-            foreach (var input in inputs.Skip(1))
-            {
-                if (input[i] == '#')
-                {
-                    tempTrees++;
-                }
-
-                i += 7;
-
-                if (i > c)
-                {
-                    i -= (c + 1);
-                }
-            }
-            result = result * tempTrees;
-
-            //1-2
-            tempTrees = 0;
-            i = 1;
-            bool skip = false;
-            foreach (var input in inputs.Skip(2))
-            {
-                if (skip)
-                {
-                    skip = false;
-                    continue;
-                }
-
-                if (input[i] == '#')
-                {
-                    tempTrees++;
-                }
-
-                i += 1;
-
-                if (i > c)
-                {
-                    i -= (c + 1);
-                }
-
-                skip = true;
-            }
-            result = result * tempTrees;
+            result = 1 * CheckSlope(inputs, 1, 1) * CheckSlope(inputs, 3, 1) * CheckSlope(inputs, 5, 1) * CheckSlope(inputs, 7, 1) * CheckSlope(inputs, 1, 2);
 
             #endregion
 
@@ -191,6 +76,61 @@ namespace AdventOfCode.Y2020.Days
 
             if (result > 0) Answer2 = result.ToString();
             return $"Part 2 ({ms}ms): {result} ";
+        }
+
+        static long CheckSlope(List<string> inputs, int right, int down)
+        {
+            long result = 0;
+
+            var maxX = inputs[0].Length - 1;
+            var x = right;
+
+            var skip = down;
+
+            foreach (var input in inputs)
+            {
+                if (skip > 0)
+                {
+                    skip--;
+                    continue;
+                }
+
+                result += input[x] == '#' ? 1 : 0;
+                x = x + right > maxX ? x + right - maxX - 1 : x + right;
+                skip = down - 1;
+            }
+
+            return result;
+        }
+
+        static void Visualize(List<string> inputs, int right, int down)
+        {
+            var maxX = inputs[0].Length - 1;
+            var x = right;
+
+            var skip = down;
+
+            foreach (var input in inputs)
+            {
+                var row = input;
+
+                if (skip > 0)
+                {
+                    Console.WriteLine(row);
+                    skip--;
+                    continue;
+                }
+
+                if (input[x] == '#')                
+                    row = input[..x] + 'X' + input[(x + 1)..];
+                else                
+                    row = input[..x] + 'O' + input[(x + 1)..];
+
+                Console.WriteLine(row);
+
+                x = x + right > maxX ? x + right - maxX - 1 : x + right;
+                skip = down - 1;
+            }
         }
     }
 }

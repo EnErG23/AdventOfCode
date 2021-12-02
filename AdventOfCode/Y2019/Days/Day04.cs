@@ -11,6 +11,7 @@ namespace AdventOfCode.Y2019.Days
     {
         static int day = 4;
         static List<string>? inputs;
+        static List<int>? range;
 
         public static string? Answer1 { get; set; }
         public static string? Answer2 { get; set; }
@@ -18,6 +19,7 @@ namespace AdventOfCode.Y2019.Days
         public static void Run(int part, bool test)
         {
             inputs = InputManager.GetInputAsStrings(day, test);
+            range = inputs[0].Split("-").Select(i => int.Parse(i)).ToList();
 
             var start = DateTime.Now;
 
@@ -49,7 +51,27 @@ namespace AdventOfCode.Y2019.Days
 
             #region Solution
 
+            for (int i = range[0]; i < range[1]; i++)
+            {
+                var password = i.ToString();
 
+                var req4 = true;
+                
+                for (int j = 1; j < password.Length; j++)
+                    if (password[j - 1] > password[j])
+                    {
+                        req4 = false;
+                        break;
+                    }
+
+                if (req4)
+                    for (int j = 1; j < password.Length; j++)
+                        if (password[j - 1] == password[j])
+                        {
+                            result++;
+                            break;
+                        }
+            }
 
             #endregion
 
@@ -67,7 +89,27 @@ namespace AdventOfCode.Y2019.Days
 
             #region Solution
 
+            for (int i = range[0]; i < range[1]; i++)
+            {
+                var password = i.ToString();
 
+                var req4 = true;
+
+                for (int j = 1; j < password.Length; j++)
+                    if (password[j - 1] > password[j])
+                    {
+                        req4 = false;
+                        break;
+                    }
+
+                if (req4)
+                    for (int j = 1; j < password.Length; j++)
+                        if (password[j - 1] == password[j])
+                        {
+                            result++;
+                            break;
+                        }
+            }
 
             #endregion
 

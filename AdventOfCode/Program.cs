@@ -61,8 +61,7 @@ while (true)
 
 void AddSkipDays()
 {
-    // 2019
-    skipDays.Add("20194");
+    // 2019    
     skipDays.Add("20195");
     skipDays.Add("20196");
     skipDays.Add("20197");
