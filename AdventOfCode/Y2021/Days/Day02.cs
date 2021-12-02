@@ -52,10 +52,31 @@ namespace AdventOfCode.Y2021.Days
             var start = DateTime.Now;
 
             #region Solution
+                        
+            var x = 0;
+            var y = 0;            
 
-            var coms = inputs.Select(i => new { dir = i.Split(' ')[0], u = Convert.ToInt32(i.Split(' ')[1]) });
+            foreach (var input in inputs)
+            {
+                var com = input.Split(' ');
+                var dir = com[0];
+                var u = Convert.ToInt32(com[1]);
 
-            result = coms.Where(c => c.dir == "forward").Sum(c => c.u) * (coms.Where(c => c.dir == "down").Sum(c => c.u) - coms.Where(c => c.dir == "up").Sum(c => c.u));
+                switch (dir)
+                {
+                    case "down":
+                        y += u;
+                        break;
+                    case "up":
+                        y -= u;
+                        break;
+                    default:
+                        x += u;
+                        break;
+                }
+            }
+
+            result = x * y;
 
             #endregion
 
