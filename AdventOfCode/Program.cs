@@ -61,26 +61,29 @@ while (true)
 
 void AddSkipDays()
 {
-    // 2020 - Not yet copied from other repo
-    //skipDays.Add("20204");
-    //skipDays.Add("20205");
-    //skipDays.Add("20206");
-    //skipDays.Add("20207");
-    //skipDays.Add("20208");
-    //skipDays.Add("20209");
-    //skipDays.Add("202010");
-    //skipDays.Add("202012");
-    //skipDays.Add("202013");
-    //skipDays.Add("202015");
-    //skipDays.Add("202016");
-    //skipDays.Add("202018");
-    //skipDays.Add("202019");
-    //skipDays.Add("202020");
-    //skipDays.Add("202021");
-    //skipDays.Add("202022");
-    //skipDays.Add("202023");
-    //skipDays.Add("202024");
-    //skipDays.Add("202025");
+    // 2019
+    skipDays.Add("20194");
+    skipDays.Add("20195");
+    skipDays.Add("20196");
+    skipDays.Add("20197");
+    skipDays.Add("20198");
+    skipDays.Add("20199");
+    skipDays.Add("201910");
+    skipDays.Add("201911");
+    skipDays.Add("201912");
+    skipDays.Add("201913");
+    skipDays.Add("201914");
+    skipDays.Add("201915");
+    skipDays.Add("201916");
+    skipDays.Add("201917");
+    skipDays.Add("201918");
+    skipDays.Add("201919");
+    skipDays.Add("201920");
+    skipDays.Add("201921");
+    skipDays.Add("201922");
+    skipDays.Add("201923");
+    skipDays.Add("201924");
+    skipDays.Add("201925");
 
     // 2020 - Too long
     skipDays.Add("202011");

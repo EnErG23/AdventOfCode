@@ -49,7 +49,9 @@ namespace AdventOfCode.Y2019.Days
 
             #region Solution
 
+            var program = inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
 
+            result = IntCode(program, 4, 12, 2);
 
             #endregion
 
@@ -67,7 +69,23 @@ namespace AdventOfCode.Y2019.Days
 
             #region Solution
 
+            var output = 19690720;
 
+            for (int i = 0; i < inputs[0].Split(',').Length - 1; i++)
+            {
+                for (int j = 0; j < inputs[0].Split(',').Length - 1; j++)
+                {
+                    var program = inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
+
+                    if (IntCode(program, 4, i, j) == output)
+                    {
+                        result = 100 * i + j;
+                        break;
+                    }
+                }
+                if (result != 0)
+                    break;
+            }
 
             #endregion
 
@@ -75,6 +93,24 @@ namespace AdventOfCode.Y2019.Days
 
             if (result > 0) Answer2 = result.ToString();
             return $"Part 2 ({ms}ms): {result} ";
+        }
+
+        public static long IntCode(List<int> inputs, int pointer, int noun, int verb)
+        {
+            inputs[1] = noun;
+            inputs[2] = verb;
+
+            for (int i = 0; i < inputs.Count - 1; i += pointer)
+            {
+                if (inputs[i] == 1)
+                    inputs[inputs[i + 3]] = inputs[inputs[i + 1]] + inputs[inputs[i + 2]];
+                else if (inputs[i] == 2)
+                    inputs[inputs[i + 3]] = inputs[inputs[i + 1]] * inputs[inputs[i + 2]];
+                else if (inputs[i] == 99)
+                    break;
+            }
+
+            return inputs[0];
         }
     }
 }

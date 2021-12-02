@@ -44,7 +44,10 @@ namespace AdventOfCode.Y2019.Days
 
             #region Solution
 
-
+            foreach (var input in inputs)
+            {
+                result += input / 3 - 2;
+            }
 
             #endregion
 
@@ -62,7 +65,17 @@ namespace AdventOfCode.Y2019.Days
 
             #region Solution
 
-
+            foreach (var input in inputs)
+            {
+                var fuel = input;
+                while (true)
+                {
+                    fuel = fuel / 3 - 2;
+                    if (fuel < 1)
+                        break;
+                    result += fuel;
+                }
+            }
 
             #endregion
 
