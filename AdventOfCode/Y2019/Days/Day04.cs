@@ -56,7 +56,7 @@ namespace AdventOfCode.Y2019.Days
                 var password = i.ToString();
 
                 var req4 = true;
-                
+
                 for (int j = 1; j < password.Length; j++)
                     if (password[j - 1] > password[j])
                     {
@@ -93,22 +93,29 @@ namespace AdventOfCode.Y2019.Days
             {
                 var password = i.ToString();
 
+                var req3 = false;
                 var req4 = true;
+                var req5 = false;
 
-                for (int j = 1; j < password.Length; j++)
-                    if (password[j - 1] > password[j])
+                for (int j = 0; j < password.Length - 1; j++)
+                    if (password[j] > password[j + 1])
                     {
                         req4 = false;
                         break;
                     }
 
                 if (req4)
-                    for (int j = 1; j < password.Length; j++)
-                        if (password[j - 1] == password[j])
-                        {
-                            result++;
-                            break;
-                        }
+                {
+                    for (int j = 0; j < password.Length - 1; j++)
+                    {
+                        if (password.Where(p => p == password[j]).Count() > 1)
+                            req3 = true;
+                        if (password.Where(p => p == password[j]).Count() == 2)
+                            req5 = true;
+                    }
+                    if (req3 & req5)
+                        result++;
+                }
             }
 
             #endregion
