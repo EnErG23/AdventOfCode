@@ -19,19 +19,19 @@ Commands:
 command [obligatory] (optional)
 -------------------------------
 
-y("ear") [year] //Changes [year] (Overrides the automatically chosen year for AoC, starting from the release of the first task)
+y("ear") [year] --- Changes [year] (Overrides the automatically chosen year for AoC, starting from the release of the first task)
 
-o("pen") [day]  //Opens [day] task in browser tab (change location of broswer exe in AocManager.OpenAoC()), tries to get possible test input and gets actual input.
+o("pen") [day] --- Opens [day] task in browser tab (change location of broswer exe in AocManager.OpenAoC()), tries to get possible test input and gets actual input.
 
-p("rint") [day] ("test")  //Prints (test) [day] data of current year
+p("rint") [day] ("test") --- Prints (test) [day] data of current year
 
-r("un") ([day] (part)) ("test") //(Test) runs [day] (part) of current year or runs all days of current year (except skipDays, addable in program.cs)
+r("un") ([day] (part)) ("test") --- (Test) runs [day] (part) of current year or runs all days of current year (except skipDays, addable in program.cs)
 
-s("ubmit")  //Submits last available answer of last run day (shows response from AoC)
+s("ubmit") --- Submits last available answer of last run day (shows response from AoC)
 
-v("isualize") [day] (part)  //Shows visualization of [day] (part)
+v("isualize") [day] (part) --- Shows visualization of [day] (part)
 
-c("lear") //Clears console
+c("lear") --- Clears console
 
 e("xit")  //Closes console
 
