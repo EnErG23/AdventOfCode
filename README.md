@@ -33,4 +33,6 @@ submit                     //Submits last available answer of last run day (show
 
 clear                      //Clears console
 
+exit                       //Close console
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
