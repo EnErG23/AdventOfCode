@@ -56,15 +56,15 @@ namespace AdventOfCode.Y2021.Days
             {
                 var ones = 0;
 
-                foreach (var input in inputs)               
+                foreach (var input in inputs)
                     if (input[i] == '1')
-                        ones++;                
+                        ones++;
 
                 gamma += ones > inputs.Count / 2 ? '1' : '0';
                 epsilon += ones > inputs.Count / 2 ? '0' : '1';
             }
 
-            result = BinaryToLong(gamma) * BinaryToLong(epsilon);
+            result = Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2);
 
             #endregion
 
@@ -87,29 +87,33 @@ namespace AdventOfCode.Y2021.Days
 
             for (int i = 0; i < oxygenInputs[0].Length; i++)
             {
-                var oxygenOnes = 0;
-
-                foreach (var input in oxygenInputs)
-                    if (input[i] == '1')
-                        oxygenOnes++;
-
                 if (oxygenInputs.Count > 1)
+                {
+                    var oxygenOnes = 0;
+
+                    foreach (var input in oxygenInputs)
+                        if (input[i] == '1')
+                            oxygenOnes++;
+
                     oxygenInputs = oxygenInputs.Where(p => p[i] == (oxygenOnes >= oxygenInputs.Count / 2m ? '1' : '0')).ToList();
-
-                var scrubberOnes = 0;
-
-                foreach (var input in scrubberInputs)
-                    if (input[i] == '1')
-                        scrubberOnes++;
+                }
 
                 if (scrubberInputs.Count > 1)
+                {
+                    var scrubberOnes = 0;
+
+                    foreach (var input in scrubberInputs)
+                        if (input[i] == '1')
+                            scrubberOnes++;
+
                     scrubberInputs = scrubberInputs.Where(p => p[i] == (scrubberOnes >= scrubberInputs.Count / 2m ? '0' : '1')).ToList();
+                }
 
                 if (oxygenInputs.Count == 1 && scrubberInputs.Count == 1)
                     break;
             }
 
-            result = BinaryToLong(oxygenInputs[0]) * BinaryToLong(scrubberInputs[0]);
+            result = Convert.ToInt32(oxygenInputs[0], 2) * Convert.ToInt32(scrubberInputs[0], 2);
 
             #endregion
 
@@ -117,20 +121,6 @@ namespace AdventOfCode.Y2021.Days
 
             if (result > 0) Answer2 = result.ToString();
             return $"Part 2 ({ms}ms): {result} ";
-        }
-
-        static long BinaryToLong(string binary)
-        {
-            long result = 0;
-            long toAdd = 1;
-
-            for (int i = binary.Length - 1; i >= 0; i--)
-            {
-                result += binary[i] == '1' ? toAdd : 0;
-                toAdd *= 2;
-            }
-
-            return result;
         }
     }
 }
