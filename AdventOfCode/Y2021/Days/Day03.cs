@@ -49,7 +49,28 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
+            var gB = "";
+            var eB = "";
 
+            long g = 0;
+            long e = 0;
+
+            for (int i = 0; i < inputs[0].Length; i++)
+            {
+                var ones = 0;
+                for (int j = 0; j < inputs.Count; j++)
+                {
+                    //gB += inputs.Select(p => int.Parse(p[i])).Sum() > inputs.Count ? 1 : 0;
+                    ones += inputs[j][i] == '1' ? 1 : 0;
+                }
+                gB += ones > inputs.Count / 2 ? 1 : 0;
+                eB += ones > inputs.Count / 2 ? 0 : 1;
+            }
+
+            g = BinaryToLong(gB);
+            e = BinaryToLong(eB);
+
+            result = g * e;
 
             #endregion
 
@@ -67,7 +88,50 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
+            long g = 0;
+            long e = 0;
 
+            var oxygenInputs = inputs.ToList();
+            var scrubberInputs = inputs.ToList();
+
+            for (int i = 0; i < oxygenInputs[0].Length; i++)
+            {
+                var ones = 0;
+                foreach (var input in oxygenInputs)
+                {
+                    ones += input[i] == '1' ? 1 : 0;
+                }                
+
+                if (ones >= oxygenInputs.Count / 2m)
+                    oxygenInputs = oxygenInputs.Where(o => o[i] == '1').ToList();
+                else
+                    oxygenInputs = oxygenInputs.Where(o => o[i] == '0').ToList();                               
+
+                if (oxygenInputs.Count == 1)
+                    break;
+            }
+
+            for (int i = 0; i < scrubberInputs[0].Length; i++)
+            {
+                var ones = 0;
+                foreach (var input in scrubberInputs)
+                {
+                    ones += input[i] == '1' ? 1 : 0;
+                }                
+
+                if (ones >= scrubberInputs.Count / 2m)
+                    scrubberInputs = scrubberInputs.Where(o => o[i] == '0').ToList();
+                else
+                    scrubberInputs = scrubberInputs.Where(o => o[i] == '1').ToList();
+
+                if (scrubberInputs.Count == 1)
+                    break;
+            }
+
+            g = BinaryToLong(oxygenInputs[0]);
+            e = BinaryToLong(scrubberInputs[0]);
+
+            result = g * e;
 
             #endregion
 
@@ -75,6 +139,20 @@ namespace AdventOfCode.Y2021.Days
 
             if (result > 0) Answer2 = result.ToString();
             return $"Part 2 ({ms}ms): {result} ";
+        }
+
+        static long BinaryToLong(string binary)
+        {
+            long result = 0;
+            long toAdd = 1;
+
+            for (int i = binary.Length - 1; i >= 0; i--)
+            {
+                result += binary[i] == '1' ? toAdd : 0;
+                toAdd *= 2;
+            }
+
+            return result;
         }
     }
 }
