@@ -17,7 +17,7 @@
             HandleInput(input);
         }
 
-        static void HandleInput(string input)
+        public static void HandleInput(string input)
         {
             bool test = input.Contains("test") || input.Contains("t ") || input.Contains(" t") || input.Contains(" t ");
             var inputs = input.Replace("test ", "").Replace(" test", "").Replace("t ", "").Replace(" t ", "").Replace(" t", "").Replace(" day", "").Replace(" part", "").Split(' ');
@@ -36,7 +36,10 @@
                     PrintHeader();
                     break;
                 case 'o': //open
-                    AocManager.OpenAoc(day);
+                    AocManager.OpenAocAndGetInput(day);
+                    break;
+                case 'i': //input
+                    AocManager.GetInputOnly(day);
                     break;
                 case 'p': //print
                     InputManager.PrintInput(day, test);

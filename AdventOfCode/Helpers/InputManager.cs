@@ -12,8 +12,18 @@
             var inputs = new List<string>();
             var year = AocManager.Year;
 
-            StreamReader file = test ? new StreamReader($@"Y{year}\Inputs\{day}-test.txt") : new StreamReader($@"Y{year}\Inputs\{day}.txt");
+            StreamReader file;
             string? line;
+
+            try
+            {
+                file = test ? new StreamReader($@"Y{year}\Inputs\{day}-test.txt") : new StreamReader($@"Y{year}\Inputs\{day}.txt");
+            }
+            catch {
+                CommandManager.HandleInput($"i {day}");
+                Thread.Sleep(2000);
+                file = test ? new StreamReader($@"Y{year}\Inputs\{day}-test.txt") : new StreamReader($@"Y{year}\Inputs\{day}.txt");
+            }
 
             while ((line = file.ReadLine()) != null)
             {

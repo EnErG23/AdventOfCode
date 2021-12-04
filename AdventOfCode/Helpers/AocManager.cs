@@ -21,7 +21,8 @@ namespace AdventOfCode.Helpers
             DateTime date = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Eastern Standard Time").Date;
             return date.Year - (date.Month < 12 ? 1 : 0);
         }
-        public static void OpenAoc(int day)
+
+        public static void OpenAocAndGetInput(int day)
         {
             var url = $"{website}/{Year}/day/{day}";
 
@@ -32,12 +33,18 @@ namespace AdventOfCode.Helpers
 
             Process.Start(prs);
 
+            GetInputOnly(day);
+        }
+
+        public static void GetInputOnly(int day)
+        {
             if (!File.Exists($"Y{Year}\\Inputs\\{day}-test.txt"))
                 GetTestInput(day);
 
             if (!File.Exists($"Y{Year}\\Inputs\\{day}.txt"))
                 GetInput(day);
         }
+
         public static async void GetTestInput(int day)
         {
             var url = $"{website}/{Year}/day/{day}";
