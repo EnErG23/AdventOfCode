@@ -483,9 +483,6 @@ namespace AdventOfCode.Y2020.Days
 
             Console.Clear();
 
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-
             if (part == 1)
                 VisualizePart1();
             else if (part == 2)
@@ -506,6 +503,12 @@ namespace AdventOfCode.Y2020.Days
 
         static void VisualizePart2()
         {
+            Console.WriteLine($"Visualization for 2021.20.2");
+            Console.WriteLine();
+
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+
             VisualizeImage();
         }
 
@@ -515,6 +518,8 @@ namespace AdventOfCode.Y2020.Days
 
             for (int x = 0; x < n; x++)
             {
+                Console.BackgroundColor = ConsoleColor.Blue;
+
                 for (int y = 0; y < n; y++)
                 {
                     if (image[x, y] == '0')
@@ -524,7 +529,10 @@ namespace AdventOfCode.Y2020.Days
 
                     Console.Write(image[x, y]);
                 }
+
+                Console.BackgroundColor = ConsoleColor.Black;
                 Console.WriteLine();
+                Thread.Sleep(100);
             }
         }
     }

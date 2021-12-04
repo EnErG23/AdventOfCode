@@ -106,9 +106,6 @@ namespace AdventOfCode.Y2020.Days
 
             Console.Clear();
 
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-
             if (part == 1)
                 VisualizePart1();
             else if (part == 2)
@@ -125,6 +122,12 @@ namespace AdventOfCode.Y2020.Days
 
         static void VisualizePart1()
         {
+            Console.WriteLine($"Visualization for 2021.3.1");
+            Console.WriteLine();
+
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+
             VisualizeSlope(inputs, 3, 1);
         }
 
@@ -165,24 +168,25 @@ namespace AdventOfCode.Y2020.Days
 
         static void VisualizeRow(string row, int x)
         {
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write(row[..x]);
+
             if (row[x] == '#')
             {
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.Write(row[..x]);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write('X');
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine(row[(x + 1)..]);
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.Write(row[..x]);
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.Write('O');
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine(row[(x + 1)..]);
             }
+
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write(row[(x + 1)..]);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine();
         }
     }
 }

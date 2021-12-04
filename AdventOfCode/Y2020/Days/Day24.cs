@@ -153,8 +153,8 @@ namespace AdventOfCode.Y2020.Days
                 tiles[destY][destX] = !tiles[destY][destX];
             }
 
-            WriteTiles(tiles);
-            Console.WriteLine();
+            //WriteTiles(tiles);
+            //Console.WriteLine();
 
             foreach (var row in tiles)
                 foreach (var tile in row)
