@@ -21,7 +21,9 @@ command [obligatory] (optional)
 
 y("ear") [year] --- Changes [year] (Overrides the automatically chosen year for AoC, starting from the release of the first task)
 
-o("pen") [day] --- Opens [day] task in browser tab (change location of broswer exe in AocManager.OpenAoC()), tries to get possible test input and gets actual input.
+o("pen") [day] --- Opens [day] task in browser tab (change location of broswer exe in AocManager.OpenAoC()), tries to get possible test input and gets actual input
+
+i("nput") [day] --- Gets [day] input and tries to get possible test input
 
 p("rint") [day] ("test") --- Prints (test) [day] data of current year
 
