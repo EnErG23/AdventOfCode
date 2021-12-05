@@ -503,8 +503,15 @@ namespace AdventOfCode.Y2020.Days
 
         static void VisualizePart2()
         {
-            Console.WriteLine($"Visualization for 2021.20.2");
-            Console.WriteLine();
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            for (int i = 3; i > 0; i--)
+            {
+                Console.Clear();
+                Console.WriteLine($"Visualization for 2020.20.2");
+                Console.WriteLine($"Starting in {i}");
+                Thread.Sleep(1000);
+            }
 
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.ForegroundColor = ConsoleColor.DarkBlue;

@@ -32,7 +32,6 @@
                 case 'y': //year
                     year = day;
                     AocManager.Year = year;
-                    Console.Clear();
                     PrintHeader();
                     break;
                 case 'o': //open
@@ -58,7 +57,6 @@
                     VisualizeDay(day, part, test);
                     break;
                 case 'c': //clear
-                    Console.Clear();
                     PrintHeader();
                     break;
                 case 'e': //exit
@@ -109,6 +107,11 @@
 
         public static void PrintHeader()
         {
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+
             Console.WriteLine("############################");
             Console.WriteLine("###                      ###");
             Console.WriteLine("###    Advent of Code    ###");

@@ -12,9 +12,9 @@ namespace AdventOfCode.Y2020.Days
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsStrings(day, test);
-
             var start = DateTime.Now;
+
+            inputs = InputManager.GetInputAsStrings(day, test);
 
             string part1 = "";
             string part2 = "";
@@ -122,8 +122,15 @@ namespace AdventOfCode.Y2020.Days
 
         static void VisualizePart1()
         {
-            Console.WriteLine($"Visualization for 2021.3.1");
-            Console.WriteLine();
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            for (int i = 3; i > 0; i--)
+            {
+                Console.Clear();
+                Console.WriteLine($"Visualization for 2020.3.1");
+                Console.WriteLine($"Starting in {i}");
+                Thread.Sleep(1000);
+            }
 
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.DarkBlue;

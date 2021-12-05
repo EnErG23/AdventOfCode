@@ -12,9 +12,9 @@ namespace AdventOfCode.Y2020.Days
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsInts(day, test);
-
             var start = DateTime.Now;
+
+            inputs = InputManager.GetInputAsInts(day, test);
 
             string part1 = "";
             string part2 = "";

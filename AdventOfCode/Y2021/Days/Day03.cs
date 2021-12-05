@@ -73,7 +73,7 @@ namespace AdventOfCode.Y2021.Days
             if (result > 0) Answer1 = result.ToString();
             return $"Part 1 ({ms}ms): {result} ";
         }
-
+        
         static string Part2()
         {
             long result = 0;
@@ -151,6 +151,16 @@ namespace AdventOfCode.Y2021.Days
 
         static void VisualizePart2()
         {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            for (int i = 3; i > 0; i--)
+            {
+                Console.Clear();
+                Console.WriteLine($"Visualization for 2021.3.2");
+                Console.WriteLine($"Starting in {i}");
+                Thread.Sleep(1000);
+            }
+
             var oxygenInputs = inputs.ToList();
             var scrubberInputs = inputs.ToList();
 
