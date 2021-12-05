@@ -63,7 +63,7 @@ namespace AdventOfCode.Y2020.Days
 
                 //Console.WriteLine($"cups: {string.Join(" ", inputs).Replace(currentCup.ToString(), $"({currentCup})")}");
 
-                var pickedUpCups = inputs.GetRange(currentIndex, 3);
+                var pickedUpCups = inputs.GetRange(currentIndex, 3); // TODO: fix randow new error
 
                 //Console.WriteLine($"pick up: {string.Join(" ", pickedUpCups)}");
 
