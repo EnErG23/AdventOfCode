@@ -11,6 +11,7 @@ namespace AdventOfCode.Y2021.Days
     {
         static int day = 5;
         static List<string>? inputs;
+        static List<List<int>>? grid;
 
         public static string? Answer1 { get; set; }
         public static string? Answer2 { get; set; }
@@ -49,82 +50,9 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
-            var maxX = 0;
-            var maxY = 0;
+            InputToGrid();
 
-            foreach (var input in inputs)
-            {
-                (int x1, int y1) = (int.Parse(input.Split(" ")[0].Split(",")[0]), int.Parse(input.Split(" ")[0].Split(",")[1]));
-                (int x2, int y2) = (int.Parse(input.Split(" ")[2].Split(",")[0]), int.Parse(input.Split(" ")[2].Split(",")[1]));
-
-                maxX = Math.Max(maxX, Math.Max(x1, x2));
-                maxY = Math.Max(maxY, Math.Max(y1, y2));
-            }
-
-            var grid = new List<List<int>>();
-            for (int y = 0; y < maxY + 1; y++)
-            {
-                var row = new List<int>();
-
-                for (int x = 0; x < maxX + 1; x++)
-                {
-                    row.Add(0);
-                }
-
-                grid.Add(row);
-            }
-
-            foreach (var input in inputs)
-            {
-                (int x1, int y1) = (int.Parse(input.Split(" ")[0].Split(",")[0]), int.Parse(input.Split(" ")[0].Split(",")[1]));
-                (int x2, int y2) = (int.Parse(input.Split(" ")[2].Split(",")[0]), int.Parse(input.Split(" ")[2].Split(",")[1]));
-
-                if (x1 != x2 && y1 != y2)
-                    continue;
-
-                if (x1 > x2)
-                    while (x1 >= x2)
-                    {
-                        grid[y1][x1]++;
-
-                        if (y1 > y2)
-                            y1--;
-                        else if (y1 < y2)
-                            y1++;
-
-                        x1--;
-                    }
-                else if (x1 < x2)
-                    while (x1 <= x2)
-                    {
-                        grid[y1][x1]++;
-
-                        if (y1 > y2)
-                            y1--;
-                        else if (y1 < y2)
-                            y1++;
-
-                        x1++;
-                    }
-                else
-                {
-
-                    if (y1 > y2)
-                        while (y1 >= y2)
-                        {
-                            grid[y1][x1]++;
-                            y1--;
-                        }
-                    else if (y1 < y2)
-                        while (y1 <= y2)
-                        {
-                            grid[y1][x1]++;
-                            y1++;
-                        }
-                    else
-                        grid[y1][x1]++;
-                }
-            }
+            DrawLines(false);
 
             result = grid.Sum(g => g.Count(c => c > 1));
 
@@ -144,79 +72,9 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
-            var maxX = 0;
-            var maxY = 0;
+            InputToGrid();
 
-            foreach (var input in inputs)
-            {
-                (int x1, int y1) = (int.Parse(input.Split(" ")[0].Split(",")[0]), int.Parse(input.Split(" ")[0].Split(",")[1]));
-                (int x2, int y2) = (int.Parse(input.Split(" ")[2].Split(",")[0]), int.Parse(input.Split(" ")[2].Split(",")[1]));
-
-                maxX = Math.Max(maxX, Math.Max(x1, x2));
-                maxY = Math.Max(maxY, Math.Max(y1, y2));
-            }
-
-            var grid = new List<List<int>>();
-            for (int y = 0; y < maxY + 1; y++)
-            {
-                var row = new List<int>();
-
-                for (int x = 0; x < maxX + 1; x++)
-                {
-                    row.Add(0);
-                }
-
-                grid.Add(row);
-            }
-
-            foreach (var input in inputs)
-            {
-                (int x1, int y1) = (int.Parse(input.Split(" ")[0].Split(",")[0]), int.Parse(input.Split(" ")[0].Split(",")[1]));
-                (int x2, int y2) = (int.Parse(input.Split(" ")[2].Split(",")[0]), int.Parse(input.Split(" ")[2].Split(",")[1]));
-
-                if (x1 > x2)
-                    while (x1 >= x2)
-                    {
-                        grid[y1][x1]++;
-
-                        if (y1 > y2)
-                            y1--;
-                        else if (y1 < y2)
-                            y1++;
-
-                        x1--;
-                    }
-                else if (x1 < x2)
-                    while (x1 <= x2)
-                    {
-                        grid[y1][x1]++;
-
-                        if (y1 > y2)
-                            y1--;
-                        else if (y1 < y2)
-                            y1++;
-
-                        x1++;
-                    }
-                else
-                {
-
-                    if (y1 > y2)
-                        while (y1 >= y2)
-                        {
-                            grid[y1][x1]++;
-                            y1--;
-                        }
-                    else if (y1 < y2)
-                        while (y1 <= y2)
-                        {
-                            grid[y1][x1]++;
-                            y1++;
-                        }
-                    else
-                        grid[y1][x1]++;
-                }
-            }
+            DrawLines(true);
 
             result = grid.Sum(g => g.Count(c => c > 1));
 
@@ -226,6 +84,48 @@ namespace AdventOfCode.Y2021.Days
 
             if (result > 0) Answer2 = result.ToString();
             return $"Part 2 ({ms}ms): {result} ";
-        }        
+        }
+
+        static void InputToGrid()
+        {
+            grid = new List<List<int>>();
+
+            (int maxX, int maxY) = (0, 0);
+
+            foreach (var i in inputs)            
+                (maxX, maxY) = (Math.Max(maxX, Math.Max(int.Parse(i.Split(" ")[0].Split(",")[0]), int.Parse(i.Split(" ")[2].Split(",")[0]))), Math.Max(maxY, Math.Max(int.Parse(i.Split(" ")[0].Split(",")[1]), int.Parse(i.Split(" ")[2].Split(",")[1]))));            
+
+            for (int y = 0; y < maxY + 1; y++)
+                grid.Add(new List<int>(new int[maxX + 1]));
+        }
+
+        static void DrawLines(bool drawDiags)
+        {
+            foreach (var input in inputs)
+            {
+                (int x1, int y1) = (int.Parse(input.Split(" ")[0].Split(",")[0]), int.Parse(input.Split(" ")[0].Split(",")[1]));
+                (int x2, int y2) = (int.Parse(input.Split(" ")[2].Split(",")[0]), int.Parse(input.Split(" ")[2].Split(",")[1]));
+
+                if (!drawDiags && x1 != x2 && y1 != y2)
+                    continue;
+
+                grid[y1][x1]++;
+
+                while (x1 != x2 || y1 != y2)
+                {
+                    if (x1 > x2)
+                        x1--;
+                    else if (x1 < x2)
+                        x1++;
+
+                    if (y1 > y2)
+                        y1--;
+                    else if (y1 < y2)
+                        y1++;
+
+                    grid[y1][x1]++;
+                }
+            }
+        }
     }
 }
