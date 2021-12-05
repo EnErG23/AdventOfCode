@@ -51,7 +51,7 @@ namespace AdventOfCode.Y2019.Days
 
             var program = inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
 
-            result = IntCode(program, 4, 12, 2);
+            result = IntCode(program, 1);
 
             #endregion
 
@@ -69,23 +69,9 @@ namespace AdventOfCode.Y2019.Days
 
             #region Solution
 
-            var output = 19690720;
+            var program = inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
 
-            for (int i = 0; i < inputs[0].Split(',').Length - 1; i++)
-            {
-                for (int j = 0; j < inputs[0].Split(',').Length - 1; j++)
-                {
-                    var program = inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
-
-                    if (IntCode(program, 4, i, j) == output)
-                    {
-                        result = 100 * i + j;
-                        break;
-                    }
-                }
-                if (result != 0)
-                    break;
-            }
+            result = IntCode(program, 5);
 
             #endregion
 
@@ -95,19 +81,89 @@ namespace AdventOfCode.Y2019.Days
             return $"Part 2 ({ms}ms): {result} ";
         }
 
-        public static long IntCode(List<int> inputs, int pointer, int noun, int verb)
+        public static long IntCode(List<int> inputs, int input)
         {
-            inputs[1] = noun;
-            inputs[2] = verb;
+            var i = 0;
 
-            for (int i = 0; i < inputs.Count - 1; i += pointer)
+            while (i < inputs.Count)
             {
-                if (inputs[i] == 1)
-                    inputs[inputs[i + 3]] = inputs[inputs[i + 1]] + inputs[inputs[i + 2]];
-                else if (inputs[i] == 2)
-                    inputs[inputs[i + 3]] = inputs[inputs[i + 1]] * inputs[inputs[i + 2]];
-                else if (inputs[i] == 99)
+                var instruction = inputs[i].ToString();
+
+                while (instruction.Length < 5)
+                    instruction = "0" + instruction;
+
+                var opcode = instruction.Substring(3, 2);
+
+                if (opcode == "99")
                     break;
+
+                var modeParam1 = instruction.Substring(2, 1);
+                var modeParam2 = instruction.Substring(1, 1);
+                var modeParam3 = instruction.Substring(0, 1);
+
+                var param1 = 0;
+                var param2 = 0;
+                var param3 = 0;
+
+                switch (opcode)
+                {
+                    case "01":
+                        param1 = modeParam1 == "1" ? inputs[i + 1] : inputs[inputs[i + 1]];
+                        param2 = modeParam2 == "1" ? inputs[i + 2] : inputs[inputs[i + 2]];
+
+                        inputs[inputs[i + 3]] = param1 + param2;
+                        i += 4;
+                        break;
+                    case "02":
+                        param1 = modeParam1 == "1" ? inputs[i + 1] : inputs[inputs[i + 1]];
+                        param2 = modeParam2 == "1" ? inputs[i + 2] : inputs[inputs[i + 2]];
+
+                        inputs[inputs[i + 3]] = param1 * param2;
+                        i += 4;
+                        break;
+                    case "03":
+                        inputs[inputs[i + 1]] = input;
+                        i += 2;
+                        break;
+                    case "04":
+                        param1 = modeParam1 == "1" ? inputs[i + 1] : inputs[inputs[i + 1]];
+
+                        if (param1 > 0)
+                            return param1;
+                        i += 2;
+                        break;
+                    case "05":
+                        param1 = modeParam1 == "1" ? inputs[i + 1] : inputs[inputs[i + 1]];
+                        param2 = modeParam2 == "1" ? inputs[i + 2] : inputs[inputs[i + 2]];
+
+                        i = param1 != 0 ? param2 : i += 3;
+                        break;
+                    case "06":
+                        param1 = modeParam1 == "1" ? inputs[i + 1] : inputs[inputs[i + 1]];
+                        param2 = modeParam2 == "1" ? inputs[i + 2] : inputs[inputs[i + 2]];
+
+                        i = param1 == 0 ? param2 : i += 3;
+                        break;
+                    case "07":
+                        param1 = modeParam1 == "1" ? inputs[i + 1] : inputs[inputs[i + 1]];
+                        param2 = modeParam2 == "1" ? inputs[i + 2] : inputs[inputs[i + 2]];
+                        param3 = modeParam3 == "1" ? inputs[i + 3] : inputs[inputs[i + 3]];
+
+                        inputs[inputs[i + 3]] = param1 < param2 ? 1 : 0;
+                        i += 4;
+                        break;
+                    case "08":
+                        param1 = modeParam1 == "1" ? inputs[i + 1] : inputs[inputs[i + 1]];
+                        param2 = modeParam2 == "1" ? inputs[i + 2] : inputs[inputs[i + 2]];
+                        param3 = modeParam3 == "1" ? inputs[i + 3] : inputs[inputs[i + 3]];
+
+                        inputs[inputs[i + 3]] = param1 == param2 ? 1 : 0;
+                        i += 4;
+                        break;
+                    default:
+                        i++;
+                        break;
+                }
             }
 
             return inputs[0];
