@@ -17,9 +17,9 @@ namespace AdventOfCode.Y2020.Days
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsInts(day, test);
-
             var start = DateTime.Now;
+
+            inputs = InputManager.GetInputAsInts(day, test);
 
             string part1 = "";
             string part2 = "";
@@ -47,9 +47,9 @@ namespace AdventOfCode.Y2020.Days
 
         static string Part1()
         {
-            long result = 0;
-
             var start = DateTime.Now;
+
+            long result = 0;
 
             #region Solution
 
@@ -118,9 +118,9 @@ namespace AdventOfCode.Y2020.Days
 
         static string Part2(bool test)
         {
-            long result = 0;
-
             var start = DateTime.Now;
+
+            long result = 0;
 
             #region Solution
 

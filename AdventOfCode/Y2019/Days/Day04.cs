@@ -45,9 +45,9 @@ namespace AdventOfCode.Y2019.Days
 
         static string Part1()
         {
-            long result = 0;
-
             var start = DateTime.Now;
+
+            long result = 0;
 
             #region Solution
 
@@ -83,9 +83,9 @@ namespace AdventOfCode.Y2019.Days
 
         static string Part2()
         {
-            long result = 0;
-
             var start = DateTime.Now;
+
+            long result = 0;
 
             #region Solution
 

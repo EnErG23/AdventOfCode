@@ -30,7 +30,7 @@
             switch (command)
             {
                 case 'y': //year
-                    year = day;
+                    year = day < 100 ? day + 2000 : day;
                     AocManager.Year = year;
                     PrintHeader();
                     break;
