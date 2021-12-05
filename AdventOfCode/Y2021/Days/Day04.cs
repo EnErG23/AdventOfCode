@@ -127,7 +127,6 @@ namespace AdventOfCode.Y2021.Days
         }
 
         // Visualize
-
         public static void Visualize(int part, bool test)
         {
             inputs = InputManager.GetInputAsStrings(day, test);
