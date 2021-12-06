@@ -11,6 +11,7 @@ namespace AdventOfCode.Y2021.Days
     {
         static int day = 6;
         static List<string>? inputs;
+        static List<int>? fishes;
 
         public static string? Answer1 { get; set; }
         public static string? Answer2 { get; set; }
@@ -20,6 +21,8 @@ namespace AdventOfCode.Y2021.Days
             var start = DateTime.Now;
 
             inputs = InputManager.GetInputAsStrings(day, test);
+
+            fishes = inputs[0].Split(",").Select(i => int.Parse(i)).ToList();
 
             string part1 = "";
             string part2 = "";
@@ -49,34 +52,7 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
-            var fishes = inputs[0].Split(",").Select(i => int.Parse(i)).ToList();
-
-            var daysPassed = 0;
-            var daysToPass = 80;
-
-            while (daysPassed < daysToPass - 1)
-            {
-                //Console.WriteLine(String.Join(", ", fishes));
-
-                var smallestTime = fishes.Min();
-                //Console.WriteLine(smallestTime);
-
-                var newFishes = fishes.Count(f => f - smallestTime == 0);
-                //Console.WriteLine(newFishes);
-
-                fishes = fishes.Select(f => f - smallestTime == 0 ? 7 : f - smallestTime).ToList();
-
-                for (int n = 0; n < newFishes; n++)
-                {
-                    fishes.Add(9);
-                }
-
-                daysPassed += smallestTime;
-                //Console.WriteLine(daysPassed);
-            }
-
-            Console.WriteLine(String.Join(", ", fishes));
-            result = fishes.Count;
+            result = BreedFishes(80);
 
             #endregion
 
@@ -94,38 +70,7 @@ namespace AdventOfCode.Y2021.Days
 
             #region Solution
 
-            var fishes = inputs[0].Split(",").Select(i => int.Parse(i)).ToList();
-
-            var daysPassed = 1;
-            var daysToPass = 256;            
-            result = fishes.Count;
-
-            var addAfterXDays = new long[9];
-
-            for (int i = 0; i < fishes.Count; i++)
-                addAfterXDays[fishes[i]]++;
-
-            Console.WriteLine(String.Join(",", addAfterXDays));
-
-            while (daysPassed <= daysToPass)
-            {
-
-                var fishesToAdd = addAfterXDays[0];
-                result += fishesToAdd;
-
-                for (int i = 0; i < 8; i++)
-                    addAfterXDays[i] = addAfterXDays[i + 1];
-
-                addAfterXDays[8] = 0;
-
-                addAfterXDays[6] += fishesToAdd;
-                addAfterXDays[8] += fishesToAdd;
-
-                Console.WriteLine($"After {daysPassed} days:");
-                Console.WriteLine(String.Join(",", addAfterXDays));
-
-                daysPassed++;
-            }
+            result = BreedFishes(256);
 
             #endregion
 
@@ -133,6 +78,34 @@ namespace AdventOfCode.Y2021.Days
 
             if (result > 0) Answer2 = result.ToString();
             return $"Part 2 ({ms}ms): {result} ";
+        }
+
+        static long BreedFishes(int days)
+        {
+            long result = fishes.Count;
+            var daysPassed = 1;            
+
+            var fishesToAddAfterIDays = new long[9];
+
+            for (int i = 0; i < fishes.Count; i++)
+                fishesToAddAfterIDays[fishes[i]]++;
+
+            while (daysPassed <= days)
+            {
+                long fishesToAdd = fishesToAddAfterIDays[0];
+                result += fishesToAdd;
+
+                for (int i = 0; i < 8; i++)
+                    fishesToAddAfterIDays[i] = fishesToAddAfterIDays[i + 1];
+
+                fishesToAddAfterIDays[8] = 0;
+                fishesToAddAfterIDays[6] += fishesToAdd;
+                fishesToAddAfterIDays[8] += fishesToAdd;
+
+                daysPassed++;
+            }
+
+            return result;
         }
     }
 }
