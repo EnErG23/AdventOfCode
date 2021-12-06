@@ -80,10 +80,10 @@ namespace AdventOfCode.Y2021.Days
             return $"Part 2 ({ms}ms): {result} ";
         }
 
-        static long BreedFishes(int days)
+        static long BreedFishes2(int days)
         {
             long result = fishes.Count;
-            var daysPassed = 1;            
+            var daysPassed = 1;
 
             var fishesToAddAfterIDays = new long[9];
 
@@ -106,6 +106,26 @@ namespace AdventOfCode.Y2021.Days
             }
 
             return result;
+        }
+
+        static long BreedFishes(int days)
+        {
+            var fishesToAddAfterIDays = new long[9];
+
+            fishes.ForEach(f => fishesToAddAfterIDays[f]++);
+
+            for (int d = 1; d <= days; d++)
+            {
+                long fishesToAdd = fishesToAddAfterIDays[0];
+
+                for (int f = 0; f < 8; f++)
+                    fishesToAddAfterIDays[f] = fishesToAddAfterIDays[f + 1];
+
+                fishesToAddAfterIDays[6] += fishesToAdd;
+                fishesToAddAfterIDays[8] = fishesToAdd;
+            }
+
+            return fishesToAddAfterIDays.Sum();
         }
     }
 }
