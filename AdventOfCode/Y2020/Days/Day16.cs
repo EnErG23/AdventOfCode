@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Helpers;
+using System.Diagnostics;
 using AdventOfCode.Y2020.Models;
 
 namespace AdventOfCode.Y2020.Days
@@ -13,7 +14,7 @@ namespace AdventOfCode.Y2020.Days
 
         public static void Run(int part, bool test)
         {
-            var start = DateTime.Now;
+            Stopwatch sw = Stopwatch.StartNew();
 
             inputs = InputManager.GetInputAsStrings(day, test);
 
@@ -30,7 +31,8 @@ namespace AdventOfCode.Y2020.Days
                 part2 = Part2();
             }
 
-            var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
+            sw.Stop();
+			var ms = sw.Elapsed.TotalMilliseconds;
 
             Console.WriteLine($"Day {day} ({ms}ms):");
             if (part1 != "") Console.WriteLine($"    {part1}");
@@ -39,7 +41,7 @@ namespace AdventOfCode.Y2020.Days
 
         static string Part1()
         {
-            var start = DateTime.Now;
+            Stopwatch sw = Stopwatch.StartNew();
 
             long result = 0;
 
@@ -97,7 +99,8 @@ namespace AdventOfCode.Y2020.Days
 
             #endregion
 
-            var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
+            sw.Stop();
+			var ms = sw.Elapsed.TotalMilliseconds;
 
             if (result > 0) Answer1 = result.ToString();
             return $"Part 1 ({ms}ms): {result} ";
@@ -105,7 +108,7 @@ namespace AdventOfCode.Y2020.Days
 
         static string Part2()
         {
-            var start = DateTime.Now;
+            Stopwatch sw = Stopwatch.StartNew();
 
             long result = 0;
 
@@ -229,7 +232,8 @@ namespace AdventOfCode.Y2020.Days
 
             #endregion
 
-            var ms = Math.Round((DateTime.Now - start).TotalMilliseconds);
+            sw.Stop();
+			var ms = sw.Elapsed.TotalMilliseconds;
 
             if (result > 0) Answer2 = result.ToString();
             return $"Part 2 ({ms}ms): {result} ";
