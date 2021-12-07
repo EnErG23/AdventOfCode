@@ -6,35 +6,26 @@ namespace AdventOfCode.Y2021.Days
     public class Day05 : Day
     {
         private const int day = 5;
-        private List<int>? inputs;
         private List<List<int>>? grid;
 
         public Day05(bool test) : base(day, test) { }
 
         public override string RunPart1()
         {
-            long result = 0;
-
             InputToGrid();
 
             DrawLines(false);
 
-            result = grid.Sum(g => g.Count(c => c > 1));
-
-            return result.ToString();
+            return grid.Sum(g => g.Count(c => c > 1)).ToString();
         }
 
         public override string RunPart2()
         {
-            long result = 0;
-
             InputToGrid();
 
             DrawLines(true);
 
-            result = grid.Sum(g => g.Count(c => c > 1));
-
-            return result.ToString();
+            return grid.Sum(g => g.Count(c => c > 1)).ToString();
         }
 
         private void InputToGrid()

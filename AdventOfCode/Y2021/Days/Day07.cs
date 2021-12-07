@@ -14,7 +14,7 @@ namespace AdventOfCode.Y2021.Days
 
             List<int> fuel = new List<int>(new int[crabs.Max()]);
 
-            for (int f = 0; f < fuel.Count; f++)            
+            for (int f = 0; f < fuel.Count; f++)
                 for (int c = 0; c < crabs.Count; c++)
                     fuel[f] += Math.Abs(f - crabs[c]);
 

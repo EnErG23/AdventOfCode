@@ -9,33 +9,26 @@ namespace AdventOfCode.Y2021.Days
         static readonly int day = 4;
         static List<Board>? boards;
         static List<int>? drawnNumbers;
-        
+
         public Day04(bool test) : base(day, test) { }
 
         public override string RunPart1()
         {
-            long result = 0;
-
             InputToBoards();
 
             foreach (var drawnNumber in drawnNumbers)
-            {
+            {                
                 boards.ForEach(b => b.Rows.ForEach(r => r.ForEach(n => n.Marked = n.Value == drawnNumber ? true : n.Marked)));
 
-                if (boards.Any(b => b.IsWinner))
-                {
-                    result = drawnNumber * boards.First(b => b.IsWinner).UnmarkedSum;
-                    break;
-                }
+                if (boards.Any(b => b.IsWinner))                
+                    return (drawnNumber * boards.First(b => b.IsWinner).UnmarkedSum).ToString();
             }
 
-            return result.ToString();
+            return "";
         }
 
         public override string RunPart2()
         {
-            long result = 0;
-
             InputToBoards();
 
             foreach (var drawnNumber in drawnNumbers)
@@ -49,13 +42,10 @@ namespace AdventOfCode.Y2021.Days
                 }
 
                 if (boards[0].IsWinner)
-                {
-                    result = drawnNumber * boards[0].UnmarkedSum;
-                    break;
-                }
+                    return (drawnNumber * boards[0].UnmarkedSum).ToString();
             }
 
-            return result.ToString();
+            return "";
         }
 
         private void InputToBoards()
@@ -183,7 +173,6 @@ namespace AdventOfCode.Y2021.Days
             {
                 foreach (var n in r)
                 {
-
                     if (n.Marked)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;

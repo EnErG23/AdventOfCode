@@ -11,11 +11,7 @@ namespace AdventOfCode.Y2021.Days
 
         public override string RunPart1()
         {
-            Inputs[0]
-                .Split(",")
-                .Select(i => int.Parse(i))
-                .ToList()
-                .ForEach(f => fishesToAddAfterIDays[f]++);
+            Inputs[0].Split(",").Select(i => int.Parse(i)).ToList().ForEach(f => fishesToAddAfterIDays[f]++);
 
             return BreedFishes(80).ToString();
         }
@@ -25,11 +21,7 @@ namespace AdventOfCode.Y2021.Days
             if (fishesToAddAfterIDays.Sum() > 0)
                 fishesToAddAfterIDays = new long[9];
 
-            Inputs[0]
-                .Split(",")
-                .Select(i => int.Parse(i))
-                .ToList()
-                .ForEach(f => fishesToAddAfterIDays[f]++);
+            Inputs[0].Split(",").Select(i => int.Parse(i)).ToList().ForEach(f => fishesToAddAfterIDays[f]++);
 
             return BreedFishes(256).ToString();
         }
