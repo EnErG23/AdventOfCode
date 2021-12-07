@@ -1,95 +1,29 @@
-﻿using AdventOfCode.Helpers;
-using System.Diagnostics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdventOfCode.Models;
 
 namespace AdventOfCode.Y2019.Days
 {
-    public class Day05
+    public class Day05 : Day
     {
-        private static readonly int day = 5;
-        private static List<string>? inputs;
+        private const int day = 5;
+        private List<int>? inputs;
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
+        public Day05(bool test) : base(day, test) { }
 
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
+            inputs = Inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
 
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-            {
-                part1 = Part1();
-            }
-            else if (part == 2)
-            {
-                part2 = Part2();
-            }
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
+            return IntCode(1).ToString();
         }
 
-        private static string Part1()
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
+            inputs = Inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
 
-            long result = 0;
-
-            #region Solution
-
-            var program = inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
-
-            result = IntCode(program, 1);
-
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+            return IntCode(5).ToString();
         }
 
-        private static string Part2()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            long result = 0;
-
-            #region Solution
-
-            var program = inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
-
-            result = IntCode(program, 5);
-
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
-        }
-
-        public static long IntCode(List<int> inputs, int input)
+        private long IntCode(int input)
         {
             var i = 0;
 
