@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AdventOfCode.Models;
+using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 
 namespace AdventOfCode.Helpers
@@ -78,12 +79,11 @@ namespace AdventOfCode.Helpers
             var path = $"Y{Year}\\Inputs\\{day}.txt";
             await File.WriteAllTextAsync(path, result);
         }
-        public static async void SubmitAnswer(int day)
+        public static async void SubmitAnswer(object day)
         {
-            var zero = day < 10 ? "0" : "";
-            Type? dayClass = Type.GetType($"AdventOfCode.Y{Year}.Days.Day{zero}{day}");
-            object? answer = dayClass.GetProperty("Answer2").GetValue(dayClass, null) ?? dayClass.GetProperty("Answer1").GetValue(dayClass, null);
-            var level = dayClass.GetProperty("Answer2").GetValue(dayClass, null) == null ? 1 : 2;
+            Type dayClass = day.GetType();
+            object? answer = dayClass.GetProperty("Answer2").GetValue(day, null) ?? dayClass.GetProperty("Answer1").GetValue(day, null);
+            var level = dayClass.GetProperty("Answer2").GetValue(day, null) == null ? 1 : 2;
 
             HttpClient client = new();
             client.DefaultRequestHeaders.Add("cookie", $"session={sessionID}");
@@ -96,7 +96,7 @@ namespace AdventOfCode.Helpers
 
             var content = new FormUrlEncodedContent(values);
 
-            var url = $"{website}/{Year}/day/{day}/answer";
+            var url = $"{website}/{Year}/day/{dayClass.Name.Replace("Day0","").Replace("Day", "")}/answer";
             var response = await client.PostAsync(url, content);
 
             using StreamReader? streamReader = new(response.Content.ReadAsStreamAsync().Result);

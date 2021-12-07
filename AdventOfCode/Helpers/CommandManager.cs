@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using AdventOfCode.Models;
+using System.Diagnostics;
 
 namespace AdventOfCode.Helpers
 {
@@ -8,6 +9,8 @@ namespace AdventOfCode.Helpers
         static int day = 0;
         static int part = 0;
         static readonly List<string> skipDays = new();
+
+        static object? lastDay;
 
         public static void RequestInput()
         {
@@ -52,7 +55,7 @@ namespace AdventOfCode.Helpers
                         RunDay(day, part, test);
                     break;
                 case 's': //submit
-                    AocManager.SubmitAnswer(day);
+                    AocManager.SubmitAnswer(lastDay);
                     Thread.Sleep(2000);
                     break;
                 case 'v': //visualize
@@ -145,9 +148,9 @@ namespace AdventOfCode.Helpers
             {
                 var zero = day < 10 ? "0" : "";
                 Type dayClass = Type.GetType($"AdventOfCode.Y{year}.Days.Day{zero}{day}");
-                object? instance = Activator.CreateInstance(dayClass, new object[] { test });
+                lastDay = Activator.CreateInstance(dayClass, new object[] { test });
                 var method = dayClass.GetMethod("Run");
-                method.Invoke(instance, new object[] { part });
+                method.Invoke(lastDay, new object[] { part });
             }
             catch (Exception ex)
             {

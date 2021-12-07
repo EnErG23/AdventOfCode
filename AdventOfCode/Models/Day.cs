@@ -11,11 +11,12 @@ namespace AdventOfCode.Models
     public abstract class Day
     {
         private int day;
-        private string answer1 = "Unsolved";
-        private string answer2 = "Unsolved";
         private double time = 0;
         private double time1 = 0;
         private double time2 = 0;
+
+        public string Answer1 { get; set; } = "Unsolved";
+        public string Answer2 { get; set; } = "Unsolved";
 
         public List<string> Inputs { get; set; }
 
@@ -32,7 +33,7 @@ namespace AdventOfCode.Models
             if (part == 0 || part == 1)
             {
                 Stopwatch sw1 = Stopwatch.StartNew();
-                answer1 = RunPart1();
+                Answer1 = RunPart1();
                 sw1.Stop();
                 time1 = sw1.Elapsed.TotalMilliseconds;
             }
@@ -40,7 +41,7 @@ namespace AdventOfCode.Models
             if (part == 0 || part == 2)
             {
                 Stopwatch sw2 = Stopwatch.StartNew();
-                answer2 = RunPart2();
+                Answer2 = RunPart2();
                 sw2.Stop();
                 time2 = sw2.Elapsed.TotalMilliseconds;
             }
@@ -54,8 +55,8 @@ namespace AdventOfCode.Models
         public void Print()
         {
             Console.WriteLine($"Day {day} ({time}ms):");
-            Console.WriteLine($"    Part 1 ({time1}ms): {answer1}");
-            Console.WriteLine($"    Part 2 ({time2}ms): {answer2}");
+            Console.WriteLine($"    Part 1 ({time1}ms): {Answer1}");
+            Console.WriteLine($"    Part 2 ({time2}ms): {Answer2}");
         }
 
         public abstract string RunPart1();
