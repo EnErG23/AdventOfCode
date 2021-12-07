@@ -15,7 +15,7 @@ namespace AdventOfCode.Y2020.Days
         {
             Stopwatch sw = Stopwatch.StartNew();
 
-            inputs = InputManager.GetInputAsLongs(day, test);
+            inputs = InputManager.GetInputAsStrings(day, test).Select(i => long.Parse(i)).ToList();
 
             string part1 = "";
             string part2 = "";

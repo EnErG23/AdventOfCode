@@ -20,7 +20,7 @@ namespace AdventOfCode.Y2020.Days
         {
             Stopwatch sw = Stopwatch.StartNew();
 
-            inputs = InputManager.GetInputAsInts(day, test);
+            inputs = InputManager.GetInputAsStrings(day, test).Select(i => int.Parse(i)).ToList();
 
             string part1 = "";
             string part2 = "";
@@ -126,8 +126,7 @@ namespace AdventOfCode.Y2020.Days
             long result = 0;
 
             #region Solution
-
-            inputs = InputManager.GetInputAsInts(day, test);
+            inputs = InputManager.GetInputAsStrings(day, test).Select(i => int.Parse(i)).ToList();
 
             for (int i = 10; i <= 1000000; i++)
             {

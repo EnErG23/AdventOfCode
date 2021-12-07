@@ -13,7 +13,7 @@ namespace AdventOfCode.Y2020.Days
 
         public static void Run(int part, bool test)
         {
-            inputs = InputManager.GetInputAsInts(day, test);
+            inputs = InputManager.GetInputAsStrings(day, test).Select(i => int.Parse(i)).ToList();
 
             inputs.Add(0);
             inputs = inputs.OrderBy(i => i).ToList();

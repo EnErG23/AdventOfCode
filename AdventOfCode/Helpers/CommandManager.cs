@@ -138,7 +138,7 @@ namespace AdventOfCode.Helpers
 
             sw.Stop();
 
-            Console.WriteLine($"All days completed in {sw.Elapsed.TotalMilliseconds}ms");
+            Console.WriteLine($"All days completed ({sw.Elapsed.ToString("mm\\:ss\\.ffffff")})");
             Console.WriteLine("---------------------------------------");
         }
 

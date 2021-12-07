@@ -33,7 +33,5 @@
 
             return inputs;
         }
-        public static List<int> GetInputAsInts(int day, bool test) => GetInputAsStrings(day, test).Select(i => int.Parse(i)).ToList();
-        public static List<long> GetInputAsLongs(int day, bool test) => GetInputAsStrings(day, test).Select(i => long.Parse(i)).ToList();
     }
 }

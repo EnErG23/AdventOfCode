@@ -5,44 +5,31 @@ namespace AdventOfCode.Y2021.Days
     public class Day07 : Day
     {
         private const int day = 7;
+        private List<int>? crabs;
 
         public Day07(bool test) : base(day, test) { }
 
         public override string RunPart1()
         {
-            var crabs = Inputs[0].Split(",").Select(i => int.Parse(i)).ToList();
+            crabs = Inputs[0].Split(",").Select(i => int.Parse(i)).OrderBy(i => i).ToList();
 
-            List<int> fuel = new List<int>(new int[crabs.Max()]);
+            int median = crabs[crabs.Count / 2];
 
-            for (int f = 0; f < fuel.Count; f++)
-                for (int c = 0; c < crabs.Count; c++)
-                    fuel[f] += Math.Abs(f - crabs[c]);
-
-            return fuel.Min().ToString();
+            return crabs.Sum(crab => Math.Abs(crab - median)).ToString();
         }
 
         public override string RunPart2()
         {
-            var crabs = Inputs[0].Split(",").Select(i => int.Parse(i)).ToList();
+            if (crabs == null)
+                crabs = Inputs[0].Split(",").Select(i => int.Parse(i)).ToList();
 
-            List<long> fuel = new List<long>(new long[crabs.Max()]);
+            var average = crabs.Average();
+            int flooredAverage = (int)Math.Floor(average);
+            int ceiledAverage = (int)Math.Ceiling(average);
 
-            for (int f = 0; f < fuel.Count; f++)
-                for (int c = 0; c < crabs.Count; c++)
-                    if (f != crabs[c])                    
-                        fuel[f] += GetFuel(crabs[c], f);
-
-            return fuel.Min().ToString();
-        }
-
-        private long GetFuel(int from, int to)
-        {
-            long result = 0;
-
-            for (int i = 1; i <= Math.Abs(from - to); i++)
-                result += i;
-
-            return result;
+            return Math.Min(crabs.Sum(crab => Math.Abs(crab - flooredAverage) * (Math.Abs(crab - flooredAverage) + 1) / 2),
+                            crabs.Sum(crab => Math.Abs(crab - ceiledAverage) * (Math.Abs(crab - ceiledAverage) + 1) / 2))
+                       .ToString();
         }
     }
 }
