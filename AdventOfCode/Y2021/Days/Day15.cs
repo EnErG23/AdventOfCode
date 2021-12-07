@@ -10,7 +10,7 @@ namespace AdventOfCode.Y2021.Days
 {
     public static class Day15
     {
-        static int day = 15;
+        static readonly int day = 15;
         static List<string>? inputs;
 
         public static string? Answer1 { get; set; }
@@ -43,7 +43,7 @@ namespace AdventOfCode.Y2021.Days
             if (part2 != "") Console.WriteLine($"    {part2}");
         }
 
-        static string Part1()
+        private static string Part1()
         {
             Stopwatch sw = Stopwatch.StartNew();
 
@@ -62,7 +62,7 @@ namespace AdventOfCode.Y2021.Days
             return $"Part 1 ({ms}ms): {result} ";
         }
 
-        static string Part2()
+        private static string Part2()
         {
             Stopwatch sw = Stopwatch.StartNew();
 

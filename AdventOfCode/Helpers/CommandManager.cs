@@ -1,11 +1,13 @@
-﻿namespace AdventOfCode.Helpers
+﻿using System.Diagnostics;
+
+namespace AdventOfCode.Helpers
 {
     internal class CommandManager
     {
         static int year = AocManager.Year;
         static int day = 0;
         static int part = 0;
-        static List<string> skipDays = new List<string>();
+        static readonly List<string> skipDays = new();
 
         public static void RequestInput()
         {
@@ -122,7 +124,7 @@
 
         static void RunAllDays(bool test)
         {
-            DateTime start = DateTime.Now;
+            Stopwatch sw = Stopwatch.StartNew();
 
             for (int i = 1; i <= 25; i++)
                 if (!skipDays.Contains($"{year}{i}"))
@@ -131,7 +133,8 @@
                     day = i;
                 }
 
-            var time = DateTime.Now - start;
+            sw.Stop();
+            var time = new TimeSpan(sw.ElapsedMilliseconds);
 
             Console.WriteLine($"All days completed in {time.Minutes}m {time.Seconds}s {time.Milliseconds}ms");
             Console.WriteLine("---------------------------------------");
@@ -142,9 +145,10 @@
             try
             {
                 var zero = day < 10 ? "0" : "";
-                Type? dayClass = Type.GetType($"AdventOfCode.Y{year}.Days.Day{zero}{day}");
+                Type dayClass = Type.GetType($"AdventOfCode.Y{year}.Days.Day{zero}{day}");
+                object? instance = Activator.CreateInstance(dayClass, new object[] { test });
                 var method = dayClass.GetMethod("Run");
-                method.Invoke(null, new object[] { part, test });
+                method.Invoke(instance, new object[] { part });
             }
             catch (Exception ex)
             {
@@ -159,9 +163,10 @@
             try
             {
                 var zero = day < 10 ? "0" : "";
-                Type? dayClass = Type.GetType($"AdventOfCode.Y{year}.Days.Day{zero}{day}");
+                Type dayClass = Type.GetType($"AdventOfCode.Y{year}.Days.Day{zero}{day}");
+                object? instance = Activator.CreateInstance(dayClass, new object[] { test });
                 var method = dayClass.GetMethod("Visualize");
-                method.Invoke(null, new object[] { part, test });
+                method.Invoke(instance, new object[] { part });
             }
             catch (Exception ex)
             {

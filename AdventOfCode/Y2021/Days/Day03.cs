@@ -1,92 +1,40 @@
-﻿using AdventOfCode.Helpers;
-using System.Diagnostics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdventOfCode.Models;
+using AdventOfCode.Helpers;
 
 namespace AdventOfCode.Y2021.Days
 {
-    public static class Day03
+    public class Day03 : Day
     {
-        static int day = 3;
-        static List<string>? inputs;
+        private const int day = 3;
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
+        public Day03(bool test) : base(day, test) { }
 
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            long result = 0;
-
-            #region Solution
-
             var gamma = "";
             var epsilon = "";
 
-            for (int i = 0; i < inputs[0].Length; i++)
+            for (int i = 0; i < Inputs[0].Length; i++)
             {
                 var ones = 0;
 
-                foreach (var input in inputs)
+                foreach (var input in Inputs)
                     if (input[i] == '1')
                         ones++;
 
-                gamma += ones > inputs.Count / 2 ? '1' : '0';
-                epsilon += ones > inputs.Count / 2 ? '0' : '1';
+                gamma += ones > Inputs.Count / 2 ? '1' : '0';
+                epsilon += ones > Inputs.Count / 2 ? '0' : '1';
             }
 
-            result = Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2);
-
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+            return (Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2)).ToString();
         }
-        
-        static string Part2()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
 
+        public override string RunPart2()
+        {
             long result = 0;
 
-            #region Solution
-
-            var oxygenInputs = inputs.ToList();
-            var scrubberInputs = inputs.ToList();
+            var oxygenInputs = Inputs.ToList();
+            var scrubberInputs = Inputs.ToList();
 
             for (int i = 0; i < oxygenInputs[0].Length; i++)
             {
@@ -118,55 +66,23 @@ namespace AdventOfCode.Y2021.Days
 
             result = Convert.ToInt32(oxygenInputs[0], 2) * Convert.ToInt32(scrubberInputs[0], 2);
 
-            #endregion
+            return result.ToString();
+        }        
 
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
-        }
-
-        // Visualize
-
-        public static void Visualize(int part, bool test)
-        {
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            Console.Clear();
-
-            if (part == 1)
-                VisualizePart1();
-            else if (part == 2)
-                VisualizePart2();
-            else
-            {
-                VisualizePart1();
-                VisualizePart2();
-            }
-
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Cyan;
-        }
-
-        static void VisualizePart1()
-        {
-        }
-
-        static void VisualizePart2()
+        public override void VisualizePart2()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
             for (int i = 3; i > 0; i--)
             {
                 Console.Clear();
-                Console.WriteLine($"Visualization for 2021.3.2");
+                Console.WriteLine($"Visualization for 2021.{day}.2");
                 Console.WriteLine($"Starting in {i}");
                 Thread.Sleep(1000);
             }
 
-            var oxygenInputs = inputs.ToList();
-            var scrubberInputs = inputs.ToList();
+            var oxygenInputs = Inputs.ToList();
+            var scrubberInputs = Inputs.ToList();
 
             for (int i = 0; i < oxygenInputs[0].Length; i++)
             {

@@ -7,7 +7,7 @@ namespace AdventOfCode.Helpers
     {
         public static int Year { get; set; } = GetYear();
 
-        static string website = $"https://adventofcode.com";
+        static readonly string website = $"https://adventofcode.com";
         static readonly string? sessionID = new ConfigurationBuilder()
                                             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                                             .AddUserSecrets<Program>()

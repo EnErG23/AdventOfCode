@@ -5,7 +5,7 @@ namespace AdventOfCode.Y2020.Days
 {
     public static class Day10
     {
-        static int day = 10;
+        static readonly int day = 10;
         static List<int>? inputs;
 
         public static string? Answer1 { get; set; }
@@ -42,7 +42,7 @@ namespace AdventOfCode.Y2020.Days
             if (part2 != "") Console.WriteLine($"    {part2}");
         }
 
-        static string Part1()
+        private static string Part1()
         {
             Stopwatch sw = Stopwatch.StartNew();
 
@@ -75,7 +75,7 @@ namespace AdventOfCode.Y2020.Days
             return $"Part 1 ({ms}ms): {result} ";
         }
 
-        static string Part2()
+        private static string Part2()
         {
             Stopwatch sw = Stopwatch.StartNew();
 

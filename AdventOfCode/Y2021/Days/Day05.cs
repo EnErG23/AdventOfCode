@@ -1,56 +1,19 @@
-﻿using AdventOfCode.Helpers;
-using System.Diagnostics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdventOfCode.Models;
+using AdventOfCode.Helpers;
 
 namespace AdventOfCode.Y2021.Days
 {
-    public static class Day05
+    public class Day05 : Day
     {
-        static int day = 5;
-        static List<string>? inputs;
-        static List<List<int>>? grid;
+        private const int day = 5;
+        private List<int>? inputs;
+        private List<List<int>>? grid;
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
+        public Day05(bool test) : base(day, test) { }
 
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             InputToGrid();
 
@@ -58,22 +21,12 @@ namespace AdventOfCode.Y2021.Days
 
             result = grid.Sum(g => g.Count(c => c > 1));
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+            return result.ToString();
         }
 
-        static string Part2()
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             InputToGrid();
 
@@ -81,31 +34,25 @@ namespace AdventOfCode.Y2021.Days
 
             result = grid.Sum(g => g.Count(c => c > 1));
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+            return result.ToString();
         }
 
-        static void InputToGrid()
+        private void InputToGrid()
         {
-            grid = new List<List<int>>();
+            grid = new();
 
             (int maxX, int maxY) = (0, 0);
 
-            foreach (var i in inputs)
+            foreach (var i in Inputs)
                 (maxX, maxY) = (Math.Max(maxX, Math.Max(int.Parse(i.Split(" ")[0].Split(",")[0]), int.Parse(i.Split(" ")[2].Split(",")[0]))), Math.Max(maxY, Math.Max(int.Parse(i.Split(" ")[0].Split(",")[1]), int.Parse(i.Split(" ")[2].Split(",")[1]))));
 
             for (int y = 0; y < maxY + 1; y++)
                 grid.Add(new List<int>(new int[maxX + 1]));
         }
 
-        static void DrawLines(bool drawDiags)
+        private void DrawLines(bool drawDiags)
         {
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 (int x1, int y1) = (int.Parse(input.Split(" ")[0].Split(",")[0]), int.Parse(input.Split(" ")[0].Split(",")[1]));
                 (int x2, int y2) = (int.Parse(input.Split(" ")[2].Split(",")[0]), int.Parse(input.Split(" ")[2].Split(",")[1]));
@@ -132,29 +79,7 @@ namespace AdventOfCode.Y2021.Days
             }
         }
 
-        // Visualize
-        public static void Visualize(int part, bool test)
-        {
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            Console.Clear();
-
-            if (part == 1)
-                VisualizePart1();
-            else if (part == 2)
-                VisualizePart2();
-            else
-            {
-                VisualizePart1();
-                Thread.Sleep(5000);
-                VisualizePart2();
-            }
-
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Cyan;
-        }
-
-        static void VisualizePart1()
+        public override void VisualizePart1()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -177,7 +102,7 @@ namespace AdventOfCode.Y2021.Days
             Console.WriteLine(" dangerous areas");
         }
 
-        static void VisualizePart2()
+        public override void VisualizePart2()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -200,9 +125,9 @@ namespace AdventOfCode.Y2021.Days
             Console.WriteLine(" dangerous areas");
         }
 
-        static void DrawLinesWithVisualization(bool drawDiags)
+        private void DrawLinesWithVisualization(bool drawDiags)
         {
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 (int x1, int y1) = (int.Parse(input.Split(" ")[0].Split(",")[0]), int.Parse(input.Split(" ")[0].Split(",")[1]));
                 (int x2, int y2) = (int.Parse(input.Split(" ")[2].Split(",")[0]), int.Parse(input.Split(" ")[2].Split(",")[1]));
@@ -233,7 +158,7 @@ namespace AdventOfCode.Y2021.Days
             }
         }
 
-        static void PrintGrid()
+        private void PrintGrid()
         {
             foreach (var y in grid)
             {

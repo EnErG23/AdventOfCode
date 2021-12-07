@@ -10,8 +10,8 @@ namespace AdventOfCode.Y2019.Days
 {
     public static class Day05
     {
-        static int day = 5;
-        static List<string>? inputs;
+        private static readonly int day = 5;
+        private static List<string>? inputs;
 
         public static string? Answer1 { get; set; }
         public static string? Answer2 { get; set; }
@@ -26,9 +26,13 @@ namespace AdventOfCode.Y2019.Days
             string part2 = "";
 
             if (part == 1)
+            {
                 part1 = Part1();
+            }
             else if (part == 2)
+            {
                 part2 = Part2();
+            }
             else
             {
                 part1 = Part1();
@@ -43,7 +47,7 @@ namespace AdventOfCode.Y2019.Days
             if (part2 != "") Console.WriteLine($"    {part2}");
         }
 
-        static string Part1()
+        private static string Part1()
         {
             Stopwatch sw = Stopwatch.StartNew();
 
@@ -64,7 +68,7 @@ namespace AdventOfCode.Y2019.Days
             return $"Part 1 ({ms}ms): {result} ";
         }
 
-        static string Part2()
+        private static string Part2()
         {
             Stopwatch sw = Stopwatch.StartNew();
 
@@ -103,7 +107,7 @@ namespace AdventOfCode.Y2019.Days
 
                 var modeParam1 = instruction.Substring(2, 1);
                 var modeParam2 = instruction.Substring(1, 1);
-                var modeParam3 = instruction.Substring(0, 1);
+                var modeParam3 = instruction[..1];
 
                 var param1 = 0;
                 var param2 = 0;

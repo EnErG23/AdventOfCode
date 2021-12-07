@@ -7,6 +7,7 @@
             foreach (var line in InputManager.GetInputAsStrings(day, test))
                 Console.WriteLine(line);
         }
+
         public static List<string> GetInputAsStrings(int day, bool test)
         {
             var inputs = new List<string>();

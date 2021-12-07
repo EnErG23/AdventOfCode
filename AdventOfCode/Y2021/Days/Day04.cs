@@ -1,53 +1,20 @@
-﻿using AdventOfCode.Helpers;
-using System.Diagnostics;
+﻿using AdventOfCode.Models;
+using AdventOfCode.Helpers;
 using AdventOfCode.Y2021.Models;
 
 namespace AdventOfCode.Y2021.Days
 {
-    public static class Day04
+    public class Day04 : Day
     {
-        static int day = 4;
-        static List<string>? inputs;
+        static readonly int day = 4;
         static List<Board>? boards;
         static List<int>? drawnNumbers;
+        
+        public Day04(bool test) : base(day, test) { }
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
-
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             InputToBoards();
 
@@ -62,22 +29,12 @@ namespace AdventOfCode.Y2021.Days
                 }
             }
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+            return result.ToString();
         }
 
-        static string Part2()
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             InputToBoards();
 
@@ -98,24 +55,18 @@ namespace AdventOfCode.Y2021.Days
                 }
             }
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+            return result.ToString();
         }
 
-        static void InputToBoards()
+        private void InputToBoards()
         {
             boards = new List<Board>();
 
-            drawnNumbers = inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
+            drawnNumbers = Inputs[0].Split(',').Select(i => int.Parse(i)).ToList();
 
             var board = new Board();
 
-            foreach (var input in inputs.Skip(2))
+            foreach (var input in Inputs.Skip(2))
             {
                 if (input == "")
                 {
@@ -130,29 +81,7 @@ namespace AdventOfCode.Y2021.Days
             boards.Add(board);
         }
 
-        // Visualize
-        public static void Visualize(int part, bool test)
-        {
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            Console.Clear();
-
-            if (part == 1)
-                VisualizePart1();
-            else if (part == 2)
-                VisualizePart2();
-            else
-            {
-                VisualizePart1();
-                Thread.Sleep(5000);
-                VisualizePart2();
-            }
-
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Cyan;
-        }
-
-        static void VisualizePart1()
+        public override void VisualizePart1()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -197,7 +126,7 @@ namespace AdventOfCode.Y2021.Days
             }
         }
 
-        static void VisualizePart2()
+        public override void VisualizePart2()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
