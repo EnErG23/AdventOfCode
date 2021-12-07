@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Y2019.Days
 {
-    public static class Day03
+    public class Day03
     {
         static readonly int day = 3;
         static List<string>? inputs;

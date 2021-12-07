@@ -4,7 +4,7 @@ using AdventOfCode.Y2020.Models;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public static class Day14
+    public class Day14
     {
         static readonly int day = 14;
         static List<string>? inputs;

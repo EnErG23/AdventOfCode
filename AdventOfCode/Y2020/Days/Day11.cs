@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public static class Day11
+    public class Day11
     {
         static readonly int day = 11;
         static List<string>? inputs;

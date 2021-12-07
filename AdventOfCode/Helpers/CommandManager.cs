@@ -62,7 +62,8 @@ namespace AdventOfCode.Helpers
                     PrintHeader();
                     break;
                 case 'e': //exit
-                    return;
+                    Environment.Exit(0);
+                    break;
                 default:
                     Console.WriteLine("Invalid command");
                     break;
@@ -134,9 +135,8 @@ namespace AdventOfCode.Helpers
                 }
 
             sw.Stop();
-            var time = new TimeSpan(sw.ElapsedMilliseconds);
 
-            Console.WriteLine($"All days completed in {time.Minutes}m {time.Seconds}s {time.Milliseconds}ms");
+            Console.WriteLine($"All days completed in {sw.Elapsed.TotalMilliseconds}ms");
             Console.WriteLine("---------------------------------------");
         }
 

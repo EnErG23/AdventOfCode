@@ -34,7 +34,7 @@ namespace AdventOfCode.Models
                 Stopwatch sw1 = Stopwatch.StartNew();
                 answer1 = RunPart1();
                 sw1.Stop();
-                time1 = sw1.ElapsedMilliseconds;
+                time1 = sw1.Elapsed.TotalMilliseconds;
             }
 
             if (part == 0 || part == 2)
@@ -42,11 +42,11 @@ namespace AdventOfCode.Models
                 Stopwatch sw2 = Stopwatch.StartNew();
                 answer2 = RunPart2();
                 sw2.Stop();
-                time = sw2.ElapsedMilliseconds;
+                time2 = sw2.Elapsed.TotalMilliseconds;
             }
 
             sw.Stop();
-            var ms = sw.Elapsed.TotalMilliseconds;
+            time = sw.Elapsed.TotalMilliseconds;
 
             Print();
         }

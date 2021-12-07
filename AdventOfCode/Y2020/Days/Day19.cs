@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public static class Day19
+    public class Day19
     {
         static readonly int day = 19;
         static List<string>? inputs;
