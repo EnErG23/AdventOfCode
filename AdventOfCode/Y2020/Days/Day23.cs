@@ -1,4 +1,4 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Models;
 using System.Diagnostics;
 using System;
 using System.Collections.Generic;
@@ -8,52 +8,17 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public class Day23
+    public class Day23 : Day
     {
-        static readonly int day = 23;
         static List<int>? inputs;
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
+        public Day23(int year, int day, bool test) : base(year, day, test) { }
 
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test).Select(i => int.Parse(i)).ToList();
-
-            string part1 = "";
-            string part2 = "";
-
-            switch (part)
-            {
-                case 1:
-                    part1 = Part1();
-                    break;
-                case 2:
-                    part2 = Part2(test);
-                    break;
-                default:
-                    part1 = Part1();
-                    part2 = Part2(test);
-                    break;
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        private static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
+            inputs = Inputs.Select(i => int.Parse(i)).ToList();
 
             long result = 0;
-
-            #region Solution
 
             for (int i = 0; i < 100; i++)
             {
@@ -63,7 +28,7 @@ namespace AdventOfCode.Y2020.Days
 
                 var currentCup = inputs[currentIndex++];
 
-                //Console.WriteLine($"cups: {string.Join(" ", inputs).Replace(currentCup.ToString(), $"({currentCup})")}");
+                //Console.WriteLine($"cups: {string.Join(" ", Inputs).Replace(currentCup.ToString(), $"({currentCup})")}");
 
                 var pickedUpCups = inputs.GetRange(currentIndex, 3); // TODO: fix randow new error
 
@@ -102,31 +67,22 @@ namespace AdventOfCode.Y2020.Days
                 //Console.WriteLine();
             }
 
-            //Console.WriteLine($"final cups: {string.Join(" ", inputs)}");
+            //Console.WriteLine($"final cups: {string.Join(" ", Inputs)}");
 
             var oneIndex = inputs.IndexOf(1);
-            var resultCups = inputs.GetRange(oneIndex + 1, inputs.Count() - oneIndex - 1);
+            var resultCups = inputs.GetRange(oneIndex + 1, Inputs.Count() - oneIndex - 1);
             resultCups.AddRange(inputs.GetRange(0, oneIndex));
 
             result = Convert.ToInt64(string.Join("", resultCups));
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
-        static string Part2(bool test)
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
+            inputs = Inputs.Select(i => int.Parse(i)).ToList();
 
-            long result = 0;
-
-            #region Solution
-            inputs = InputManager.GetInputAsStrings(day, test).Select(i => int.Parse(i)).ToList();
+            long result = 0;            
 
             for (int i = 10; i <= 1000000; i++)
             {
@@ -164,13 +120,7 @@ namespace AdventOfCode.Y2020.Days
 
             result = Convert.ToInt64(cups.Find(1).Next.Value) * Convert.ToInt64(cups.Find(1).Next.Next.Value);
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
         public static int GetNextDestinationCup(List<LinkedListNode<int>> removedCups, int currentCup)

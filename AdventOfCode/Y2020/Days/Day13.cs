@@ -1,54 +1,19 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Models;
 using System.Diagnostics;
 using AdventOfCode.Y2020.Models;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public class Day13
+    public class Day13 : Day
     {
-        static readonly int day = 13;
-        static List<string>? inputs;
+        public Day13(int year, int day, bool test) : base(year, day, test) { }
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
-
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        private static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
 
-            #region Solution
-
-            var timeStamp = Convert.ToInt32(inputs[0]);
-            var buses = inputs[1].Replace("x,", "").Split(',').Select(i => Convert.ToInt32(i));
+            var timeStamp = Convert.ToInt32(Inputs[0]);
+            var buses = Inputs[1].Replace("x,", "").Split(',').Select(i => Convert.ToInt32(i));
 
             var iterateTimeStamp = timeStamp;
 
@@ -66,25 +31,15 @@ namespace AdventOfCode.Y2020.Days
                 iterateTimeStamp++;
             }
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
-        private static string Part2()
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
 
-            #region Solution
-
-            List<Bus> buses = inputs[1].Split(',')
-                              .Select(i => new Bus { ID = Convert.ToInt32(i.Replace("x", "0")), Pos = inputs[1].Split(',').ToList().IndexOf(i) })
+            List<Bus> buses = Inputs[1].Split(',')
+                              .Select(i => new Bus { ID = Convert.ToInt32(i.Replace("x", "0")), Pos = Inputs[1].Split(',').ToList().IndexOf(i) })
                               .Where(b => b.ID > 0)
                               .ToList();
 
@@ -93,13 +48,7 @@ namespace AdventOfCode.Y2020.Days
 
             result = Solve(n, a);
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
         public static long Solve(long[] n, long[] a)

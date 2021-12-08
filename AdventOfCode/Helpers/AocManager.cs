@@ -65,6 +65,7 @@ namespace AdventOfCode.Helpers
             var path = $"Y{Year}\\Inputs\\{day}-test.txt";
             await File.WriteAllTextAsync(path, result);
         }
+
         public static async void GetInput(int day)
         {
             var url = $"{website}/{Year}/day/{day}/input";
@@ -79,6 +80,7 @@ namespace AdventOfCode.Helpers
             var path = $"Y{Year}\\Inputs\\{day}.txt";
             await File.WriteAllTextAsync(path, result);
         }
+
         public static async void SubmitAnswer(object day)
         {
             Type dayClass = day.GetType();

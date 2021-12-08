@@ -7,7 +7,7 @@ namespace AdventOfCode.Y2019.Days
     {
         static readonly int day = 3;
 
-        public Day03(bool test) : base(day, test) { }
+        public Day03(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {

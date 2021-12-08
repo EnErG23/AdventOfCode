@@ -7,7 +7,7 @@ namespace AdventOfCode.Y2019.Days
         private const int day = 5;
         private List<int>? inputs;
 
-        public Day05(bool test) : base(day, test) { }
+        public Day05(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {

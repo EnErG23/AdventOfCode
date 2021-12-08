@@ -4,10 +4,9 @@ namespace AdventOfCode.Y2021.Days
 {
     public class Day06 : Day
     {
-        private const int day = 6;
         private long[] fishesToAddAfterIDays = new long[9];
 
-        public Day06(bool test) : base(day, test) { }
+        public Day06(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {

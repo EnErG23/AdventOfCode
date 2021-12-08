@@ -1,15 +1,11 @@
 ﻿using AdventOfCode.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Models
 {
     public abstract class Day
     {
+        private int year;
         private int day;
         private string time = "00:00.00ms";
         private string time1 = "00:00.00ms";
@@ -20,10 +16,11 @@ namespace AdventOfCode.Models
 
         public List<string> Inputs { get; set; }
 
-        public Day(int day, bool test)
+        public Day(int year, int day, bool test)
         {
+            this.year = year;
             this.day = day;
-            Inputs = InputManager.GetInputAsStrings(day, test);
+            Inputs = InputManager.GetInputAsStrings(year, day, test);
         }
 
         public void Run(int? part)
@@ -68,10 +65,36 @@ namespace AdventOfCode.Models
             Console.Clear();
 
             if (part == 0 || part == 1)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
+                for (int i = 3; i > 0; i--)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Visualization for {year}.{day}.2");
+                    Console.WriteLine($"Starting in {i}");
+                    Thread.Sleep(1000);
+                }
+
                 VisualizePart1();
+            }
 
             if (part == 0 || part == 2)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
+                for (int i = 3; i > 0; i--)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Visualization for {year}.{day}.2");
+                    Console.WriteLine($"Starting in {i}");
+                    Thread.Sleep(1000);
+                }
+
                 VisualizePart2();
+            }
 
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Cyan;

@@ -1,57 +1,23 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Models;
 using System.Diagnostics;
 using AdventOfCode.Y2020.Models;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public class Day19
+    public class Day19 : Day
     {
-        static readonly int day = 19;
-        static List<string>? inputs;
         public static List<MessageRule> rules = new List<MessageRule>();
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
+        public Day19(int year, int day, bool test) : base(year, day, test) { }
 
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        private static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
 
-            #region Solution
+            Inputs = Inputs.Where(i => i != "").ToList();
 
-            inputs = inputs.Where(i => i != "").ToList();
-
-            foreach (var input in inputs.Where(i => i.Contains(":")))
+            foreach (var input in Inputs.Where(i => i.Contains(":")))
             {
                 var id = input.Substring(0, input.IndexOf(":"));
                 var subRules = new List<List<string>>();
@@ -74,7 +40,7 @@ namespace AdventOfCode.Y2020.Days
 
             var messages = new List<string>();
 
-            foreach (var input in inputs.Where(i => !i.Contains(":")))
+            foreach (var input in Inputs.Where(i => !i.Contains(":")))
                 messages.Add(input);
 
             var pattern = $@"^{BuildPattern("0")}$";
@@ -84,32 +50,16 @@ namespace AdventOfCode.Y2020.Days
             foreach (var message in messages)
                 result += rgx.IsMatch(message) ? 1 : 0;
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
-        private static string Part2()
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
 
-            #region Solution
 
 
-
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
         static string BuildPattern(string ruleID)

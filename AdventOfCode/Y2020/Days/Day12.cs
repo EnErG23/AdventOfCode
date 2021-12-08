@@ -1,57 +1,22 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Models;
 using System.Diagnostics;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public class Day12
+    public class Day12 : Day
     {
-        static readonly int day = 12;
-        static List<string>? inputs;
+        public Day12(int year, int day, bool test) : base(year, day, test) { }
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
-
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        private static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             var x = 0;
             var y = 0;
             var d = 1;
             var ds = new List<string>() { "N", "E", "S", "W" };
 
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 //Console.WriteLine($"{input} => {input.Replace("F", ds[d])}");
 
@@ -86,22 +51,12 @@ namespace AdventOfCode.Y2020.Days
 
             result = Math.Abs(x) + Math.Abs(y);
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
-        private static string Part2()
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             var x = 0;
             var y = 0;
@@ -109,7 +64,7 @@ namespace AdventOfCode.Y2020.Days
             var wX = 10;
             var wY = 1;
 
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 var tX = wX;
 
@@ -174,13 +129,7 @@ namespace AdventOfCode.Y2020.Days
 
             result = Math.Abs(x) + Math.Abs(y);
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+			return result.ToString();
         }
     }
 }

@@ -1,53 +1,19 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Models;
 using System.Diagnostics;
 using AdventOfCode.Y2020.Models;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public class Day20
+    public class Day20 : Day
     {
-        static readonly int day = 20;
-        static List<string>? inputs;
         public static List<Tile> tiles = new List<Tile>();
         public static char[,] image;
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
+        public Day20(int year, int day, bool test) : base(year, day, test) { }
 
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        private static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             CreateTiles();
 
@@ -55,22 +21,12 @@ namespace AdventOfCode.Y2020.Days
 
             result = tiles.Where(t => t.IsCorner).Select(t => t.ID).Aggregate(1, (long x, long y) => x * y);
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+            return result.ToString();
         }
 
-        private static string Part2()
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             BuildImage();
 
@@ -86,17 +42,11 @@ namespace AdventOfCode.Y2020.Days
                 }
             }
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+            return result.ToString();
         }
 
         //PART 1
-        static void CreateTiles()
+        private void CreateTiles()
         {
             Tile tile = new Tile { Pixels = new char[10, 10], Edges = new List<Edge>(), IsCorner = false };
             Edge leftEdge = new Edge { Pixels = "", HasMatch = false };
@@ -104,7 +54,7 @@ namespace AdventOfCode.Y2020.Days
 
             var i = 0;
 
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 if (input.Contains(":"))
                 {
@@ -478,35 +428,10 @@ namespace AdventOfCode.Y2020.Days
             return new string(charArray);
         }
 
-        // Visualize
-        public static void Visualize(int part, bool test)
+        public override void VisualizePart2()
         {
-            Run(0, test);
+            Run(0);
 
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            Console.Clear();
-
-            if (part == 1)
-                VisualizePart1();
-            else if (part == 2)
-                VisualizePart2();
-            else
-            {
-                VisualizePart1();
-                VisualizePart2();
-            }
-
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Cyan;
-        }
-
-        static void VisualizePart1()
-        {
-        }
-
-        static void VisualizePart2()
-        {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
             for (int i = 3; i > 0; i--)
@@ -523,7 +448,7 @@ namespace AdventOfCode.Y2020.Days
             VisualizeImage();
         }
 
-        static void VisualizeImage()
+        private void VisualizeImage()
         {
             var n = Convert.ToInt32(Math.Sqrt(image.Length));
 

@@ -4,10 +4,9 @@ namespace AdventOfCode.Y2021.Days
 {
     public class Day01 : Day
     {
-        private const int day = 1;
         private List<int>? depths;
 
-        public Day01(bool test) : base(day, test) { }
+        public Day01(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {

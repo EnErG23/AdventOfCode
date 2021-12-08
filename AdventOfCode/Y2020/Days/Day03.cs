@@ -1,91 +1,40 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Models;
 using System.Diagnostics;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public class Day03
+    public class Day03 : Day
     {
-        static readonly int day = 3;
-        static List<string>? inputs;
+        public Day03(int year, int day, bool test) : base(year, day, test) { }
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
-
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        private static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
 
-            #region Solution
+            result = CheckSlope(Inputs, 3, 1);
 
-            result = CheckSlope(inputs, 3, 1);
-
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
-        private static string Part2()
+        public override string RunPart2()
         {
             long result = 1;
 
-            Stopwatch sw = Stopwatch.StartNew();
+            result = 1 * CheckSlope(Inputs, 1, 1) * CheckSlope(Inputs, 3, 1) * CheckSlope(Inputs, 5, 1) * CheckSlope(Inputs, 7, 1) * CheckSlope(Inputs, 1, 2);
 
-            #region Solution
-
-            result = 1 * CheckSlope(inputs, 1, 1) * CheckSlope(inputs, 3, 1) * CheckSlope(inputs, 5, 1) * CheckSlope(inputs, 7, 1) * CheckSlope(inputs, 1, 2);
-
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
-        static long CheckSlope(List<string> inputs, int right, int down)
+        static long CheckSlope(List<string> Inputs, int right, int down)
         {
             long result = 0;
 
-            var maxX = inputs[0].Length - 1;
+            var maxX = Inputs[0].Length - 1;
             var x = right;
 
             var skip = down;
 
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 if (skip > 0)
                 {
@@ -102,29 +51,7 @@ namespace AdventOfCode.Y2020.Days
             return result;
         }
 
-        // Visualize
-
-        public static void Visualize(int part, bool test)
-        {
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            Console.Clear();
-
-            if (part == 1)
-                VisualizePart1();
-            else if (part == 2)
-                VisualizePart2();
-            else
-            {
-                VisualizePart1();
-                VisualizePart2();
-            }
-
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Cyan;
-        }
-
-        static void VisualizePart1()
+        public override void VisualizePart1()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -139,23 +66,18 @@ namespace AdventOfCode.Y2020.Days
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
 
-            VisualizeSlope(inputs, 3, 1);
+            VisualizeSlope(Inputs, 3, 1);
         }
 
-        static void VisualizePart2()
+        private void VisualizeSlope(List<string> Inputs, int right, int down)
         {
-
-        }
-
-        static void VisualizeSlope(List<string> inputs, int right, int down)
-        {
-            var maxX = inputs[0].Length - 1;
+            var maxX = Inputs[0].Length - 1;
             var x = right;
             var y = 0;
 
             var skip = down;
 
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 var row = input.Replace('.', ' ');
 
@@ -177,7 +99,7 @@ namespace AdventOfCode.Y2020.Days
             }
         }
 
-        static void VisualizeRow(string row, int x)
+        private void VisualizeRow(string row, int x)
         {
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.DarkBlue;

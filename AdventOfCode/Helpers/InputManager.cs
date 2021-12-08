@@ -4,14 +4,13 @@
     {
         public static void PrintInput(int day, bool test)
         {
-            foreach (var line in InputManager.GetInputAsStrings(day, test))
+            foreach (var line in InputManager.GetInputAsStrings(AocManager.Year, day, test))
                 Console.WriteLine(line);
         }
 
-        public static List<string> GetInputAsStrings(int day, bool test)
+        public static List<string> GetInputAsStrings(int year, int day, bool test)
         {
-            var inputs = new List<string>();
-            var year = AocManager.Year;
+            var inputs = new List<string>();            
 
             StreamReader file;
             string? line;

@@ -7,13 +7,23 @@ namespace AdventOfCodeTests.Y2021.Days
     [TestClass]
     public class TestDay07
     {
+        int y;
+        int d;
+
         Day07? day;
         string[] results = new[] { "37", "168", "355764", "99634572" };
+
+        public TestDay07()
+        {
+            var type = GetType();
+            y = Convert.ToInt32(type.Namespace.Substring(type.Namespace.Length - 9, 4));
+            d = Convert.ToInt32(type.Name.Substring(7, 2));
+        }
 
         [TestMethod]
         public void Test_Run_Part1()
         {
-            day = new(true);
+            day = new(y, d, true);
 
             string result = day.RunPart1();
 
@@ -21,21 +31,21 @@ namespace AdventOfCodeTests.Y2021.Days
         }
 
         [TestMethod]
-        public void Test_Run_Part2()
+        public void Run_Part1()
         {
-            day = new(true);
+            day = new(y, d, false);
 
-            string result = day.RunPart2();
+            string result = day.RunPart1();
 
             Assert.AreEqual(results[1], result);
         }
 
         [TestMethod]
-        public void Run_Part1()
+        public void Test_Run_Part2()
         {
-            day = new(false);
+            day = new(y, d, true);
 
-            string result = day.RunPart1();
+            string result = day.RunPart2();
 
             Assert.AreEqual(results[2], result);
         }
@@ -43,7 +53,7 @@ namespace AdventOfCodeTests.Y2021.Days
         [TestMethod]
         public void Run_Part2()
         {
-            day = new(false);
+            day = new(y, d, false);
 
             string result = day.RunPart2();
 

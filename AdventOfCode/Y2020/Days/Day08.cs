@@ -1,54 +1,15 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Models;
 using System.Diagnostics;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public class Day08
+    public class Day08 : Day
     {
-        static readonly int day = 8;
-        static List<string>? inputs;
+        public Day08(int year, int day, bool test) : base(year, day, test) { }
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
-
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            switch (part)
-            {
-                case 1:
-                    part1 = Part1();
-                    break;
-                case 2:
-                    part2 = Part2(test);
-                    break;
-                default:
-                    part1 = Part1();
-                    part2 = Part2(test);
-                    break;
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        private static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             var ranLines = new List<int>();
 
@@ -63,13 +24,13 @@ namespace AdventOfCode.Y2020.Days
 
                 ranLines.Add(i);
 
-                var command = inputs[i].Substring(0, 3);
+                var command = Inputs[i].Substring(0, 3);
 
                 switch (command)
                 {
                     case "acc":
-                        var accValue = Convert.ToInt32(inputs[i].Substring(5));
-                        if (inputs[i].Contains("+"))
+                        var accValue = Convert.ToInt32(Inputs[i].Substring(5));
+                        if (Inputs[i].Contains("+"))
                         {
                             result += accValue;
                         }
@@ -80,8 +41,8 @@ namespace AdventOfCode.Y2020.Days
                         i++;
                         break;
                     case "jmp":
-                        var jmpValue = Convert.ToInt32(inputs[i].Substring(5));
-                        if (inputs[i].Contains("+"))
+                        var jmpValue = Convert.ToInt32(Inputs[i].Substring(5));
+                        if (Inputs[i].Contains("+"))
                         {
                             i += jmpValue;
                         }
@@ -96,34 +57,24 @@ namespace AdventOfCode.Y2020.Days
                 }
             }
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
-        static string Part2(bool test)
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
 
-            #region Solution
-
-            for (int j = 0; j < inputs.Count() - 1; j++)
+            for (int j = 0; j < Inputs.Count() - 1; j++)
             {
                 result = 0;
 
-                inputs = InputManager.GetInputAsStrings(day, test);
+                var inputs = Inputs;
 
                 if (inputs[j].Contains("jmp"))
                 {
                     inputs[j] = inputs[j].Replace("jmp", "nop");
                 }
-                else if (inputs[j].Contains("nop"))
+                else if (Inputs[j].Contains("nop"))
                 {
                     inputs[j] = inputs[j].Replace("nop", "jmp");
                 }
@@ -188,13 +139,7 @@ namespace AdventOfCode.Y2020.Days
                 if (found) break;
             }
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+			return result.ToString();
         }
     }
 }

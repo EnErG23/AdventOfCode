@@ -5,9 +5,7 @@ namespace AdventOfCode.Y2021.Days
 {
     public class Day03 : Day
     {
-        private const int day = 3;
-
-        public Day03(bool test) : base(day, test) { }
+        public Day03(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {
@@ -71,16 +69,6 @@ namespace AdventOfCode.Y2021.Days
 
         public override void VisualizePart2()
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            for (int i = 3; i > 0; i--)
-            {
-                Console.Clear();
-                Console.WriteLine($"Visualization for 2021.{day}.2");
-                Console.WriteLine($"Starting in {i}");
-                Thread.Sleep(1000);
-            }
-
             var oxygenInputs = Inputs.ToList();
             var scrubberInputs = Inputs.ToList();
 

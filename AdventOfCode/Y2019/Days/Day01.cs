@@ -5,10 +5,9 @@ namespace AdventOfCode.Y2019.Days
 {
     public class Day01 : Day
     {
-        static readonly int day = 1;
         static List<int>? inputs;
 
-        public Day01(bool test) : base(day, test) { }
+        public Day01(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {

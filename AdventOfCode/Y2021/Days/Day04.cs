@@ -6,11 +6,10 @@ namespace AdventOfCode.Y2021.Days
 {
     public class Day04 : Day
     {
-        static readonly int day = 4;
         static List<Board>? boards;
         static List<int>? drawnNumbers;
 
-        public Day04(bool test) : base(day, test) { }
+        public Day04(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {

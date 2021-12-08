@@ -1,4 +1,4 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Models;
 using System.Diagnostics;
 using AdventOfCode.Y2020.Models;
 using System;
@@ -9,52 +9,18 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public class Day21
+    public class Day21 : Day
     {
-        static readonly int day = 21;
-        static List<string>? inputs;
         public static List<Food> foods = new List<Food>();
         public static List<Ingredient> ingredients = new List<Ingredient>();
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
+        public Day21(int year, int day, bool test) : base(year, day, test) { }
 
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        private static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
 
-            #region Solution
-
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 var ingredients = input.Substring(0, input.IndexOf("(") - 1).Split(' ').ToList();
                 var allergens = input.Substring(input.IndexOf("(") + 1).Replace("contains ", "").Replace(",", "").Replace(")", "").Split(' ').ToList();
@@ -88,32 +54,12 @@ namespace AdventOfCode.Y2020.Days
 
             result = foods.Select(f => f.Ingredients.Where(i => ingredients.Where(ig => ig.Allergens.Count() == 0).Select(ig => ig.Name).ToList().Contains(i))).Sum(i => i.Count());
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
-        private static string Part2()
-        {
-            string result = "";
-
-            Stopwatch sw = Stopwatch.StartNew();
-
-            #region Solution
-
-            result = string.Join(",", ingredients.Where(i => i.Allergens.Count() > 0).OrderBy(i => i.Allergens.First()).Select(i => i.Name));
-
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result != "") Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+        public override string RunPart2()
+        {            
+            return string.Join(",", ingredients.Where(i => i.Allergens.Count() > 0).OrderBy(i => i.Allergens.First()).Select(i => i.Name));
         }
 
         static void FindAllergens()

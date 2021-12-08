@@ -12,7 +12,7 @@ namespace AdventOfCode.Y2019.Days
     {
         private const int day = 6;
 
-        public Day06(bool test) : base(day, test) { }
+        public Day06(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {

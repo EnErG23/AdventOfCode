@@ -148,9 +148,9 @@ namespace AdventOfCode.Helpers
             {
                 var zero = day < 10 ? "0" : "";
                 Type dayClass = Type.GetType($"AdventOfCode.Y{year}.Days.Day{zero}{day}");
-                lastDay = Activator.CreateInstance(dayClass, new object[] { test });
+                lastDay = Activator.CreateInstance(dayClass, new object[] { AocManager.Year, day, test });
                 var method = dayClass.GetMethod("Run");
-                method.Invoke(lastDay, new object[] { part });
+                method.Invoke(lastDay, new object[] { part });                
             }
             catch (Exception ex)
             {

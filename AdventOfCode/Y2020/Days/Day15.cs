@@ -1,54 +1,19 @@
-﻿using AdventOfCode.Helpers;
+﻿using AdventOfCode.Models;
 using System.Diagnostics;
 
 namespace AdventOfCode.Y2020.Days
 {
-    public class Day15
+    public class Day15 : Day
     {
-        static readonly int day = 15;
-        static List<string>? inputs;
+        public Day15(int year, int day, bool test) : base(year, day, test) { }
 
-        public static string? Answer1 { get; set; }
-        public static string? Answer2 { get; set; }
-
-        public static void Run(int part, bool test)
+        public override string RunPart1()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
-            inputs = InputManager.GetInputAsStrings(day, test);
-
-            string part1 = "";
-            string part2 = "";
-
-            if (part == 1)
-                part1 = Part1();
-            else if (part == 2)
-                part2 = Part2();
-            else
-            {
-                part1 = Part1();
-                part2 = Part2();
-            }
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            Console.WriteLine($"Day {day} ({ms}ms):");
-            if (part1 != "") Console.WriteLine($"    {part1}");
-            if (part2 != "") Console.WriteLine($"    {part2}");
-        }
-
-        private static string Part1()
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
-
-            #region Solution
 
             List<long> spokenNumbers = new List<long>();
 
-            spokenNumbers.AddRange(inputs[0].Split(',').Select(i => Convert.ToInt64(i)).ToList());
+            spokenNumbers.AddRange(Inputs[0].Split(',').Select(i => Convert.ToInt64(i)).ToList());
 
             for (int i = spokenNumbers.Count(); i < 2020; i++)
             {
@@ -65,24 +30,14 @@ namespace AdventOfCode.Y2020.Days
 
             result = spokenNumbers.Last();
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer1 = result.ToString();
-            return $"Part 1 ({ms}ms): {result} ";
+			return result.ToString();
         }
 
-        private static string Part2()
+        public override string RunPart2()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-
             long result = 0;
 
-            #region Solution
-
-            var spokenNumbers = inputs[0].Split(',').Select(i => Convert.ToInt64(i)).ToArray();
+            var spokenNumbers = Inputs[0].Split(',').Select(i => Convert.ToInt64(i)).ToArray();
 
             //init array length 30m
             var rounds = 30000000;
@@ -114,13 +69,7 @@ namespace AdventOfCode.Y2020.Days
 
             result = numbers.ToList().IndexOf(rounds);
 
-            #endregion
-
-            sw.Stop();
-			var ms = sw.Elapsed.TotalMilliseconds;
-
-            if (result > 0) Answer2 = result.ToString();
-            return $"Part 2 ({ms}ms): {result} ";
+			return result.ToString();
         }
     }
 }
