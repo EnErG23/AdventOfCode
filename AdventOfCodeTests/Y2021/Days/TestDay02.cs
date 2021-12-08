@@ -11,7 +11,7 @@ namespace AdventOfCodeTests.Y2021.Days
         int d;
 
         Day02? day;
-        string[] results = new[] { "150", "900", "1804520", "1971095320" };
+        string[] results = new[] { "150", "1804520", "900", "1971095320" };
 
         public TestDay02()
         {
@@ -47,7 +47,7 @@ namespace AdventOfCodeTests.Y2021.Days
 
             string result = day.RunPart2();
 
-            Assert.AreEqual(results[1], result);
+            Assert.AreEqual(results[2], result);
         }
 
         [TestMethod]

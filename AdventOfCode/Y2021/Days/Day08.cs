@@ -8,12 +8,12 @@ namespace AdventOfCode.Y2021.Days
 
         public override string RunPart1()
         {
-            return "";
+            return "Undefined";
         }
 
         public override string RunPart2()
         {
-            return "";
+            return "Undefined";
         }
     }
 }
