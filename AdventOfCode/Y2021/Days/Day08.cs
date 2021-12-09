@@ -62,62 +62,52 @@ namespace AdventOfCode.Y2021.Days
 
             foreach (var i in Inputs)
             {
-                PrintEmptyDigits();
-
-                Thread.Sleep(1000);
-
                 List<string> inputs = i.Substring(0, i.IndexOf("|") - 1).Split(" ").Select(p => String.Join("", p.OrderBy(c => c))).ToList();
                 List<string> outputs = i.Substring(i.IndexOf("|") + 2).Split(" ").Select(p => String.Join("", p.OrderBy(c => c))).ToList();
 
                 List<string> digitPatterns = DetermineDigitPatterns(inputs);
 
-                PrintPatterns(digitPatterns);
-
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Thread.Sleep(1000);
-                //Console.WriteLine($"{oInput}   {sInput}");
+                PrintDisplay(digitPatterns, outputs);
 
                 result += Convert.ToInt32(String.Join("", outputs.Select(o => digitPatterns.IndexOf(o).ToString())));
             }
+
+            Console.WriteLine();
+            Console.WriteLine($"Total: {result}");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Thread.Sleep(500);
         }
 
-        private void PrintEmptyDigits()
+        private void PrintDisplay(List<string> digits, List<string> outputs)
         {
-            Console.Clear();
-            Console.WriteLine(" ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ");
-            Console.WriteLine(".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .");
-            Console.WriteLine(".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .");
-            Console.WriteLine(" ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ");
-            Console.WriteLine(".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .");
-            Console.WriteLine(".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .");
-            Console.WriteLine(" ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ");
-        }
-
-        private void PrintPatterns(List<string> digits)
-        {
-            List<char> line1 = " ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ".ToCharArray().ToList();
-            List<char> line2 = ".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .".ToCharArray().ToList();
-            List<char> line3 = " ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ".ToCharArray().ToList();
-            List<char> line4 = ".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .".ToCharArray().ToList();
-            List<char> line5 = " ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ".ToCharArray().ToList();
+            List<char> line1 = " ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ".Replace(".", " ").ToCharArray().ToList();
+            List<char> line2 = ".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .".Replace(".", " ").ToCharArray().ToList();
+            List<char> line3 = " ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ".Replace(".", " ").ToCharArray().ToList();
+            List<char> line4 = ".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .".Replace(".", " ").ToCharArray().ToList();
+            List<char> line5 = " ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ".Replace(".", " ").ToCharArray().ToList();
 
             List<List<char>> linesToPrint = new List<List<char>> { line1, line2, line2, line3, line4, line4, line5 };
 
-            Console.Clear();
-            linesToPrint.ForEach(l => Console.WriteLine(String.Join("", l)));
-            Thread.Sleep(1000);
+            //Console.Clear();
+            //Console.ForegroundColor = ConsoleColor.Cyan;
+            //linesToPrint.ForEach(l => Console.WriteLine(String.Join("", l)));
 
-            int[] solveOrder = { 1, 4, 7, 8, 0, 2, 3, 5, 6, 9 };
+            //Thread.Sleep(500);
+
+            int[] solveOrder = { 1, 7, 4, 9, 0 };
 
             List<char> usedChars = new();
 
             foreach (var s in solveOrder)
             {
+                Console.Clear();
+
                 switch (s)
                 {
                     case 1:
-                        char a1 = digits[s][0];
-                        char b1 = digits[s][1];
+                        char a1 = digits[s].First(d => !digits[2].Contains(d));
+                        char b1 = digits[s].Replace(a1.ToString(), "")[0];
 
                         usedChars.Add(a1);
                         usedChars.Add(b1);
@@ -128,18 +118,14 @@ namespace AdventOfCode.Y2021.Days
                         charsToChange1a.ForEach(c => line2[c] = a1);
                         charsToChange1b.ForEach(c => line4[c] = b1);
 
-                        foreach (var c1 in charsToChange1a)
-                            line2[c1] = a1;
-
-                        Console.Clear();
                         foreach (var l in linesToPrint)
                         {
                             foreach (var c in l)
                             {
                                 if (c == a1 || c == b1)
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                else if (c != ' ' && c != '.')
                                     Console.ForegroundColor = ConsoleColor.Yellow;
+                                else if (c != ' ' && c != '.')
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                 else
                                     Console.ForegroundColor = ConsoleColor.Cyan;
 
@@ -147,16 +133,15 @@ namespace AdventOfCode.Y2021.Days
                             }
                             Console.WriteLine();
                         }
-                        Thread.Sleep(1000);
 
                         break;
                     case 4:
-                        var remainingLetters = digits[s];
+                        var remainingLetters4 = digits[s];
 
-                        usedChars.ForEach(u => remainingLetters = remainingLetters.Replace(u.ToString(), ""));
+                        usedChars.ForEach(u => remainingLetters4 = remainingLetters4.Replace(u.ToString(), ""));
 
-                        char a4 = remainingLetters[0];
-                        char b4 = remainingLetters[1];
+                        char a4 = remainingLetters4.First(d => !digits[2].Contains(d));
+                        char b4 = remainingLetters4.Replace(a4.ToString(), "")[0];
 
                         usedChars.Add(a4);
                         usedChars.Add(b4);
@@ -167,15 +152,14 @@ namespace AdventOfCode.Y2021.Days
                         charsToChange4a.ForEach(c => line2[c] = a4);
                         charsToChange4b.ForEach(c => line3[c] = b4);
 
-                        Console.Clear();
                         foreach (var l in linesToPrint)
                         {
                             foreach (var c in l)
                             {
                                 if (c == a4 || c == b4)
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                else if (c != ' ' && c != '.')
                                     Console.ForegroundColor = ConsoleColor.Yellow;
+                                else if (c != ' ' && c != '.')
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                 else
                                     Console.ForegroundColor = ConsoleColor.Cyan;
 
@@ -183,26 +167,175 @@ namespace AdventOfCode.Y2021.Days
                             }
                             Console.WriteLine();
                         }
-                        Thread.Sleep(1000);
+
+                        break;
+                    case 7:
+                        var remainingLetters7 = digits[s];
+
+                        usedChars.ForEach(u => remainingLetters7 = remainingLetters7.Replace(u.ToString(), ""));
+
+                        char a7 = remainingLetters7[0];
+
+                        usedChars.Add(a7);
+
+                        List<int> charsToChange7a = new List<int> { 1, 2, 3, 4, 17, 18, 19, 20, 25, 26, 27, 28, 41, 42, 43, 44, 49, 50, 51, 52, 57, 58, 59, 60, 65, 66, 67, 68, 73, 74, 75, 76 };
+
+                        charsToChange7a.ForEach(c => line1[c] = a7);
+
+                        foreach (var l in linesToPrint)
+                        {
+                            foreach (var c in l)
+                            {
+                                if (c == a7)
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                else if (c != ' ' && c != '.')
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                else
+                                    Console.ForegroundColor = ConsoleColor.Cyan;
+
+                                Console.Write(c);
+                            }
+                            Console.WriteLine();
+                        }
+
+                        break;
+                    case 9:
+                        var remainingLetters9 = digits[s];
+
+                        usedChars.ForEach(u => remainingLetters9 = remainingLetters9.Replace(u.ToString(), ""));
+
+                        char a9 = remainingLetters9[0];
+
+                        usedChars.Add(a9);
+
+                        List<int> charsToChange9a = new List<int> { 1, 2, 3, 4, 17, 18, 19, 20, 25, 26, 27, 28, 41, 42, 43, 44, 49, 50, 51, 52, 65, 66, 67, 68, 73, 74, 75, 76 };
+
+                        charsToChange9a.ForEach(c => line5[c] = a9);
+
+                        foreach (var l in linesToPrint)
+                        {
+                            foreach (var c in l)
+                            {
+                                if (c == a9)
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                else if (c != ' ' && c != '.')
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                else
+                                    Console.ForegroundColor = ConsoleColor.Cyan;
+
+                                Console.Write(c);
+                            }
+                            Console.WriteLine();
+                        }
+
                         break;
                     case 0:
+                        char a0 = digits[s].First(c => !usedChars.Contains(c));
+
+                        List<int> charsToChange0a = new List<int> { 0, 16, 48, 64 };
+
+                        charsToChange0a.ForEach(c => line4[c] = a0);
+
+                        foreach (var l in linesToPrint)
+                        {
+                            foreach (var c in l)
+                            {
+                                if (c == a0)
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                else if (c != ' ' && c != '.')
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                else
+                                    Console.ForegroundColor = ConsoleColor.Cyan;
+
+                                Console.Write(c);
+                            }
+                            Console.WriteLine();
+                        }
+
                         break;
                     default:
                         break;
                 }
-            }
-        }
 
-        private void PrintDigits()
-        {
+                Thread.Sleep(500);
+            }
+
             Console.Clear();
-            Console.WriteLine(" ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ");
-            Console.WriteLine(".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .");
-            Console.WriteLine(".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .");
-            Console.WriteLine(" ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ");
-            Console.WriteLine(".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .");
-            Console.WriteLine(".    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .  .    .");
-            Console.WriteLine(" ....    ....    ....    ....    ....    ....    ....    ....    ....    .... ");
+
+            foreach (var l in linesToPrint)
+            {
+                foreach (var c in l)
+                {
+                    if (c != ' ' && c != '.')
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    else
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+
+                    Console.Write(c);
+                }
+                Console.WriteLine();
+            }
+
+            Thread.Sleep(1000);
+
+            var toAdd = "";
+
+            foreach (var o in outputs)
+            {
+                var digit = digits.IndexOf(o);
+
+                Console.Clear();
+
+                foreach (var l in linesToPrint)
+                {
+                    for (int c = 0; c < l.Count; c++)
+                    {
+                        if (c >= digit * 8 && c < (digit + 1) * 8 && l[c] != ' ' && l[c] != '.')
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        else if (l[c] != ' ' && l[c] != '.')
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        else
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+
+                        Console.Write(l[c]);
+                    }
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"{o} => {digit}");
+                Console.WriteLine();
+                Console.WriteLine($"{(toAdd == "" ? 0 : toAdd)}");
+
+                Thread.Sleep(1000);
+
+                toAdd += digit;
+
+                Console.Clear();
+
+                foreach (var l in linesToPrint)
+                {
+                    foreach (var c in l)
+                    {
+                        if (c != ' ' && c != '.')
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        else
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+
+                        Console.Write(c);
+                    }
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"{toAdd}");
+
+                Thread.Sleep(500);
+            }
+
+            Thread.Sleep(500);
         }
     }
 }
