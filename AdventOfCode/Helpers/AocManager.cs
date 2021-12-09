@@ -48,6 +48,8 @@ namespace AdventOfCode.Helpers
 
         public static async void GetTestInput(int day)
         {
+            // TODO REMOVE <em>
+
             var url = $"{website}/{Year}/day/{day}";
 
             HttpClient client = new();
