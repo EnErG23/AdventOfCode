@@ -303,10 +303,8 @@ namespace AdventOfCode.Y2021.Days
                 }
 
                 Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"{o} => {digit}");
-                Console.WriteLine();
-                Console.WriteLine($"{(toAdd == "" ? 0 : toAdd)}");
+                Console.ForegroundColor = ConsoleColor.Green;                
+                Console.WriteLine($"{toAdd} {digit} <= {o}");
 
                 Thread.Sleep(1000);
 
