@@ -11,7 +11,7 @@ namespace AdventOfCode.Y2021.Days
         {
             return Inputs.Sum(i => i.Substring(i.IndexOf("|") + 2)
                                     .Split(" ")
-                                    .Count(o => (o.Length > 1 && o.Length < 5) || o.Length == 7))
+                                    .Count(o => (o.Length < 5) || o.Length == 7))
                          .ToString();
         }
 
@@ -306,7 +306,7 @@ namespace AdventOfCode.Y2021.Days
                 Console.ForegroundColor = ConsoleColor.Green;                
                 Console.WriteLine($"{toAdd} {digit} <= {o}");
 
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
 
                 toAdd += digit;
 
