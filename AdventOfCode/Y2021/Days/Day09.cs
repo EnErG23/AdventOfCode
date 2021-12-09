@@ -23,22 +23,18 @@ namespace AdventOfCode.Y2021.Days
             if (locations is null)
                 locations = Inputs.Select(i => i.ToList().Select(c => Convert.ToInt32(c.ToString())).ToList()).ToList();
 
-            var lowPoints = GetLowPoints(locations);
+            List<int> basins = new();
 
-            List<long> basins = new();
-
-            foreach (var lowPoint in lowPoints)
+            foreach (var lowPoint in GetLowPoints(locations))
             {
                 basinLocations = new();
 
-                CheckNeighbours(lowPoint);
+                CheckNeighbours(lowPoint, 'o');
 
                 basins.Add(basinLocations.Count());
             }
 
-            basins = basins.OrderByDescending(b => b).ToList();
-
-            return (basins[0] * basins[1] * basins[2]).ToString();
+            return basins.OrderByDescending(b => b).Take(3).Aggregate(1, (x, y) => x * y).ToString();
         }
 
         private List<(int, int)> GetLowPoints(List<List<int>> locations)
@@ -64,25 +60,25 @@ namespace AdventOfCode.Y2021.Days
             return lowPoints;
         }
 
-        private void CheckNeighbours((int, int) location)
+        private void CheckNeighbours((int, int) location, char origin)
         {
             var r = location.Item1;
             var c = location.Item2;
 
             var height = locations[r][c];
 
-            if (height < 9 && !basinLocations.Contains(location))
+            if (height < 9)
             {
                 basinLocations.Add((r, c));
 
-                if (c - 1 >= 0)
-                    CheckNeighbours((r, c - 1));
-                if (c + 1 < locations[0].Count)
-                    CheckNeighbours((r, c + 1));
-                if (r - 1 >= 0)
-                    CheckNeighbours((r - 1, c));
-                if (r + 1 < locations.Count)
-                    CheckNeighbours((r + 1, c));
+                if (c - 1 >= 0 && origin != 'w' && !basinLocations.Contains((r, c - 1)))
+                    CheckNeighbours((r, c - 1), 'e');
+                if (c + 1 < locations[0].Count && origin != 'e' && !basinLocations.Contains((r, c + 1)))
+                    CheckNeighbours((r, c + 1), 'w');
+                if (r - 1 >= 0 && origin != 's' && !basinLocations.Contains((r - 1, c)))
+                    CheckNeighbours((r - 1, c), 'n');
+                if (r + 1 < locations.Count && origin != 'n' && !basinLocations.Contains((r + 1, c)))
+                    CheckNeighbours((r + 1, c), 's');
             }
         }
     }
