@@ -6,11 +6,13 @@
         {
             foreach (var line in InputManager.GetInputAsStrings(AocManager.Year, day, test))
                 Console.WriteLine(line);
+
+            Console.WriteLine();
         }
 
         public static List<string> GetInputAsStrings(int year, int day, bool test)
         {
-            var inputs = new List<string>();            
+            var inputs = new List<string>();
 
             StreamReader file;
             string? line;
@@ -19,7 +21,8 @@
             {
                 file = test ? new StreamReader($@"Y{year}\Inputs\{day}-test.txt") : new StreamReader($@"Y{year}\Inputs\{day}.txt");
             }
-            catch {
+            catch
+            {
                 CommandManager.HandleInput($"i {day}");
                 Thread.Sleep(2000);
                 file = test ? new StreamReader($@"Y{year}\Inputs\{day}-test.txt") : new StreamReader($@"Y{year}\Inputs\{day}.txt");

@@ -23,7 +23,7 @@ namespace AdventOfCode.Helpers
             return date.Year - (date.Month < 12 ? 1 : 0);
         }
 
-        public static void OpenAocAndGetInput(int day)
+        public static void OpenAoc(int day)
         {
             var url = $"{website}/{Year}/day/{day}";
 
@@ -34,10 +34,10 @@ namespace AdventOfCode.Helpers
 
             Process.Start(prs);
 
-            GetInputOnly(day);
+            GetInputs(day);
         }
 
-        public static void GetInputOnly(int day)
+        public static void GetInputs(int day)
         {
             if (!File.Exists($"Y{Year}\\Inputs\\{day}-test.txt"))
                 GetTestInput(day);
@@ -48,8 +48,6 @@ namespace AdventOfCode.Helpers
 
         public static async void GetTestInput(int day)
         {
-            // TODO REMOVE <em>
-
             var url = $"{website}/{Year}/day/{day}";
 
             HttpClient client = new();
@@ -65,6 +63,8 @@ namespace AdventOfCode.Helpers
             result = result.IndexOf("</code>") < 0 ? result : result[..result.IndexOf("</code>")];
 
             result = result.Replace("<em>", "").Replace("</em>", "");
+            result = result.Replace("&lt;", "<");
+            result = result.Replace("&gt;", ">");
 
             var path = $"Y{Year}\\Inputs\\{day}-test.txt";
             await File.WriteAllTextAsync(path, result);

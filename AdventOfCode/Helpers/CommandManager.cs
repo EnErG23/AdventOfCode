@@ -40,10 +40,10 @@ namespace AdventOfCode.Helpers
                     PrintHeader();
                     break;
                 case 'o': //open
-                    AocManager.OpenAocAndGetInput(day);
+                    AocManager.OpenAoc(day);
                     break;
                 case 'i': //input
-                    AocManager.GetInputOnly(day);
+                    AocManager.GetInputs(day);
                     break;
                 case 'p': //print
                     InputManager.PrintInput(day, test);
