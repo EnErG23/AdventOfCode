@@ -1,6 +1,7 @@
 ﻿using AdventOfCode.Models;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
+using System.Net;
 
 namespace AdventOfCode.Helpers
 {
@@ -63,8 +64,7 @@ namespace AdventOfCode.Helpers
             result = result.IndexOf("</code>") < 0 ? result : result[..result.IndexOf("</code>")];
 
             result = result.Replace("<em>", "").Replace("</em>", "");
-            result = result.Replace("&lt;", "<");
-            result = result.Replace("&gt;", ">");
+            result = WebUtility.HtmlDecode(result);
 
             var path = $"Y{Year}\\Inputs\\{day}-test.txt";
             await File.WriteAllTextAsync(path, result);
@@ -88,8 +88,8 @@ namespace AdventOfCode.Helpers
         public static async void SubmitAnswer(object day)
         {
             Type dayClass = day.GetType();
-            object? answer = dayClass.GetProperty("Answer2").GetValue(day, null) ?? dayClass.GetProperty("Answer1").GetValue(day, null);
-            var level = dayClass.GetProperty("Answer2").GetValue(day, null) == null ? 1 : 2;
+            object? answer = dayClass.GetProperty("Answer2").GetValue(day, null) == "Undefined" ? dayClass.GetProperty("Answer1").GetValue(day, null) : dayClass.GetProperty("Answer2").GetValue(day, null);
+            var level = dayClass.GetProperty("Answer2").GetValue(day, null) == "Undefined" ? 1 : 2;
 
             HttpClient client = new();
             client.DefaultRequestHeaders.Add("cookie", $"session={sessionID}");
