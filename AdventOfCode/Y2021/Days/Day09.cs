@@ -79,5 +79,51 @@ namespace AdventOfCode.Y2021.Days
             if (r + 1 < locations.Count && origin != 'n' && !basinLocations.Contains((r + 1, c)) && locations[r + 1][c] < 9)
                 CheckNeighbours((r + 1, c), 's');
         }
+
+        public override void VisualizePart2()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            for (int i = 0; i < 9; i++)
+            {
+                Console.Clear();
+
+                foreach (var input in Inputs.Take((int)(Inputs.Count / 2.5)))
+                {
+                    foreach (var height in input.Take((int)(input.Length / 1.5)))
+                    {
+                        if (height.ToString() == i.ToString())
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        else if (int.Parse(height.ToString()) < i)
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                        else
+                            Console.ForegroundColor = ConsoleColor.Black;
+
+                        Console.Write("■ ");
+                    }
+                    Console.WriteLine();
+                }
+
+                Thread.Sleep(500);
+            }
+
+            Console.Clear();
+
+            foreach (var input in Inputs.Take((int)(Inputs.Count / 2.5)))
+            {
+                foreach (var height in input.Take((int)(input.Length / 1.5)))
+                {
+                    if (height == '9')
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    else
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+
+                    Console.Write("■ ");
+                }
+                Console.WriteLine();
+            }
+
+            Thread.Sleep(500);
+        }
     }
 }

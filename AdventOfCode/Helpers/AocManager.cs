@@ -64,6 +64,8 @@ namespace AdventOfCode.Helpers
             result = result.IndexOf("<code>") < 0 ? result : result[(result.IndexOf("<code>") + 6)..];
             result = result.IndexOf("</code>") < 0 ? result : result[..result.IndexOf("</code>")];
 
+            result = result.Replace("<em>", "").Replace("</em>", "");
+
             var path = $"Y{Year}\\Inputs\\{day}-test.txt";
             await File.WriteAllTextAsync(path, result);
         }
@@ -100,7 +102,7 @@ namespace AdventOfCode.Helpers
 
             var content = new FormUrlEncodedContent(values);
 
-            var url = $"{website}/{Year}/day/{dayClass.Name.Replace("Day0","").Replace("Day", "")}/answer";
+            var url = $"{website}/{Year}/day/{dayClass.Name.Replace("Day0", "").Replace("Day", "")}/answer";
             var response = await client.PostAsync(url, content);
 
             using StreamReader? streamReader = new(response.Content.ReadAsStreamAsync().Result);
