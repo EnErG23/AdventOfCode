@@ -65,21 +65,19 @@ namespace AdventOfCode.Y2021.Days
             var r = location.Item1;
             var c = location.Item2;
 
-            var height = locations[r][c];
+            basinLocations.Add((r, c));
 
-            if (height < 9)
-            {
-                basinLocations.Add((r, c));
+            if (c - 1 >= 0 && origin != 'w' && !basinLocations.Contains((r, c - 1)) && locations[r][c - 1] < 9)
+                CheckNeighbours((r, c - 1), 'e');
 
-                if (c - 1 >= 0 && origin != 'w' && !basinLocations.Contains((r, c - 1)))
-                    CheckNeighbours((r, c - 1), 'e');
-                if (c + 1 < locations[0].Count && origin != 'e' && !basinLocations.Contains((r, c + 1)))
-                    CheckNeighbours((r, c + 1), 'w');
-                if (r - 1 >= 0 && origin != 's' && !basinLocations.Contains((r - 1, c)))
-                    CheckNeighbours((r - 1, c), 'n');
-                if (r + 1 < locations.Count && origin != 'n' && !basinLocations.Contains((r + 1, c)))
-                    CheckNeighbours((r + 1, c), 's');
-            }
+            if (c + 1 < locations[0].Count && origin != 'e' && !basinLocations.Contains((r, c + 1)) && locations[r][c + 1] < 9)
+                CheckNeighbours((r, c + 1), 'w');
+
+            if (r - 1 >= 0 && origin != 's' && !basinLocations.Contains((r - 1, c)) && locations[r - 1][c] < 9)
+                CheckNeighbours((r - 1, c), 'n');
+
+            if (r + 1 < locations.Count && origin != 'n' && !basinLocations.Contains((r + 1, c)) && locations[r + 1][c] < 9)
+                CheckNeighbours((r + 1, c), 's');
         }
     }
 }
