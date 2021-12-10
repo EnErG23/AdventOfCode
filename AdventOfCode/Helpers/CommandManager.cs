@@ -14,7 +14,7 @@ namespace AdventOfCode.Helpers
 
         public static void RequestInput()
         {
-            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("What would you like to do?");
 
             string? input = Console.ReadLine().ToLower();
@@ -52,7 +52,7 @@ namespace AdventOfCode.Helpers
                     if (inputs.Length == 1)
                         RunAllDays(test);
                     else
-                        RunDay(day, part, test);
+                        RunDay(day, part, test, true);
                     break;
                 case 's': //submit
                     AocManager.SubmitAnswer(lastDay);
@@ -115,49 +115,129 @@ namespace AdventOfCode.Helpers
             Console.Clear();
 
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.Green;
 
-            Console.WriteLine("############################");
-            Console.WriteLine("###                      ###");
-            Console.WriteLine("###    Advent of Code    ###");
-            Console.WriteLine($"###         {year}         ###");
-            Console.WriteLine("###                      ###");
-            Console.WriteLine("############################");
+            Console.WriteLine("╔════════════════════════╗");
+            Console.WriteLine("║                        ║");
+            Console.Write("║     ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Advent of Code");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("     ║");
+            Console.WriteLine();
+            Console.Write($"║          ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(year);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("          ║");
+            Console.WriteLine();
+            Console.WriteLine("║                        ║");
+            Console.WriteLine("╚════════════════════════╝");
+            Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         static void RunAllDays(bool test)
         {
+            PrintHeader();
+
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            //1592778185024
+
+            PrintDayHeader();
+
             Stopwatch sw = Stopwatch.StartNew();
 
             for (int i = 1; i <= 25; i++)
                 if (!skipDays.Contains($"{year}{i}"))
                 {
-                    RunDay(i, 0, test);
+                    RunDay(i, 0, test, false);
                     day = i;
                 }
 
             sw.Stop();
 
-            Console.WriteLine($"All days completed ({sw.Elapsed.ToString("mm\\:ss\\.ffffff")})");
-            Console.WriteLine("---------------------------------------");
+            Console.Write($"║         ║          ║                      ║   ");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(sw.Elapsed.ToString("mm\\:ss\\.ffffff"));
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║");
+
+            Console.WriteLine();
+
+            Console.WriteLine("╚═════════╩══════════╩══════════════════════╩══════════════════╝");
+            Console.WriteLine();
         }
 
-        static void RunDay(int day, int part, bool test)
+        static void RunDay(int day, int part, bool test, bool onlyDay)
         {
+            if (onlyDay)
+                PrintDayHeader();
+
             try
             {
                 var zero = day < 10 ? "0" : "";
                 Type dayClass = Type.GetType($"AdventOfCode.Y{year}.Days.Day{zero}{day}");
                 lastDay = Activator.CreateInstance(dayClass, new object[] { AocManager.Year, day, test });
                 var method = dayClass.GetMethod("Run");
-                method.Invoke(lastDay, new object[] { part });                
+                method.Invoke(lastDay, new object[] { part });
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
 
-            Console.WriteLine("---------------------------------------");
+            if (onlyDay)
+            {
+                Console.WriteLine("╚═════════╩══════════╩══════════════════════╩══════════════════╝");
+                Console.WriteLine();
+            }
+            else
+                Console.WriteLine("╠═════════╬══════════╬══════════════════════╬══════════════════╣");
+        }
+
+        public static void PrintDayHeader()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("╔═════════╦══════════╦══════════════════════╦══════════════════╗");
+
+            #region Headers
+
+            Console.Write("║   ");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Day");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║   ");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Part");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║        ");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Answer");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("        ║       ");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Time");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("       ║");
+
+            Console.WriteLine();
+
+            #endregion
+
+            Console.WriteLine("╠═════════╬══════════╬══════════════════════╬══════════════════╣");
         }
 
         static void VisualizeDay(int day, int part, bool test)

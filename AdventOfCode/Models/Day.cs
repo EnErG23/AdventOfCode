@@ -51,9 +51,92 @@ namespace AdventOfCode.Models
 
         public void Print()
         {
-            Console.WriteLine($"Day {day} ({time}):");
-            Console.WriteLine($"    Part 1 ({time1}): {Answer1}");
-            Console.WriteLine($"    Part 2 ({time2}): {Answer2}");
+            #region Part 1
+
+            Console.Write("║   ");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($" {(day < 10 ? $" {day}" : day)}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║   ");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("   1");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║   ");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            var answer1 = "";
+
+            for (int i = 0; i < (16 - Answer1.Length); i++)
+                answer1 += " ";
+
+            answer1 += Answer1;
+            Console.Write(answer1);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║   ");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(time1);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║");
+            Console.WriteLine();
+
+            #endregion
+
+            #region Part 2
+
+            Console.Write("║   ");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("   ");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║   ");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("   2");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║   ");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            var answer2 = "";
+
+            for (int i = 0; i < (16 - Answer2.Length); i++)
+                answer2 += " ";
+
+            answer2 += Answer2;
+            Console.Write(answer2);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║   ");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(time2);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║");
+            Console.WriteLine();
+
+            #endregion
+
+            #region Total
+
+            Console.Write("║         ║          ║                      ║   ");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(time);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("   ║");
+            Console.WriteLine();
+
+            #endregion
         }
 
         public abstract string RunPart1();
