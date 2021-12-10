@@ -69,13 +69,9 @@ namespace AdventOfCode.Models
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Cyan;
 
-                for (int i = 3; i > 0; i--)
-                {
-                    Console.Clear();
-                    Console.WriteLine($"Visualization for {year}.{day}.2");
-                    Console.WriteLine($"Starting in {i}");
-                    Thread.Sleep(1000);
-                }
+                Console.Clear();
+                Console.WriteLine($"Visualization for {year}.{day}.1");
+                Thread.Sleep(1000);
 
                 VisualizePart1();
             }
@@ -85,13 +81,9 @@ namespace AdventOfCode.Models
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Cyan;
 
-                for (int i = 3; i > 0; i--)
-                {
-                    Console.Clear();
-                    Console.WriteLine($"Visualization for {year}.{day}.2");
-                    Console.WriteLine($"Starting in {i}");
-                    Thread.Sleep(1000);
-                }
+                Console.Clear();
+                Console.WriteLine($"Visualization for {year}.{day}.2");
+                Thread.Sleep(1000);
 
                 VisualizePart2();
             }
