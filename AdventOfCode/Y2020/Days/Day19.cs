@@ -15,9 +15,9 @@ namespace AdventOfCode.Y2020.Days
         {
             long result = 0;
 
-            Inputs = Inputs.Where(i => i != "").ToList();
+            var inputs = Inputs.Where(i => i != "").ToList();
 
-            foreach (var input in Inputs.Where(i => i.Contains(":")))
+            foreach (var input in inputs.Where(i => i.Contains(":")))
             {
                 var id = input.Substring(0, input.IndexOf(":"));
                 var subRules = new List<List<string>>();
@@ -40,7 +40,7 @@ namespace AdventOfCode.Y2020.Days
 
             var messages = new List<string>();
 
-            foreach (var input in Inputs.Where(i => !i.Contains(":")))
+            foreach (var input in inputs.Where(i => !i.Contains(":")))
                 messages.Add(input);
 
             var pattern = $@"^{BuildPattern("0")}$";
@@ -57,9 +57,42 @@ namespace AdventOfCode.Y2020.Days
         {
             long result = 0;
 
+            var inputs = Inputs.Where(i => i != "").ToList();
 
+            foreach (var input in inputs.Where(i => i.Contains(":")))
+            {
+                var id = input.Substring(0, input.IndexOf(":"));
+                var subRules = new List<List<string>>();
 
-			return result.ToString();
+                if (!input.Contains("\""))
+                    foreach (var subRule in input.Substring(input.IndexOf(":") + 1).Split('|'))
+                        subRules.Add(subRule.Split(' ').Where(s => s != "").ToList());
+
+                var match = input.Contains("\"") ? input.Substring(input.IndexOf("\"") + 1, input.LastIndexOf("\"") - input.IndexOf("\"") - 1) : "";
+
+                var messageRule = new MessageRule
+                {
+                    ID = id,
+                    SubRules = subRules,
+                    Match = match
+                };
+
+                rules.Add(messageRule);
+            }
+
+            var messages = new List<string>();
+
+            foreach (var input in inputs.Where(i => !i.Contains(":")))
+                messages.Add(input);
+
+            var pattern = $@"^{BuildPattern2("0")}$";
+
+            Regex rgx = new Regex(pattern);
+
+            foreach (var message in messages)
+                result += rgx.IsMatch(message) ? 1 : 0;
+
+            return result.ToString();
         }
 
         static string BuildPattern(string ruleID)
@@ -68,10 +101,8 @@ namespace AdventOfCode.Y2020.Days
 
             var rule = rules.Find(r => r.ID == ruleID);
 
-            if (rule.Match != "")
-            {
+            if (rule.Match != "")            
                 result += rule.Match;
-            }
             else
             {
                 result += "(";
@@ -96,10 +127,8 @@ namespace AdventOfCode.Y2020.Days
 
             var rule = rules.Find(r => r.ID == ruleID);
 
-            if (rule.Match != "")
-            {
-                result += rule.Match;
-            }
+            if (rule.Match != "")           
+                result += rule.Match;            
             else
             {
                 if (ruleID == "8")

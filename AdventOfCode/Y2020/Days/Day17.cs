@@ -10,8 +10,6 @@ namespace AdventOfCode.Y2020.Days
 
         public override string RunPart1()
         {
-            long result = 0;
-
             var activeCubes = new List<Cube>();
 
             var z = 0;
@@ -23,9 +21,12 @@ namespace AdventOfCode.Y2020.Days
 
                 foreach (var inputChar in input)
                 {
-                    if (inputChar == '#') activeCubes.Add(new Cube { X = x, Y = y, Z = z });
+                    if (inputChar == '#')
+                        activeCubes.Add(new Cube { X = x, Y = y, Z = z });
+
                     x++;
                 }
+
                 y++;
             }
 
@@ -42,9 +43,7 @@ namespace AdventOfCode.Y2020.Days
                 var newActiveCubes = activeCubes.ToList();
 
                 for (int i = minX; i <= maxX; i++)
-                {
                     for (int j = minX; j <= maxX; j++)
-                    {
                         for (int k = minZ; k <= maxZ; k++)
                         {
                             var cubeToCheck = activeCubes.Where(a => a.X == i && a.Y == j && a.Z == k);
@@ -64,15 +63,15 @@ namespace AdventOfCode.Y2020.Days
 
                             if (cubeToCheck.Count() > 0)
                             {
-                                if (neighboursActive < 2 || neighboursActive > 3) newActiveCubes.Remove(cubeToCheck.First());
+                                if (neighboursActive < 2 || neighboursActive > 3)
+                                    newActiveCubes.Remove(cubeToCheck.First());
                             }
                             else
                             {
-                                if (neighboursActive == 3) newActiveCubes.Add(new Cube { X = i, Y = j, Z = k });
+                                if (neighboursActive == 3)
+                                    newActiveCubes.Add(new Cube { X = i, Y = j, Z = k });
                             }
                         }
-                    }
-                }
 
                 activeCubes = newActiveCubes;
 
@@ -82,15 +81,11 @@ namespace AdventOfCode.Y2020.Days
                 maxZ++;
             }
 
-            result = activeCubes.Count();
-
-			return result.ToString();
+            return activeCubes.Count().ToString();
         }
 
         public override string RunPart2()
         {
-            long result = 0;
-
             var activeCubes = new List<Cube>();
 
             var z = 0;
@@ -102,9 +97,12 @@ namespace AdventOfCode.Y2020.Days
 
                 foreach (var inputChar in input)
                 {
-                    if (inputChar == '#') activeCubes.Add(new Cube { X = x, Y = y, Z = z, W = z });
+                    if (inputChar == '#') 
+                        activeCubes.Add(new Cube { X = x, Y = y, Z = z, W = z });
+                    
                     x++;
                 }
+
                 y++;
             }
 
@@ -139,7 +137,9 @@ namespace AdventOfCode.Y2020.Days
                                         {
                                             for (int p = -1; p <= 1; p++)
                                             {
-                                                if (m == 0 && n == 0 && o == 0 && p == 0) continue;
+                                                if (m == 0 && n == 0 && o == 0 && p == 0) 
+                                                    continue;
+
                                                 neighboursActive += activeCubes.Count(a => a.X == (i + m) && a.Y == (j + n) && a.Z == (k + o) && a.W == (l + p));
                                             }
                                         }
@@ -167,9 +167,7 @@ namespace AdventOfCode.Y2020.Days
                 maxZ++;
             }
 
-            result = activeCubes.Count();
-
-			return result.ToString();
+            return activeCubes.Count().ToString();
         }
     }
 }

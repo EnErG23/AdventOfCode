@@ -9,71 +9,311 @@ namespace AdventOfCode.Y2020.Days
 
         public override string RunPart1()
         {
-            long result = 0;
+            List<List<char>> seats = Inputs.Select(i => i.ToList()).ToList();
 
-            foreach (string input in Inputs)
+            var change = true;
+            var rule1 = false;
+
+            while (change)
             {
-                var i = input;
-                int min = Convert.ToInt32(i.Substring(0, i.IndexOf('-')));
+                var newSeats = new List<List<char>>();
 
-                i = i.Substring(i.IndexOf('-') + 1);
-                int max = Convert.ToInt32(i.Substring(0, i.IndexOf(' ')));
+                change = false;
+                rule1 = !rule1;
 
-                i = i.Substring(i.IndexOf(' ') + 1);
-                char letter = Convert.ToChar(i.Substring(0, 1));
-
-                i = i.Substring(i.IndexOf(' ') + 1);
-                string password = i;
-
-                var count = password.Count(s => s == letter);
-
-                if (count >= min && count <= max)
+                for (int i = 0; i < seats.Count(); i++)
                 {
-                    result++;
+                    var newRow = new List<char>();
+
+                    for (int j = 0; j < seats[0].Count(); j++)
+                    {
+                        var seat = seats[i][j];
+
+                        if (seat == '.')
+                        {
+                            newRow.Add('.');
+                            continue;
+                        }
+
+                        var adjacentSeats = "";
+
+                        try { adjacentSeats += seats[i - 1][j]; } catch { }         //U
+                        try { adjacentSeats += seats[i - 1][j + 1]; } catch { }     //RU
+                        try { adjacentSeats += seats[i][j + 1]; } catch { }         //R
+                        try { adjacentSeats += seats[i + 1][j + 1]; } catch { }     //RD
+                        try { adjacentSeats += seats[i + 1][j]; } catch { }         //D
+                        try { adjacentSeats += seats[i + 1][j - 1]; } catch { }     //LD
+                        try { adjacentSeats += seats[i][j - 1]; } catch { }         //L
+                        try { adjacentSeats += seats[i - 1][j - 1]; } catch { }     //LU
+
+                        if (rule1)
+                            if (seat == 'L')
+                                if (!adjacentSeats.Contains('#'))
+                                {
+                                    change = true;
+                                    newRow.Add('#');
+                                }
+                                else
+                                    newRow.Add('L');
+                            else
+                                newRow.Add('#');
+                        else
+                        {
+                            if (seat == '#')
+                            {
+                                if (adjacentSeats.Count(a => a == '#') > 3)
+                                {
+                                    change = true;
+                                    newRow.Add('L');
+                                }
+                                else
+                                    newRow.Add('#');
+                            }
+                            else
+                                newRow.Add('L');
+                        }
+                    }
+                    newSeats.Add(newRow);
                 }
+                seats = newSeats;
             }
 
-			return result.ToString();
+            return seats.Sum(r => r.Count(s => s == '#')).ToString();
         }
 
         public override string RunPart2()
         {
-            long result = 0;
+            List<List<char>> seats = Inputs.Select(i => i.ToList()).ToList();
 
-            foreach (string input in Inputs)
+            var change = true;
+            var rule1 = false;
+
+            while (change)
             {
-                var i = input;
-                int pos1 = Convert.ToInt32(i.Substring(0, i.IndexOf('-')));
+                var newSeats = new List<List<char>>();
 
-                i = i.Substring(i.IndexOf('-') + 1);
-                int pos2 = Convert.ToInt32(i.Substring(0, i.IndexOf(' ')));
+                change = false;
+                rule1 = !rule1;
 
-                i = i.Substring(i.IndexOf(' ') + 1);
-                string letter = i.Substring(0, 1);
-
-                i = i.Substring(i.IndexOf(' ') + 1);
-                string password = i;
-
-                var pos1HasChar = password.Substring(pos1 - 1, 1) == letter;
-                var pos2HasChar = password.Substring(pos2 - 1, 1) == letter;
-
-                if (pos1HasChar)
+                for (int i = 0; i < seats.Count(); i++)
                 {
-                    if (!pos2HasChar)
+                    var newRow = new List<char>();
+
+                    for (int j = 0; j < seats[0].Count(); j++)
                     {
-                        result++;
+                        var seat = seats[i][j];
+
+                        if (seat == '.')
+                        {
+                            newRow.Add('.');
+                            continue;
+                        }
+
+                        var adjacentSeats = "";
+
+                        //U
+                        try
+                        {
+                            var noSeat = true;
+                            var offset = 0;
+
+                            while (noSeat)
+                            {
+                                offset++;
+                                var checkSeat = seats[i - offset][j];
+                                if (checkSeat == 'L' || checkSeat == '#')
+                                {
+                                    if (checkSeat == '#')
+                                        adjacentSeats += checkSeat;
+
+                                    noSeat = false;
+                                }
+                            }
+                        }
+                        catch { }
+
+                        //RU
+                        try
+                        {
+                            var noSeat = true;
+                            var offset = 0;
+
+                            while (noSeat)
+                            {
+                                offset++;
+                                var checkSeat = seats[i - offset][j + offset];
+                                if (checkSeat == 'L' || checkSeat == '#')
+                                {
+                                    if (checkSeat == '#')
+                                        adjacentSeats += checkSeat;
+
+                                    noSeat = false;
+                                }
+                            }
+                        }
+                        catch { }
+
+                        //R
+                        try
+                        {
+                            var noSeat = true;
+                            var offset = 0;
+
+                            while (noSeat)
+                            {
+                                offset++;
+                                var checkSeat = seats[i][j + offset];
+                                if (checkSeat == 'L' || checkSeat == '#')
+                                {
+                                    if (checkSeat == '#')
+                                        adjacentSeats += checkSeat;
+
+                                    noSeat = false;
+                                }
+                            }
+                        }
+                        catch { }
+
+                        //RD
+                        try
+                        {
+                            var noSeat = true;
+                            var offset = 0;
+
+                            while (noSeat)
+                            {
+                                offset++;
+                                var checkSeat = seats[i + offset][j + offset];
+                                if (checkSeat == 'L' || checkSeat == '#')
+                                {
+                                    if (checkSeat == '#')
+                                        adjacentSeats += checkSeat;
+
+                                    noSeat = false;
+                                }
+                            }
+                        }
+                        catch { }
+
+                        //D
+                        try
+                        {
+                            var noSeat = true;
+                            var offset = 0;
+
+                            while (noSeat)
+                            {
+                                offset++;
+                                var checkSeat = seats[i + offset][j];
+                                if (checkSeat == 'L' || checkSeat == '#')
+                                {
+                                    if (checkSeat == '#')
+                                        adjacentSeats += checkSeat;
+
+                                    noSeat = false;
+                                }
+                            }
+                        }
+                        catch { }
+
+                        //LD
+                        try
+                        {
+                            var noSeat = true;
+                            var offset = 0;
+
+                            while (noSeat)
+                            {
+                                offset++;
+                                var checkSeat = seats[i + offset][j - offset];
+                                if (checkSeat == 'L' || checkSeat == '#')
+                                {
+                                    if (checkSeat == '#')
+                                        adjacentSeats += checkSeat;
+
+                                    noSeat = false;
+                                }
+                            }
+                        }
+                        catch { }
+
+                        //L
+                        try
+                        {
+                            var noSeat = true;
+                            var offset = 0;
+
+                            while (noSeat)
+                            {
+                                offset++;
+                                var checkSeat = seats[i][j - offset];
+                                if (checkSeat == 'L' || checkSeat == '#')
+                                {
+                                    if (checkSeat == '#')
+                                        adjacentSeats += checkSeat;
+
+                                    noSeat = false;
+                                }
+                            }
+                        }
+                        catch { }
+
+                        //LU
+                        try
+                        {
+                            var noSeat = true;
+                            var offset = 0;
+
+                            while (noSeat)
+                            {
+                                offset++;
+                                var checkSeat = seats[i - offset][j - offset];
+                                if (checkSeat == 'L' || checkSeat == '#')
+                                {
+                                    if (checkSeat == '#')
+                                        adjacentSeats += checkSeat;
+
+                                    noSeat = false;
+                                }
+                            }
+                        }
+                        catch { }
+
+                        if (rule1)
+                            if (seat == 'L')
+                            {
+                                if (!adjacentSeats.Contains('#'))
+                                {
+                                    change = true;
+                                    newRow.Add('#');
+                                }
+                                else
+                                    newRow.Add('L');
+                            }
+                            else
+                                newRow.Add('#');
+                        else
+                        {
+                            if (seat == '#')
+                            {
+                                if (adjacentSeats.Count() > 4)
+                                {
+                                    change = true;
+                                    newRow.Add('L');
+                                }
+                                else
+                                    newRow.Add('#');
+                            }
+                            else
+                                newRow.Add('L');
+                        }
                     }
+                    newSeats.Add(newRow);
                 }
-                else
-                {
-                    if (pos2HasChar)
-                    {
-                        result++;
-                    }
-                }
+                seats = newSeats;
             }
 
-			return result.ToString();
+            return seats.Sum(r => r.Count(s => s == '#')).ToString();
         }
     }
 }

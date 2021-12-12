@@ -98,8 +98,8 @@ namespace AdventOfCode.Helpers
             skipDays.Add("201925");
 
             // 2020 - Too long
-            skipDays.Add("202011");
-            skipDays.Add("202014");
+            //skipDays.Add("202011"); // 10s
+            //skipDays.Add("202014"); // 33s
             skipDays.Add("202017");
 
             // Current year
@@ -143,8 +143,6 @@ namespace AdventOfCode.Helpers
             PrintHeader();
 
             Console.ForegroundColor = ConsoleColor.Green;
-
-            //1592778185024
 
             PrintDayHeader();
 
