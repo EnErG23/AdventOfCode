@@ -4,7 +4,6 @@ namespace AdventOfCode.Y2019.Days
 {
     public class Day05 : Day
     {
-        private const int day = 5;
         private List<int>? inputs;
 
         public Day05(int year, int day, bool test) : base(year, day, test) { }

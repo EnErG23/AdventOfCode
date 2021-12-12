@@ -5,8 +5,7 @@ namespace AdventOfCode.Y2019.Days
 {
     public class Day02 : Day
     {
-        static readonly int day = 2;
-        static List<int>? inputs;
+        private List<int>? inputs;
 
         public Day02(int year, int day, bool test) : base(year, day, test) { }
 
@@ -44,7 +43,7 @@ namespace AdventOfCode.Y2019.Days
             return result.ToString();
         }
 
-        public static long IntCode(int pointer, int noun, int verb)
+        private long IntCode(int pointer, int noun, int verb)
         {
             inputs[1] = noun;
             inputs[2] = verb;

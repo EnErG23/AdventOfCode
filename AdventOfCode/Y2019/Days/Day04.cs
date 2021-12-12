@@ -4,7 +4,6 @@ namespace AdventOfCode.Y2019.Days
 {
     public class Day04 : Day
     {
-        static readonly int day = 4;
         static List<int>? range;
 
         public Day04(int year, int day, bool test) : base(year, day, test) { }

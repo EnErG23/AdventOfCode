@@ -8,9 +8,9 @@ using AdventOfCode.Models;
 
 namespace AdventOfCode.Y2019.Days
 {
-    public class Day06 : Day
+    public class Day08 : Day
     {
-        public Day06(int year, int day, bool test) : base(year, day, test) { }
+        public Day08(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {

@@ -5,7 +5,7 @@ namespace AdventOfCode.Y2019.Days
 {
     public class Day01 : Day
     {
-        static List<int>? inputs;
+        private List<int>? inputs;
 
         public Day01(int year, int day, bool test) : base(year, day, test) { }
 
@@ -30,11 +30,14 @@ namespace AdventOfCode.Y2019.Days
             foreach (var input in inputs)
             {
                 var fuel = input;
+
                 while (true)
                 {
                     fuel = fuel / 3 - 2;
+
                     if (fuel < 1)
                         break;
+
                     result += fuel;
                 }
             }
