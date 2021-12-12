@@ -5,15 +5,15 @@ using AdventOfCode.Y2021.Days;
 namespace AdventOfCodeTests.Y2021.Days
 {
     [TestClass]
-    public class TestDay11
+    public class TestDay12
     {
         int y;
         int d;
 
-        Day11? day;
-        string[] results = new[] { "1656", "1634", "195", "210" };
+        Day12? day;
+        string[] results = new[] { "10", "4104", "36", "119760" };
 
-        public TestDay11()
+        public TestDay12()
         {
             var type = GetType();
             y = Convert.ToInt32(type.Namespace.Substring(type.Namespace.Length - 9, 4));

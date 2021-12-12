@@ -11,8 +11,8 @@ namespace AdventOfCode.Models
         private string time1 = "00:00.00ms";
         private string time2 = "00:00.00ms";
 
-        public string Answer1 { get; set; } = "Unsolved";
-        public string Answer2 { get; set; } = "Unsolved";
+        public string Answer1 { get; set; } = "Undefined";
+        public string Answer2 { get; set; } = "Undefined";
 
         public List<string> Inputs { get; set; }
 
