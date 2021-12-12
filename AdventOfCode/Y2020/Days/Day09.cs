@@ -5,9 +5,13 @@ namespace AdventOfCode.Y2020.Days
 {
     public class Day09 : Day
     {
-        static List<long>? inputs;
+        private List<long>? inputs;
+        private int p;
 
-        public Day09(int year, int day, bool test) : base(year, day, test) { }
+        public Day09(int year, int day, bool test) : base(year, day, test)
+        {
+            p = test ? 5 : 25;
+        }
 
         public override string RunPart1()
         {
@@ -15,7 +19,6 @@ namespace AdventOfCode.Y2020.Days
 
             long result = 0;
 
-            var p = 25;
             var i = p;
 
             foreach (var input in inputs.Skip(p))
@@ -28,18 +31,19 @@ namespace AdventOfCode.Y2020.Days
                     foreach (var pre2 in preamble.Where(pr => pr != pre1))
                     {
                         if (pre1 + pre2 == input)
-                        {
                             found = true;
-                        }
+
                         if (found) break;
                     }
                     if (found) break;
                 }
+
                 if (!found)
                 {
                     result = input;
                     break;
                 }
+
                 i++;
             }
 
@@ -54,7 +58,6 @@ namespace AdventOfCode.Y2020.Days
             long result = 0;
 
             long firstError = 0;
-            var p = 25;
             var i = p;
 
             foreach (var input in inputs.Skip(p))

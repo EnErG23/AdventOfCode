@@ -3,8 +3,8 @@
 namespace AdventOfCode.Y2020.Days
 {
     public class Day10 : Day
-    {        
-        static List<int>? inputs;
+    {
+        private List<int>? inputs;
 
         public Day10(int year, int day, bool test) : base(year, day, test) { }
 
@@ -17,18 +17,17 @@ namespace AdventOfCode.Y2020.Days
 
             long result = 0;
 
-            var a = 0;
             var ones = 0;
             var threes = 0;
 
-            foreach (var intInput in inputs.Skip(1))
+            for (int i = 1; i < inputs.Count; i++)
             {
-                var difference = intInput - inputs[a];
+                var difference = inputs[i] - inputs[i - 1];
 
-                if (difference == 1) ones++;
-                else if (difference == 3) threes++;
-
-                a++;
+                if (difference == 1)
+                    ones++;
+                else if (difference == 3)
+                    threes++;
             }
 
             result = ones * threes;
@@ -46,47 +45,34 @@ namespace AdventOfCode.Y2020.Days
                 inputs.Add(inputs[inputs.Count() - 1] + 3);
             }
 
-            long result = 0;
-
-            result = 1;
+            long result = 1;
 
             var count = 0;
-            var a = 0;
 
-            foreach (var l in inputs.Skip(1).Take(Inputs.Count() - 2))
+            for (int i = 1; i < inputs.Count() - 1; i++)
             {
-                if (inputs[a + 2] - inputs[a] < 4)
-                {
+                if (inputs[i + 1] - inputs[i - 1] < 4)
                     count++;
-                }
                 else
                 {
                     if (count > 0)
                     {
                         var fact = count;
 
-                        for (var i = count - 1; i >= 1; i--)
-                        {
-                            fact = fact * i;
-                        }
+                        for (var j = count - 1; j >= 1; j--)
+                            fact *= j;
 
-                        if (l - inputs[a - count] < 4)
-                        {
+                        if (inputs[i] - inputs[i - 1 - count] < 4)
                             fact++;
-                        }
 
                         if (count > 1)
-                        {
                             fact++;
-                        }
 
                         result *= fact;
 
                         count = 0;
                     }
                 }
-
-                a++;
             }
 
             return result.ToString();

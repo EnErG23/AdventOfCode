@@ -10,6 +10,7 @@ namespace AdventOfCodeTests.Y2021.Days
         int y;
         int d;
 
+        Day03? testDay;
         Day03? day;
         string[] results = new[] { "198", "2648450", "230", "2845944" };
 
@@ -17,47 +18,41 @@ namespace AdventOfCodeTests.Y2021.Days
         {
             var type = GetType();
             y = Convert.ToInt32(type.Namespace.Substring(type.Namespace.Length - 9, 4));
-            d = Convert.ToInt32(type.Name.Substring(7, 2));
-        }
+			d = Convert.ToInt32(type.Name.Substring(7, 2));
+			testDay = new(y, d, true);
+			day = new(y, d, false);
+		}
 
-        [TestMethod]
-        public void Test_Run_Part1()
-        {
-            day = new(y, d, true);
+		[TestMethod]
+		public void A_Test_Run_Part1()
+		{
+			string result = testDay.RunPart1();
 
-            string result = day.RunPart1();
+			Assert.AreEqual(results[0], result);
+		}
 
-            Assert.AreEqual(results[0], result);
-        }
+		[TestMethod]
+		public void B_Run_Part1()
+		{
+			string result = day.RunPart1();
 
-        [TestMethod]
-        public void Run_Part1()
-        {
-            day = new(y, d, false);
+			Assert.AreEqual(results[1], result);
+		}
 
-            string result = day.RunPart1();
+		[TestMethod]
+		public void C_Test_Run_Part2()
+		{
+			string result = testDay.RunPart2();
 
-            Assert.AreEqual(results[1], result);
-        }
+			Assert.AreEqual(results[2], result);
+		}
 
-        [TestMethod]
-        public void Test_Run_Part2()
-        {
-            day = new(y, d, true);
+		[TestMethod]
+		public void D_Run_Part2()
+		{
+			string result = day.RunPart2();
 
-            string result = day.RunPart2();
-
-            Assert.AreEqual(results[2], result);
-        }
-
-        [TestMethod]
-        public void Run_Part2()
-        {
-            day = new(y, d, false);
-
-            string result = day.RunPart2();
-
-            Assert.AreEqual(results[3], result);
-        }
+			Assert.AreEqual(results[3], result);
+		}
     }
 }

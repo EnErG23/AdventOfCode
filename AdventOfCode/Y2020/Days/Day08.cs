@@ -11,6 +11,8 @@ namespace AdventOfCode.Y2020.Days
         {
             long result = 0;
 
+            var inputs = Inputs.ToList();
+
             var ranLines = new List<int>();
 
             var i = 0;
@@ -18,38 +20,29 @@ namespace AdventOfCode.Y2020.Days
             while (true)
             {
                 if (ranLines.Contains(i))
-                {
                     break;
-                }
 
                 ranLines.Add(i);
 
-                var command = Inputs[i].Substring(0, 3);
+                var command = inputs[i].Substring(0, 3);
 
                 switch (command)
                 {
                     case "acc":
-                        var accValue = Convert.ToInt32(Inputs[i].Substring(5));
-                        if (Inputs[i].Contains("+"))
-                        {
+                        var accValue = Convert.ToInt32(inputs[i].Substring(5));
+                        if (inputs[i].Contains("+"))
                             result += accValue;
-                        }
                         else
-                        {
                             result -= accValue;
-                        }
+
                         i++;
                         break;
                     case "jmp":
-                        var jmpValue = Convert.ToInt32(Inputs[i].Substring(5));
-                        if (Inputs[i].Contains("+"))
-                        {
+                        var jmpValue = Convert.ToInt32(inputs[i].Substring(5));
+                        if (inputs[i].Contains("+"))
                             i += jmpValue;
-                        }
                         else
-                        {
                             i -= jmpValue;
-                        }
                         break;
                     default:
                         i++;
@@ -57,7 +50,7 @@ namespace AdventOfCode.Y2020.Days
                 }
             }
 
-			return result.ToString();
+            return result.ToString();
         }
 
         public override string RunPart2()
@@ -68,20 +61,14 @@ namespace AdventOfCode.Y2020.Days
             {
                 result = 0;
 
-                var inputs = Inputs;
+                var inputs = Inputs.ToList();
 
                 if (inputs[j].Contains("jmp"))
-                {
                     inputs[j] = inputs[j].Replace("jmp", "nop");
-                }
-                else if (Inputs[j].Contains("nop"))
-                {
+                else if (inputs[j].Contains("nop"))
                     inputs[j] = inputs[j].Replace("nop", "jmp");
-                }
                 else
-                {
                     continue;
-                }
 
                 var ranLines = new List<int>();
 
@@ -110,25 +97,18 @@ namespace AdventOfCode.Y2020.Days
                         case "acc":
                             var accValue = Convert.ToInt32(inputs[i].Substring(5));
                             if (inputs[i].Contains("+"))
-                            {
                                 result += accValue;
-                            }
                             else
-                            {
                                 result -= accValue;
-                            }
+
                             i++;
                             break;
                         case "jmp":
                             var jmpValue = Convert.ToInt32(inputs[i].Substring(5));
                             if (inputs[i].Contains("+"))
-                            {
                                 i += jmpValue;
-                            }
                             else
-                            {
                                 i -= jmpValue;
-                            }
                             break;
                         default:
                             i++;
@@ -139,7 +119,7 @@ namespace AdventOfCode.Y2020.Days
                 if (found) break;
             }
 
-			return result.ToString();
+            return result.ToString();
         }
     }
 }

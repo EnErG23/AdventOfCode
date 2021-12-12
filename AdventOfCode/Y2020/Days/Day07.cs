@@ -86,9 +86,7 @@ namespace AdventOfCode.Y2020.Days
 
         public override string RunPart2()
         {
-            long result = 0;
-
-            result = -1;
+            long result = -1;
 
             List<string> newInputs = new List<string>();
 

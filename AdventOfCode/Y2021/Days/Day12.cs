@@ -33,14 +33,14 @@ namespace AdventOfCode.Y2021.Days
 
             paths = new();
 
-            AddNextNode(new List<Cave> { caves.First(c => c.Name == "start") }, false);
+            AddNextNode(new List<Cave> { caves.First(c => c.Name == "start") }, true);
 
-            return paths.Count().ToString();
+            return paths.Count(p => p.Where(c => !c.IsBig).Select(c => c.Name).Count() == p.Where(c => !c.IsBig).Select(c => c.Name).Distinct().Count()).ToString();
         }
 
         public override string RunPart2()
         {
-            if (caves == null)
+            if (paths == null)
             {
                 caves = new();
 
@@ -60,11 +60,11 @@ namespace AdventOfCode.Y2021.Days
                     cave1.ConnectedCaves.Add(cave2);
                     cave2.ConnectedCaves.Add(cave1);
                 }
+
+                paths = new();
+
+                AddNextNode(new List<Cave> { caves.First(c => c.Name == "start") }, true);
             }
-
-            paths = new();
-
-            AddNextNode(new List<Cave> { caves.First(c => c.Name == "start") }, true);
 
             return paths.Count().ToString();
         }
