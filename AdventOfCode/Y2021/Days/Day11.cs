@@ -20,48 +20,22 @@ namespace AdventOfCode.Y2021.Days
             {
                 flashedOctopuses = new();
 
-                Console.WriteLine("Step 1:");
-                Console.WriteLine();
-                PrintOctopuses();
-                Console.WriteLine();
-
-                // First, the energy level of each octopus increases by 1.
                 for (int r = 0; r < octopuses.Count; r++)
-                {
                     for (int c = 0; c < octopuses[r].Count; c++)
-                    {
                         octopuses[r][c]++;
-                    }
-                }
 
-                Console.WriteLine("a)");
-                Console.WriteLine();
-                PrintOctopuses();
-                Console.WriteLine();
+                long flashResult = 1;
 
-                long flashResult = 0;
-
-                // Then, any octopus with an energy level greater than 9 flashes.This increases the energy level of all adjacent octopuses by 1, including octopuses that are diagonally adjacent. If this causes an octopus to have an energy level greater than 9, it also flashes.This process continues as long as new octopuses keep having their energy level increased beyond 9. (An octopus can only flash at most once per step.)
-                while (octopuses.Count(o => o.Contains(9)) > 1 && flashResult > 0)
+                while (octopuses.Sum(r => r.Count(o => o > 9)) > 0 && flashResult > 0)
                 {
                     flashResult = Flash();
                     result += flashResult;
                 }
 
-                Console.WriteLine("b)");
-                Console.WriteLine();
-                PrintOctopuses();
-                Console.WriteLine();
-
-                // Finally, any octopus that flashed during this step has its energy level set to 0, as it used all of its energy to flash.
-                octopuses.ForEach(r => r.ForEach(o => o = o > 9 ? 0 : o));
-
-                Console.WriteLine("c)");
-                Console.WriteLine();
-                PrintOctopuses();
-                Console.WriteLine();
-
-                Console.Read();
+                for (int r = 0; r < octopuses.Count; r++)
+                    for (int c = 0; c < octopuses[r].Count; c++)
+                        if (octopuses[r][c] > 9)
+                            octopuses[r][c] = 0;
             }
 
             return result.ToString();
@@ -69,12 +43,44 @@ namespace AdventOfCode.Y2021.Days
 
         public override string RunPart2()
         {
-            return "Undefined";
-        }
+            octopuses = new();
+            Inputs.ForEach(input => octopuses.Add(input.ToList().Select(i => int.Parse(i.ToString())).ToList()));
 
-        private void PrintOctopuses()
-        {
-            octopuses.ForEach(o => Console.WriteLine(String.Join("", o)));
+            long result = 0;
+
+            var i = 1;
+
+            while(true)
+            {
+                flashedOctopuses = new();
+
+                for (int r = 0; r < octopuses.Count; r++)
+                    for (int c = 0; c < octopuses[r].Count; c++)
+                        octopuses[r][c]++;
+
+                long flashResult = 1;
+
+                while (octopuses.Sum(r => r.Count(o => o > 9)) > 0 && flashResult > 0)
+                {
+                    flashResult = Flash();
+                    result += flashResult;
+                }
+                
+                for (int r = 0; r < octopuses.Count; r++)
+                    for (int c = 0; c < octopuses[r].Count; c++)
+                        if (octopuses[r][c] > 9)
+                            octopuses[r][c] = 0;
+
+                if (flashedOctopuses.Count == octopuses.Sum(o => o.Count()))
+                {
+                    result = i;
+                    break;
+                }
+
+                i++;
+            }
+
+            return result.ToString();
         }
 
         private long Flash()
@@ -88,10 +94,12 @@ namespace AdventOfCode.Y2021.Days
                     if (octopuses[r][c] > 9 && !flashedOctopuses.Contains((r, c)))
                     {
                         result++;
+                        flashedOctopuses.Add((r, c));
 
                         for (int v = -1; v <= 1; v++)
                             for (int h = -1; h <= 1; h++)
-                                octopuses[r + v][c + h]++;
+                                if (r + v >= 0 && r + v < octopuses.Count && c + h >= 0 && c + h < octopuses[r].Count)
+                                    octopuses[r + v][c + h]++;
                     }
                 }
             }
