@@ -46,8 +46,6 @@ namespace AdventOfCode.Y2021.Days
             octopuses = new();
             Inputs.ForEach(input => octopuses.Add(input.ToList().Select(i => int.Parse(i.ToString())).ToList()));
 
-            long result = 0;
-
             var i = 1;
 
             while(true)
@@ -60,27 +58,19 @@ namespace AdventOfCode.Y2021.Days
 
                 long flashResult = 1;
 
-                while (octopuses.Sum(r => r.Count(o => o > 9)) > 0 && flashResult > 0)
-                {
-                    flashResult = Flash();
-                    result += flashResult;
-                }
+                while (octopuses.Sum(r => r.Count(o => o > 9)) > 0 && flashResult > 0)                
+                    flashResult = Flash();                
                 
                 for (int r = 0; r < octopuses.Count; r++)
                     for (int c = 0; c < octopuses[r].Count; c++)
                         if (octopuses[r][c] > 9)
                             octopuses[r][c] = 0;
 
-                if (flashedOctopuses.Count == octopuses.Sum(o => o.Count()))
-                {
-                    result = i;
-                    break;
-                }
+                if (flashedOctopuses.Count == octopuses.Sum(o => o.Count()))                
+                    return i.ToString();
 
                 i++;
             }
-
-            return result.ToString();
         }
 
         private long Flash()
