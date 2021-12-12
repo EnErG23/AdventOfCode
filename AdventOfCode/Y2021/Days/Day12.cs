@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Models;
+using AdventOfCode.Y2021.Models;
 
 namespace AdventOfCode.Y2021.Days
 {
@@ -6,16 +7,12 @@ namespace AdventOfCode.Y2021.Days
     {
         private List<Cave>? caves;
         private List<List<Cave>>? paths;
-        private List<Path>? paths2;
 
         public Day12(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {
-            long result = 0;
-
             caves = new();
-            paths = new();
 
             foreach (var input in Inputs)
             {
@@ -34,17 +31,15 @@ namespace AdventOfCode.Y2021.Days
                 cave2.ConnectedCaves.Add(cave1);
             }
 
-            AddNextNode(new List<Cave> { caves.First(c => c.Name == "start") });
+            paths = new();
 
-            result = paths.Count();
+            AddNextNode(new List<Cave> { caves.First(c => c.Name == "start") }, false);
 
-            return result.ToString();
+            return paths.Count().ToString();
         }
 
         public override string RunPart2()
         {
-            long result = 0;
-
             if (caves == null)
             {
                 caves = new();
@@ -67,83 +62,28 @@ namespace AdventOfCode.Y2021.Days
                 }
             }
 
-            paths2 = new();
+            paths = new();
 
-            AddNextNode2(new Path(new List<Cave> { caves.First(c => c.Name == "start") }));
+            AddNextNode(new List<Cave> { caves.First(c => c.Name == "start") }, true);
 
-            result = paths2.Count();
-
-            return result.ToString();
+            return paths.Count().ToString();
         }
 
-        private void AddNextNode(List<Cave> currentPath)
+        private void AddNextNode(List<Cave> path, bool allowSecondPassInFirstSmallCave)
         {
-            var lastCave = currentPath.Last();
+            var lastCave = path.Last();
 
             if (lastCave.Name == "end")
-                paths.Add(currentPath);
-            else
-                foreach (var connectedCave in lastCave.ConnectedCaves)
-                    if (connectedCave.IsBig || !currentPath.Contains(connectedCave))
-                    {
-                        var newCurrentPath = currentPath.ToList();
-
-                        newCurrentPath.Add(connectedCave);
-                        AddNextNode(newCurrentPath);
-                    }
-        }
-
-        private void AddNextNode2(Path currentPath)
-        {
-            var lastCave = currentPath.Caves.Last();
-
-            if (lastCave.Name == "end")
-                paths2.Add(currentPath);
+                paths.Add(path);
             else
                 foreach (var connectedCave in lastCave.ConnectedCaves.Where(c => c.Name != "start"))
-                    if (connectedCave.IsBig || !currentPath.Caves.Contains(connectedCave) || (currentPath.Caves.Contains(connectedCave) && !currentPath.SmallCavePassedTwice))
+                    if (connectedCave.IsBig || !path.Contains(connectedCave) || allowSecondPassInFirstSmallCave)
                     {
-                        var newCurrentPath = new Path(currentPath.Caves.ToList(), currentPath.SmallCavePassedTwice);
+                        var newPath = path.ToList();
+                        newPath.Add(connectedCave);
 
-                        if (!connectedCave.IsBig && newCurrentPath.Caves.Contains(connectedCave))
-                            newCurrentPath.SmallCavePassedTwice = true;
-
-                        newCurrentPath.Caves.Add(connectedCave);
-
-                        AddNextNode2(newCurrentPath);
+                        AddNextNode(newPath, (!connectedCave.IsBig && path.Contains(connectedCave)) ? false : allowSecondPassInFirstSmallCave);
                     }
-        }
-
-        public class Cave
-        {
-            public string Name { get; set; }
-            public bool IsBig { get; set; }
-            public List<Cave> ConnectedCaves { get; set; }
-
-            public Cave(string name)
-            {
-                Name = name;
-                IsBig = Char.IsUpper(name[0]);
-                ConnectedCaves = new();
-            }
-        }
-
-        public class Path
-        {
-            public List<Cave> Caves { get; set; }
-            public bool SmallCavePassedTwice { get; set; }
-
-            public Path(List<Cave> caves)
-            {
-                Caves = caves;
-                SmallCavePassedTwice = false;
-            }
-
-            public Path(List<Cave> caves, bool smallCavePassedTwice)
-            {
-                Caves = caves;
-                SmallCavePassedTwice = smallCavePassedTwice;
-            }
         }
     }
 }
