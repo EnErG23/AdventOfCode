@@ -87,10 +87,8 @@ namespace AdventOfCode.Y2021.Days
         {
             long result = 0;
 
-            for (int r = 0; r < octopuses.Count; r++)
-            {
-                for (int c = 0; c < octopuses[r].Count; c++)
-                {
+            for (int r = 0; r < octopuses.Count; r++)            
+                for (int c = 0; c < octopuses[r].Count; c++)                
                     if (octopuses[r][c] > 9 && !flashedOctopuses.Contains((r, c)))
                     {
                         result++;
@@ -100,9 +98,7 @@ namespace AdventOfCode.Y2021.Days
                             for (int h = -1; h <= 1; h++)
                                 if (r + v >= 0 && r + v < octopuses.Count && c + h >= 0 && c + h < octopuses[r].Count)
                                     octopuses[r + v][c + h]++;
-                    }
-                }
-            }
+                    }            
 
             return result;
         }
