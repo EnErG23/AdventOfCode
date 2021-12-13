@@ -16,21 +16,13 @@ namespace AdventOfCode.Y2021.Days
         {
             CreatePage();
 
-            bool[,] resultPage = null;
-
-            foreach (var fold in folds)
-            {
-                page = Fold(page, fold);
-
-                if (resultPage is null)
-                    resultPage = page;
-            }
+            page = Fold(page, folds[0]);
 
             long result = 0;
 
-            for (int r = 0; r < resultPage.GetLength(0); r++)
-                for (int c = 0; c < resultPage.GetLength(1); c++)
-                    if (resultPage[r, c])
+            for (int r = 0; r < page.GetLength(0); r++)
+                for (int c = 0; c < page.GetLength(1); c++)
+                    if (page[r, c])
                         result++;
 
             return result.ToString();
@@ -45,6 +37,9 @@ namespace AdventOfCode.Y2021.Days
                 foreach (var fold in folds)
                     page = Fold(page, fold);
             }
+            else
+                foreach (var fold in folds.Skip(1))
+                    page = Fold(page, fold);
 
             return "Vis. for answer";
         }
@@ -130,12 +125,22 @@ namespace AdventOfCode.Y2021.Days
 
         public override void VisualizePart2()
         {
-            RunPart2();
+            CreatePage();
 
-            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
 
+            Console.Clear();
             PrintPage(page);
+            Thread.Sleep(1000);
+
+            foreach (var fold in folds)
+            {
+                page = Fold(page, fold);
+
+                Console.Clear();
+                PrintPage(page);
+                Thread.Sleep(1000);
+            }
         }
     }
 }
