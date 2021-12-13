@@ -96,7 +96,7 @@ namespace AdventOfCode.Y2021.Days
                 expectedChars.Reverse();
 
                 if (corruptedChar == ' ')
-                    completionStrings.Add(String.Join("", expectedChars));
+                    completionStrings.Add(String.Join("", expectedChars));               
             }
 
             return result;
