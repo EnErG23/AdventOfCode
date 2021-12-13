@@ -12,7 +12,7 @@ namespace AdventOfCodeTests.Y2019.Days
 
         Day04? testDay;
         Day04? day;
-        string[] results = new[] { "Undefined", "Undefined", "Undefined", "Undefined" };
+        string[] results = new[] { "Undefined", "1099", "Undefined", "710" };
 
         public TestDay04()
         {
@@ -23,7 +23,7 @@ namespace AdventOfCodeTests.Y2019.Days
 			day = new(y, d, false);
 		}
 
-		[TestMethod]
+		// No test data
 		public void A_Test_Run_Part1()
 		{
 			string result = testDay.RunPart1();
@@ -39,7 +39,7 @@ namespace AdventOfCodeTests.Y2019.Days
 			Assert.AreEqual(results[1], result);
 		}
 
-		[TestMethod]
+		// No test data
 		public void C_Test_Run_Part2()
 		{
 			string result = testDay.RunPart2();

@@ -76,7 +76,6 @@ namespace AdventOfCode.Helpers
         public static void AddSkipDays()
         {
             // 2019
-            skipDays.Add("20196");
             skipDays.Add("20197");
             skipDays.Add("20198");
             skipDays.Add("20199");
