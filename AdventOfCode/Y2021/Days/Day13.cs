@@ -83,7 +83,7 @@ namespace AdventOfCode.Y2021.Days
             {
                 for (int c = 0; c < page.GetLength(1); c++)
                 {
-                    Console.Write(page[r, c] ? "#" : " ");
+                    Console.Write(page[r, c] ? "█" : " ");
                 }
                 Console.WriteLine();
             }

@@ -99,7 +99,7 @@ namespace AdventOfCode.Y2021.Days
                         else
                             Console.ForegroundColor = ConsoleColor.Black;
 
-                        Console.Write("■ ");
+                        Console.Write("█");
                     }
                     Console.WriteLine();
                 }
@@ -118,7 +118,7 @@ namespace AdventOfCode.Y2021.Days
                     else
                         Console.ForegroundColor = ConsoleColor.Yellow;
 
-                    Console.Write("■ ");
+                    Console.Write("█");
                 }
                 Console.WriteLine();
             }
