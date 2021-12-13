@@ -7,9 +7,9 @@ namespace AdventOfCode.Models
     {
         private int year;
         private int day;
-        private string time = "00:00.00ms";
-        private string time1 = "00:00.00ms";
-        private string time2 = "00:00.00ms";
+        private TimeSpan time;
+        private TimeSpan time1;
+        private TimeSpan time2;
 
         public string Answer1 { get; set; } = "Undefined";
         public string Answer2 { get; set; } = "Undefined";
@@ -32,7 +32,7 @@ namespace AdventOfCode.Models
                 Stopwatch sw1 = Stopwatch.StartNew();
                 Answer1 = RunPart1();
                 sw1.Stop();
-                time1 = sw1.Elapsed.ToString("mm\\:ss\\.ffffff");
+                time1 = sw1.Elapsed;
             }
 
             if (part == 0 || part == 2)
@@ -40,11 +40,11 @@ namespace AdventOfCode.Models
                 Stopwatch sw2 = Stopwatch.StartNew();
                 Answer2 = RunPart2();
                 sw2.Stop();
-                time2 = sw2.Elapsed.ToString("mm\\:ss\\.ffffff");
+                time2 = sw2.Elapsed;
             }
 
             sw.Stop();
-            time = sw.Elapsed.ToString("mm\\:ss\\.ffffff");
+            time = sw.Elapsed;
 
             Print();
         }
@@ -79,8 +79,14 @@ namespace AdventOfCode.Models
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("   ║   ");
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(time1);
+            if (time1 > new TimeSpan(0, 0, 0, 1))
+                Console.ForegroundColor = ConsoleColor.Red;
+            else if (time1 > new TimeSpan(0, 0, 0, 0, 100))
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else
+                Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.Write(time1.ToString("mm\\:ss\\.ffffff"));
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("   ║");
@@ -116,8 +122,14 @@ namespace AdventOfCode.Models
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("   ║   ");
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(time2);
+            if (time2 > new TimeSpan(0, 0, 0, 1))
+                Console.ForegroundColor = ConsoleColor.Red;
+            else if (time2 > new TimeSpan(0, 0, 0, 0, 100))
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else
+                Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.Write(time2.ToString("mm\\:ss\\.ffffff"));
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("   ║");
@@ -129,8 +141,14 @@ namespace AdventOfCode.Models
 
             Console.Write("║         ║          ║                      ║   ");
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(time);
+            if (time > new TimeSpan(0, 0, 0, 1))
+                Console.ForegroundColor = ConsoleColor.Red;
+            else if (time > new TimeSpan(0, 0, 0, 0, 100))
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else
+                Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.Write(time.ToString("mm\\:ss\\.ffffff"));
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("   ║");
