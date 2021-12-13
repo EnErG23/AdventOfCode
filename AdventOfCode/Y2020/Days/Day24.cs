@@ -4,7 +4,7 @@ namespace AdventOfCode.Y2020.Days
 {
     public class Day24 : Day
     {
-        private List<List<bool>>? tiles = new List<List<bool>>();
+        private List<List<bool>>? tiles;
 
         public Day24(int year, int day, bool test) : base(year, day, test) { }
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.Y2020.Days
         {
             long result = 0;
 
+            tiles = new();
             List<bool> startRow = new List<bool>();
             tiles.Add(startRow);
 
@@ -60,20 +61,16 @@ namespace AdventOfCode.Y2020.Days
                     var newTiles = new List<List<bool>>();
                     var newRow = new List<bool>();
 
-                    for (int i = 0; i < tiles.ElementAt(0).Count; i++)
-                    {
+                    for (int i = 0; i < tiles[0].Count; i++)
                         newRow.Add(false);
-                    }
 
                     for (int i = 0; i < (Math.Abs(y) - startTileY); i++)
-                    {
                         newTiles.Add(newRow.ToList());
-                    }
+
                     newTiles.AddRange(tiles);
+
                     for (int i = 0; i < (Math.Abs(y) - startTileY); i++)
-                    {
                         newTiles.Add(newRow.ToList());
-                    }
 
                     tiles = newTiles;
                 }
@@ -88,16 +85,12 @@ namespace AdventOfCode.Y2020.Days
                         var newRow = new List<bool>();
 
                         for (int i = 0; i < (Math.Abs(x) - startTileX); i++)
-                        {
                             newRow.Add(false);
-                        }
 
                         newRow.AddRange(row);
 
                         for (int i = 0; i < (Math.Abs(x) - startTileX); i++)
-                        {
                             newRow.Add(false);
-                        }
 
                         newTiles.Add(newRow);
                     }
@@ -107,7 +100,7 @@ namespace AdventOfCode.Y2020.Days
 
                 // Calculate tile coords
                 startTileY = ((tiles.Count - 1) / 2);
-                startTileX = ((tiles.ElementAt(startTileY).Count - 1) / 2);
+                startTileX = ((tiles[startTileY].Count - 1) / 2);
                 var destY = startTileY + y;
                 var destX = startTileX + x;
 
@@ -115,45 +108,130 @@ namespace AdventOfCode.Y2020.Days
                 tiles[destY][destX] = !tiles[destY][destX];
             }
 
-            //WriteTiles(tiles);
-            //Console.WriteLine();
+            foreach (var row in tiles)
+                foreach (var tile in row)
+                    if (tile)
+                        result++;
+
+            return result.ToString();
+        }
+
+        public override string RunPart2()
+        {
+            if (tiles is null)
+                RunPart1();
+
+            Console.Clear();
+            WriteTiles(tiles);
+            Console.WriteLine();
+
+            long result = 0;
+
+            for (int d = 0; d < 100; d++)
+            {
+                // Enlarge grid to also check neighbouring whites
+                List<List<bool>> newTiles = new();
+                List<bool> newRow = new();
+
+                for (int i = 0; i < tiles[0].Count + 2; i++)
+                    newRow.Add(false);
+
+                newTiles.Add(newRow.ToList());
+
+                for (int i = 0; i < tiles.Count; i++)
+                {
+                    newRow = new();
+
+                    newRow.Add(false);
+                    newRow.AddRange(tiles[i]);
+                    newRow.Add(false);
+
+                    newTiles.Add(newRow.ToList());
+                }
+
+                newRow = new();
+
+                for (int i = 0; i < newTiles[0].Count; i++)
+                    newRow.Add(false);
+
+                newTiles.Add(newRow.ToList());
+
+                tiles = newTiles.ToList();
+
+                // Get tiles to flip
+                List<(int, int)> tilesToFlip = new();
+
+                for (int r = 0; r < tiles.Count; r++)
+                {
+                    for (int c = 0; c < tiles[0].Count; c++)
+                    {
+                        var adjacentBlack = 0;
+
+                        // TODO: RE-WRITE FOR SHIFTED ROWS (hexagonals vs squares)
+                        for (int i = -1; i <= 1; i++)
+                        {
+                            for (int j = -1; j <= 1; j++)
+                                try
+                                {
+                                    if (tiles[r + i][c + j])
+                                        adjacentBlack++;
+                                }
+                                catch { }
+                        }
+
+                        if (tiles[r][c])
+                        {
+                            adjacentBlack--;
+
+                            if (adjacentBlack == 0 || adjacentBlack > 2)
+                                tilesToFlip.Add((r, c));
+                        }
+                        else if (adjacentBlack == 2)
+                            tilesToFlip.Add((r, c));
+                    }
+                }
+
+                // Flip tiles
+                foreach (var tileToFlip in tilesToFlip)
+                    tiles[tileToFlip.Item1][tileToFlip.Item2] = !tiles[tileToFlip.Item1][tileToFlip.Item2];
+
+                //Console.Clear();                
+
+                var blackTiles = 0;
+
+                foreach (var row in tiles)
+                    foreach (var tile in row)
+                        if (tile)
+                            blackTiles++;
+
+                Console.WriteLine($"Day {d + 1}: {blackTiles}");
+                Console.WriteLine();
+                WriteTiles(tiles);
+                Console.WriteLine();
+            }
 
             foreach (var row in tiles)
                 foreach (var tile in row)
                     if (tile)
                         result++;
 
-			return result.ToString();
-        }
-
-        public override string RunPart2()
-        {
-            long result = 0;
-
-            for (int i = 0; i < 100; i++)
-            {
-                // Any black tile with zero or more than 2 black tiles immediately adjacent to it is flipped to white.
-                // Any white tile with exactly 2 black tiles immediately adjacent to it is flipped to black.
-            }
-
-			return result.ToString();
+            return result.ToString();
         }
 
         static void WriteTiles(List<List<bool>> tiles)
         {
+            Console.ForegroundColor = ConsoleColor.White;
+
             foreach (var row in tiles)
             {
-                var line = "";
-
                 foreach (var tile in row)
                 {
                     if (tile)
-                        line += "B";
+                        Console.Write(" ");
                     else
-                        line += "W";
+                        Console.Write("█");
                 }
-
-                Console.WriteLine(line);
+                Console.WriteLine();
             }
         }
     }

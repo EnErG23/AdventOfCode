@@ -53,6 +53,7 @@ namespace AdventOfCode.Models
         {
             #region Part 1
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("║   ");
 
             Console.ForegroundColor = ConsoleColor.White;
