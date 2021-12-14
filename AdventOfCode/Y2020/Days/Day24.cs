@@ -121,32 +121,38 @@ namespace AdventOfCode.Y2020.Days
             if (tiles is null)
                 RunPart1();
 
-            Console.Clear();
-            WriteTiles(tiles);
-            Console.WriteLine();
-
             long result = 0;
 
             for (int d = 0; d < 100; d++)
-            {
+            {                
                 // Enlarge grid to also check neighbouring whites
                 List<List<bool>> newTiles = new();
                 List<bool> newRow = new();
 
-                for (int i = 0; i < tiles[0].Count + 2; i++)
+                bool shifted = false;
+
+                for (int i = 0; i < tiles[0].Count + 1; i++)
                     newRow.Add(false);
 
                 newTiles.Add(newRow.ToList());
+
+                shifted = !shifted;
 
                 for (int i = 0; i < tiles.Count; i++)
                 {
                     newRow = new();
 
-                    newRow.Add(false);
+                    if (!shifted)
+                        newRow.Add(false);
+
                     newRow.AddRange(tiles[i]);
-                    newRow.Add(false);
+
+                    if (shifted)
+                        newRow.Add(false);
 
                     newTiles.Add(newRow.ToList());
+
+                    shifted = !shifted;
                 }
 
                 newRow = new();
@@ -156,7 +162,10 @@ namespace AdventOfCode.Y2020.Days
 
                 newTiles.Add(newRow.ToList());
 
+                tiles = new();
                 tiles = newTiles.ToList();
+
+                shifted = !shifted;
 
                 // Get tiles to flip
                 List<(int, int)> tilesToFlip = new();
@@ -165,37 +174,45 @@ namespace AdventOfCode.Y2020.Days
                 {
                     for (int c = 0; c < tiles[0].Count; c++)
                     {
-                        var adjacentBlack = 0;
+                        var adjacentBlack = 0;                        
 
-                        // TODO: RE-WRITE FOR SHIFTED ROWS (hexagonals vs squares)
-                        for (int i = -1; i <= 1; i++)
+                        if (shifted)
                         {
-                            for (int j = -1; j <= 1; j++)
-                                try
-                                {
-                                    if (tiles[r + i][c + j])
-                                        adjacentBlack++;
-                                }
-                                catch { }
+                            try { if (tiles[r - 1][c - 1]) adjacentBlack++; } catch { }
+                            try { if (tiles[r - 1][c]) adjacentBlack++; } catch { }
+                            try { if (tiles[r][c - 1]) adjacentBlack++; } catch { }
+                            try { if (tiles[r][c + 1]) adjacentBlack++; } catch { }
+                            try { if (tiles[r + 1][c - 1]) adjacentBlack++; } catch { }
+                            try { if (tiles[r + 1][c]) adjacentBlack++; } catch { }
+                        }
+                        else
+                        {
+                            try { if (tiles[r - 1][c]) adjacentBlack++; } catch { }
+                            try { if (tiles[r - 1][c + 1]) adjacentBlack++; } catch { }
+                            try { if (tiles[r][c - 1]) adjacentBlack++; } catch { }
+                            try { if (tiles[r][c + 1]) adjacentBlack++; } catch { }
+                            try { if (tiles[r + 1][c]) adjacentBlack++; } catch { }
+                            try { if (tiles[r + 1][c + 1]) adjacentBlack++; } catch { }
                         }
 
-                        if (tiles[r][c])
+                        if (tiles[r][c]) // Any black tile with zero or more than 2 black tiles immediately adjacent to it is flipped to white.
                         {
-                            adjacentBlack--;
-
                             if (adjacentBlack == 0 || adjacentBlack > 2)
                                 tilesToFlip.Add((r, c));
                         }
-                        else if (adjacentBlack == 2)
-                            tilesToFlip.Add((r, c));
+                        else
+                        {
+                            if (adjacentBlack == 2) // Any white tile with exactly 2 black tiles immediately adjacent to it is flipped to black.
+                                tilesToFlip.Add((r, c));
+                        }
                     }
+
+                    shifted = !shifted;
                 }
 
                 // Flip tiles
                 foreach (var tileToFlip in tilesToFlip)
-                    tiles[tileToFlip.Item1][tileToFlip.Item2] = !tiles[tileToFlip.Item1][tileToFlip.Item2];
-
-                //Console.Clear();                
+                    tiles[tileToFlip.Item1][tileToFlip.Item2] = !tiles[tileToFlip.Item1][tileToFlip.Item2];           
 
                 var blackTiles = 0;
 
@@ -203,11 +220,6 @@ namespace AdventOfCode.Y2020.Days
                     foreach (var tile in row)
                         if (tile)
                             blackTiles++;
-
-                Console.WriteLine($"Day {d + 1}: {blackTiles}");
-                Console.WriteLine();
-                WriteTiles(tiles);
-                Console.WriteLine();
             }
 
             foreach (var row in tiles)
@@ -220,18 +232,29 @@ namespace AdventOfCode.Y2020.Days
 
         static void WriteTiles(List<List<bool>> tiles)
         {
-            Console.ForegroundColor = ConsoleColor.White;
+            bool shifted = true;
 
             foreach (var row in tiles)
             {
+                if (!shifted)
+                    Console.Write(" ");
+
                 foreach (var tile in row)
                 {
                     if (tile)
-                        Console.Write(" ");
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("█ ");
+                    }
                     else
-                        Console.Write("█");
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write("█ ");
+                    }
                 }
                 Console.WriteLine();
+
+                shifted = !shifted;
             }
         }
     }

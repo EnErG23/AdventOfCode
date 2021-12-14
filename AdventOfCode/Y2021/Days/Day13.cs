@@ -41,6 +41,8 @@ namespace AdventOfCode.Y2021.Days
                 foreach (var fold in folds.Skip(1))
                     page = Fold(page, fold);
 
+            PrintPage(page);
+
             return "Vis. for answer";
         }
 
