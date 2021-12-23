@@ -60,6 +60,8 @@ namespace AdventOfCode.Y2021.Days
             {
                 Location visitingLocation = locations.Where(l => !l.IsVisited).OrderBy(l => l.DistanceFromSource).First();
 
+                Console.WriteLine($"Visiting ({visitingLocation.Row},{visitingLocation.Column}) - {visitingLocation.Value} ({visitingLocation.DistanceFromSource})");
+
                 // Top
                 if (visitingLocation.Row > 0)
                 {
