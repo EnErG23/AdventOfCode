@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Models;
-using AdventOfCode.Y2021.Models;
 
 namespace AdventOfCode.Y2021.Days
 {
@@ -41,7 +40,7 @@ namespace AdventOfCode.Y2021.Days
                 foreach (var fold in folds.Skip(1))
                     page = Fold(page, fold);
 
-            PrintPage(page);
+            //PrintPage(page);
 
             return "Vis. for answer";
         }
