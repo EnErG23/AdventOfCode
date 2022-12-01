@@ -107,6 +107,9 @@ namespace AdventOfCode.Helpers
             {
                 skipDays.Add($"{currentDate.Year}{i}");
             }
+
+            // 2021 - Too long
+            skipDays.Add("202115"); // Hours           
         }
 
         public static void PrintHeader()

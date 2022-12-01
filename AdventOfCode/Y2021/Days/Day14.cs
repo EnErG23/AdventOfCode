@@ -1,6 +1,4 @@
 ﻿using AdventOfCode.Models;
-using AdventOfCode.Y2021.Models;
-using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Y2021.Days
 {
@@ -27,7 +25,7 @@ namespace AdventOfCode.Y2021.Days
                     polymer = $"{polymer.Substring(0, p + 1)}{element}{polymer.Substring(p + 1)}";
                 }
 
-                Console.WriteLine($"After step {i + 1}: {polymer.Substring(0, Math.Min(polymer.Length, 10))}...");
+                //Console.WriteLine($"After step {i + 1}: {polymer.Substring(0, Math.Min(polymer.Length, 10))}...");
             }
 
             var polymerCounts = polymer.ToList()
