@@ -4,13 +4,13 @@ namespace AdventOfCode.Y2022.Days
 {
     public class Day01 : Day
     {
-        private List<int>? elveCalories;
+        private List<int>? elfCalories;
 
         public Day01(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {
-            elveCalories = new List<int>();
+            elfCalories = new List<int>();
 
             int calories = 0;
 
@@ -18,7 +18,7 @@ namespace AdventOfCode.Y2022.Days
             {
                 if (input == "")
                 {
-                    elveCalories.Add(calories);
+                    elfCalories.Add(calories);
                     calories = 0;
                 }
                 else
@@ -26,16 +26,16 @@ namespace AdventOfCode.Y2022.Days
                     calories += int.Parse(input);
                 }
             }
-            elveCalories.Add(calories);
+            elfCalories.Add(calories);
 
-            return elveCalories.Max(e => e).ToString();
+            return elfCalories.Max().ToString();
         }
 
         public override string RunPart2()
         {
-            if (elveCalories == null)
+            if (elfCalories == null)
             {
-                elveCalories = new List<int>();
+                elfCalories = new List<int>();
 
                 int calories = 0;
 
@@ -43,7 +43,7 @@ namespace AdventOfCode.Y2022.Days
                 {
                     if (input == "")
                     {
-                        elveCalories.Add(calories);
+                        elfCalories.Add(calories);
                         calories = 0;
                     }
                     else
@@ -51,10 +51,10 @@ namespace AdventOfCode.Y2022.Days
                         calories += int.Parse(input);
                     }
                 }
-                elveCalories.Add(calories);
+                elfCalories.Add(calories);
             }
 
-            return elveCalories.OrderByDescending(e => e).Take(3).Sum(e => e).ToString();
+            return elfCalories.OrderByDescending(e => e).Take(3).Sum().ToString();
         }
     }
 }
