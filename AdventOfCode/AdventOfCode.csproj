@@ -33,6 +33,13 @@
     <None Update="Y2021\Inputs\Placeholder.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Y2022\Inputs\Placeholder.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Y2022\Models\" />
   </ItemGroup>
 
 </Project>
