@@ -11,9 +11,7 @@ namespace AdventOfCode.Y2022.Days
             return String.Join(';', Inputs)
                 .Split(";;")
                 .ToList()
-                .Select(e => e.Split(';')
-                    .Select(s => int.Parse(s))
-                    .Sum())
+                .Select(e => e.Split(';').Select(s => int.Parse(s)).Sum())
                 .Max()
                 .ToString();
         }
@@ -23,9 +21,7 @@ namespace AdventOfCode.Y2022.Days
             return String.Join(';', Inputs)
                 .Split(";;")
                 .ToList()
-                .Select(e => e.Split(';')
-                    .Select(s => int.Parse(s))
-                    .Sum())
+                .Select(e => e.Split(';').Select(s => int.Parse(s)).Sum())
                 .OrderByDescending(e => e)
                 .Take(3)
                 .Sum()
