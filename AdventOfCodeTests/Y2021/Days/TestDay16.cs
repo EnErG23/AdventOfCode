@@ -1,20 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using AdventOfCode.Y2022.Days;
+using AdventOfCode.Y2021.Days;
 
-namespace AdventOfCodeTests.Y2022.Days
+namespace AdventOfCodeTests.Y2021.Days
 {
     [TestClass]
-    public class TestDay04
+    public class TestDay16
     {
         int y;
         int d;
 
-        Day04? testDay;
-        Day04? day;
-        string[] results = new[] { "2", "507", "4", "undefined" };
+        Day16? testDay;
+        Day16? day;
+        string[] results = new[] { "Undefined", "Undefined", "Undefined", "Undefined" };
 
-        public TestDay04()
+        public TestDay16()
         {
             var type = GetType();
             y = Convert.ToInt32(type.Namespace.Substring(type.Namespace.Length - 9, 4));
@@ -24,7 +24,7 @@ namespace AdventOfCodeTests.Y2022.Days
         }
 
         [TestMethod]
-        public void A_Test_Run_Part1()
+        public void Test_Run_Part1()
         {
             string result = testDay.RunPart1();
 
@@ -32,7 +32,7 @@ namespace AdventOfCodeTests.Y2022.Days
         }
 
         [TestMethod]
-        public void B_Run_Part1()
+        public void Run_Part1()
         {
             string result = day.RunPart1();
 
@@ -40,7 +40,7 @@ namespace AdventOfCodeTests.Y2022.Days
         }
 
         [TestMethod]
-        public void C_Test_Run_Part2()
+        public void Test_Run_Part2()
         {
             string result = testDay.RunPart2();
 
@@ -48,7 +48,7 @@ namespace AdventOfCodeTests.Y2022.Days
         }
 
         [TestMethod]
-        public void D_Run_Part2()
+        public void Run_Part2()
         {
             string result = day.RunPart2();
 
