@@ -8,42 +8,32 @@ namespace AdventOfCode.Y2022.Days
 
         public override string RunPart1()
         {
-            var assignmentPairs = Inputs;
-
-            int overlaps = 0;
-            
-            foreach(var assignmentPair in assignmentPairs)
+            return Inputs.Select(i => (new
             {
-                var a1s1 = int.Parse(assignmentPair.Split(",")[0].Split("-")[0]);
-                var a1s2 = int.Parse(assignmentPair.Split(",")[0].Split("-")[1]);
-                var a2s1 = int.Parse(assignmentPair.Split(",")[1].Split("-")[0]);
-                var a2s2 = int.Parse(assignmentPair.Split(",")[1].Split("-")[1]);
-
-                if ((a1s1 <= a2s1 && a1s2 >= a2s2) || (a1s1 >= a2s1 && a1s2 <= a2s2))
-                    overlaps++;
-            }
-
-            return overlaps.ToString();
+                s1 = int.Parse(i.Split(",")[0].Split("-")[0]),
+                s2 = int.Parse(i.Split(",")[0].Split("-")[1])
+            }, new
+            {
+                s1 = int.Parse(i.Split(",")[1].Split("-")[0]),
+                s2 = int.Parse(i.Split(",")[1].Split("-")[1])
+            }))
+                .Count(a => (a.Item1.s1 <= a.Item2.s1 && a.Item1.s2 >= a.Item2.s2) || (a.Item1.s1 >= a.Item2.s1 && a.Item1.s2 <= a.Item2.s2))
+                .ToString();
         }
 
         public override string RunPart2()
         {
-            var assignmentPairs = Inputs;
-
-            int overlaps = 0;
-
-            foreach (var assignmentPair in assignmentPairs)
+            return Inputs.Select(i => (new
             {
-                var a1s1 = int.Parse(assignmentPair.Split(",")[0].Split("-")[0]);
-                var a1s2 = int.Parse(assignmentPair.Split(",")[0].Split("-")[1]);
-                var a2s1 = int.Parse(assignmentPair.Split(",")[1].Split("-")[0]);
-                var a2s2 = int.Parse(assignmentPair.Split(",")[1].Split("-")[1]);
-
-                if (!(a1s1 > a2s2 || a1s2 < a2s1))
-                    overlaps++;
-            }
-
-            return overlaps.ToString();
+                s1 = int.Parse(i.Split(",")[0].Split("-")[0]),
+                s2 = int.Parse(i.Split(",")[0].Split("-")[1])
+            }, new
+            {
+                s1 = int.Parse(i.Split(",")[1].Split("-")[0]),
+                s2 = int.Parse(i.Split(",")[1].Split("-")[1])
+            }))
+                .Count(a => !(a.Item1.s1 > a.Item2.s2 || a.Item1.s2 < a.Item2.s1))
+                .ToString();
         }
     }
 }
