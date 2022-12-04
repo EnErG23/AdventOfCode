@@ -75,6 +75,13 @@ namespace AdventOfCode.Helpers
 
         public static void AddSkipDays()
         {
+            // Current year
+            var currentDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Eastern Standard Time").Date;
+            for (int i = (currentDate.Day > 25 ? 1 : currentDate.Day + 1); i <= 25; i++)
+            {
+                skipDays.Add($"{currentDate.Year}{i}");
+            }
+
             // 2019
             skipDays.Add("20197");
             skipDays.Add("20198");
@@ -100,13 +107,6 @@ namespace AdventOfCode.Helpers
             //skipDays.Add("202011"); // 10s
             //skipDays.Add("202014"); // 33s
             skipDays.Add("202017");
-
-            // Current year
-            var currentDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Eastern Standard Time").Date;
-            for (int i = (currentDate.Day > 25 ? 1 : currentDate.Day + 1); i <= 25; i++)
-            {
-                skipDays.Add($"{currentDate.Year}{i}");
-            }
 
             // 2021 - Too long
             skipDays.Add("202115"); // Hours           
