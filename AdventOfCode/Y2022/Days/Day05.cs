@@ -43,7 +43,7 @@ namespace AdventOfCode.Y2022.Days
             foreach (var step in _steps)
             {
                 int amountToMove = Math.Min(step[0], _stacks[step[1] - 1].Length);
-                var packagesToMove = _stacks[step[1] - 1].Substring(0, amountToMove).ToCharArray();
+                char[] packagesToMove = _stacks[step[1] - 1].Substring(0, amountToMove).ToCharArray();
                 Array.Reverse(packagesToMove);
 
                 _stacks[step[2] - 1] = new string(packagesToMove) + _stacks[step[2] - 1];
