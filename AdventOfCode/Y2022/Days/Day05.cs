@@ -42,13 +42,12 @@ namespace AdventOfCode.Y2022.Days
         {
             foreach (var step in _steps)
             {
-                int toMove = Math.Min(step[0], _stacks[step[1] - 1].Length);
+                int amountToMove = Math.Min(step[0], _stacks[step[1] - 1].Length);
+                var packagesToMove = _stacks[step[1] - 1].Substring(0, amountToMove).ToCharArray();
+                Array.Reverse(packagesToMove);
 
-                for (int i = 0; i < toMove; i++)
-                {
-                    _stacks[step[2] - 1] = _stacks[step[1] - 1][0] + _stacks[step[2] - 1];
-                    _stacks[step[1] - 1] = _stacks[step[1] - 1].Substring(1);
-                }
+                _stacks[step[2] - 1] = new string(packagesToMove) + _stacks[step[2] - 1];
+                _stacks[step[1] - 1] = _stacks[step[1] - 1].Substring(amountToMove);
             }
 
             return String.Join("", _stacks.Select(s => s[0]));
@@ -58,10 +57,10 @@ namespace AdventOfCode.Y2022.Days
         {
             foreach (var step in _steps)
             {
-                int toMove = Math.Min(step[0], _stacks[step[1] - 1].Length);
+                int amountToMove = Math.Min(step[0], _stacks[step[1] - 1].Length);
 
-                _stacks[step[2] - 1] = _stacks[step[1] - 1].Substring(0, toMove) + _stacks[step[2] - 1];
-                _stacks[step[1] - 1] = _stacks[step[1] - 1].Substring(toMove);
+                _stacks[step[2] - 1] = _stacks[step[1] - 1].Substring(0, amountToMove) + _stacks[step[2] - 1];
+                _stacks[step[1] - 1] = _stacks[step[1] - 1].Substring(amountToMove);
             }
 
             return String.Join("", _stacks.Select(s => s[0]));
