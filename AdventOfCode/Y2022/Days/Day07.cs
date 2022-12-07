@@ -66,9 +66,7 @@ namespace AdventOfCode.Y2022.Days
         {
             return _allDirectories
                 .Where(d => d.Size > (_allDirectories.FirstOrDefault(d => d.Name == "/").Size - (70000000 - 30000000)))
-                .OrderBy(d => d.Size)
-                .First()
-                .Size
+                .Min(d => d.Size)                
                 .ToString();
         }
     }
