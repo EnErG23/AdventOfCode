@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Models;
+using System.Text;
 
 namespace AdventOfCode.Y2021.Days
 {
