@@ -8,7 +8,14 @@ namespace AdventOfCode.Y2021.Days
         private long _p1Wins = 0;
         private long _p2Wins = 0;
 
-        public Day21(int year, int day, bool test) : base(year, day, test) { }
+        private readonly int[] _occurance = { 1, 3, 6, 7, 6, 3, 1 };
+
+        //private List<Game> _possibleGames;
+
+        public Day21(int year, int day, bool test) : base(year, day, test)
+        {
+            //_possibleGames = new List<Game>();
+        }
 
         public override string RunPart1()
         {
@@ -58,7 +65,7 @@ namespace AdventOfCode.Y2021.Days
 
         public override string RunPart2()
         {
-            return "undefined";
+            //return "undefined";
 
             int p1Pos = int.Parse(Inputs[0].Last().ToString());
             int p2Pos = int.Parse(Inputs[1].Last().ToString());
@@ -69,6 +76,44 @@ namespace AdventOfCode.Y2021.Days
         }
 
         private void PlayGame(bool isP1Turn, int p1Score, int p2Score, int p1Pos, int p2Pos)
+        {
+            Console.WriteLine($"{_p1Wins} vs {_p2Wins}");
+
+            if (isP1Turn)
+            {
+                for (int i = 3; i < 10; i++)
+                {
+                    int p1NewPos = (p1Pos + i) % 10;
+                    int p1NewScore = p1Score + (p1NewPos == 0 ? 10 : p1NewPos);
+
+                    if (p1NewScore >= 21)
+                    {
+                        _p1Wins += _occurance[i-3];
+                        return;
+                    }
+
+                    PlayGame(false, p1NewScore, p2Score, p1NewPos, p2Pos);
+                }
+            }
+            else
+            {
+                for (int i = 3; i < 10; i++)
+                {
+                    int p2NewPos = (p2Pos + i) % 10;
+                    int p2NewScore = p2Score + (p2NewPos == 0 ? 10 : p2NewPos);
+
+                    if (p2NewScore >= 21)
+                    {
+                        _p2Wins += _occurance[i-3];
+                        break;
+                    }
+
+                    PlayGame(true, p1Score, p2NewScore, p1Pos, p2NewPos);
+                }
+            }
+        }
+
+        private void PlayGameOld(bool isP1Turn, int p1Score, int p2Score, int p1Pos, int p2Pos)
         {
             Console.WriteLine($"{_p1Wins} vs {_p2Wins}");
             //Console.WriteLine($"{(isP1Turn ? 1 : 2)} ({turn}): {p1Pos} ({p1Score}) vs {p2Pos} ({p2Score})");
@@ -86,6 +131,8 @@ namespace AdventOfCode.Y2021.Days
 
                             if (p1NewScore >= 21)
                             {
+                                //_possibleGames.Add(new Game(false, p1Score, p2Score, p1NewPos, p2Pos, 1));
+
                                 _p1Wins++;
                                 return;
                             }
@@ -117,6 +164,27 @@ namespace AdventOfCode.Y2021.Days
                     }
                 }
             }
+        }
+
+    }
+
+    public class Game
+    {
+        public bool IsP1Turn { get; set; }
+        public int P1Score { get; set; }
+        public int P2Score { get; set; }
+        public int P1Pos { get; set; }
+        public int P2Pos { get; set; }
+        public int Winner { get; set; }
+
+        public Game(bool isP1Turn, int p1Score, int p2Score, int p1Pos, int p2Pos, int winner)
+        {
+            IsP1Turn = isP1Turn;
+            P1Score = p1Score;
+            P2Score = p2Score;
+            P1Pos = p1Pos;
+            P2Pos = p2Pos;
+            Winner = winner;
         }
     }
 }
