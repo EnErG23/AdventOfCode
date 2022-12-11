@@ -4,7 +4,12 @@ namespace AdventOfCode.Y2022.Days
 {
     public class Day10 : Day
     {
-        public Day10(int year, int day, bool test) : base(year, day, test) { }
+        private List<char[]> _crtRows;
+
+        public Day10(int year, int day, bool test) : base(year, day, test)
+        {
+            _crtRows = new List<char[]>();
+        }
 
         public override string RunPart1()
         {
@@ -46,11 +51,10 @@ namespace AdventOfCode.Y2022.Days
         {
             int x = 1;
             int cycle = 0;
-            List<char[]> crtRows = new List<char[]>();
             string crtRow = "........................................";
 
-            for (int i = 0; i < 6; i++)            
-                crtRows.Add(crtRow.ToCharArray());            
+            for (int i = 0; i < 6; i++)
+                _crtRows.Add(crtRow.ToCharArray());
 
             foreach (var input in Inputs)
             {
@@ -61,8 +65,8 @@ namespace AdventOfCode.Y2022.Days
                     case "noop":
                         cycle++;
 
-                        if (x - 1 <= cycle || cycle <= x + 1)
-                            crtRows[(cycle - 1) / 40][(cycle - 1) % 40] = '#';
+                        if (x - 1 <= ((cycle - 1) % 40) && ((cycle - 1) % 40) <= x + 1)
+                            _crtRows[(cycle - 1) / 40][(cycle - 1) % 40] = '#';
 
                         break;
                     case "addx":
@@ -70,8 +74,8 @@ namespace AdventOfCode.Y2022.Days
                         {
                             cycle++;
 
-                            if (x - 1 <= cycle || cycle <= x + 1)
-                                crtRows[(cycle - 1) / 40][(cycle - 1) % 40] = '#';
+                            if (x - 1 <= ((cycle - 1) % 40) && ((cycle - 1) % 40) <= x + 1)
+                                _crtRows[(cycle - 1) / 40][(cycle - 1) % 40] = '#';
 
                             if (i == 1)
                                 x += int.Parse(commands[1]);
@@ -80,7 +84,15 @@ namespace AdventOfCode.Y2022.Days
                 }
             }
 
-            foreach (var r in crtRows)
+
+            return "See visual";
+        }
+
+        public override void VisualizePart2()
+        {
+            RunPart2();
+
+            foreach (var r in _crtRows)
             {
                 foreach (char c in r)
                 {
@@ -88,8 +100,6 @@ namespace AdventOfCode.Y2022.Days
                 }
                 Console.WriteLine();
             }
-
-            return "undefined";
         }
     }
 }

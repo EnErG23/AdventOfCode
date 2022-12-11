@@ -24,8 +24,7 @@ namespace AdventOfCode.Y2022.Days
 
                     //left
                     if (_forest[r].GetRange(0, c).Max() < t)
-                    {
-                        Console.WriteLine("Visible");
+                    {                        
                         visibleTrees++;
                         continue;
                     }
@@ -33,16 +32,14 @@ namespace AdventOfCode.Y2022.Days
 
                     //right
                     if (_forest[r].GetRange(c + 1, _forest[r].Count() - c - 1).Max() < t)
-                    {
-                        Console.WriteLine("Visible");
+                    {                       
                         visibleTrees++;
                         continue;
                     }
 
                     //top
                     if (_forest.GetRange(0, r).Select(tr => tr[c]).Max() < t)
-                    {
-                        Console.WriteLine("Visible");
+                    {                        
                         visibleTrees++;
                         continue;
                     }
@@ -50,7 +47,6 @@ namespace AdventOfCode.Y2022.Days
                     //bottom
                     if (_forest.GetRange(r + 1, _forest.Count() - r - 1).Select(tr => tr[c]).Max() < t)
                     {
-                        Console.WriteLine("Visible");
                         visibleTrees++;
                         continue;
                     }
