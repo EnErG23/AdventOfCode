@@ -15,5 +15,13 @@ namespace AdventOfCode.Y2022.Days
         {
             return "undefined";
         }
+
+        public long FindPath(int maxHeightDiff)
+        {
+            while(true)
+            {
+
+            }
+        }
     }
 }

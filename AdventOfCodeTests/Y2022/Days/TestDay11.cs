@@ -12,7 +12,7 @@ namespace AdventOfCodeTests.Y2022.Days
 
         Day11? testDay;
         Day11? day;
-        string[] results = new[] { "undefined", "undefined", "undefined", "undefined" };
+        string[] results = new[] { "10605", "66124", "2713310158", "19309892877" };
 
         public TestDay11()
         {
