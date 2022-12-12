@@ -1,149 +1,98 @@
-﻿using AdventOfCode.Models;
+﻿using AdventOfCode.Helpers;
+using AdventOfCode.Models;
 
 namespace AdventOfCode.Y2022.Days
 {
     public class Day12 : Day
     {
         private readonly List<Location> _locations;
-        private List<List<Location>> _paths;
+        private readonly List<Tuple<Location, Location>> _edges;
+        private readonly Graph<Location> _graph;
+        private readonly Algorithms _algorithms;
+        private Location _startLocation;
+        private Location _endLocation;
 
         public Day12(int year, int day, bool test) : base(year, day, test)
         {
             _locations = new();
-            _paths = new();
+            _edges = new();
 
             for (var r = 0; r < Inputs.Count; r++)
                 for (var c = 0; c < Inputs[r].Length; c++)
-                    _locations.Add(new(r, c, Inputs[r][c], 0, false));
+                    _locations.Add(new(r, c, Inputs[r][c]));
 
-            foreach (var location in _locations)
+            _startLocation = _locations.First(l => l.Value == 'S');
+            _endLocation = _locations.First(l => l.Value == 'E');
+
+            foreach (var location in _locations.Where(l => l.Value != 'E'))
             {
-                var locVal = location.Value == 'E' ? 'z' : (location.Value == 'S' ? 'a' : location.Value);
+                var locVal = location.Value.Equals('E') ? 'z' : (location.Value.Equals('S') ? 'a' : location.Value);
 
                 // RIGHT
                 if (location.Column < _locations.Max(l => l.Column))
                 {
                     var connLoc = _locations.First(l => l.Row == location.Row && l.Column == location.Column + 1);
-                    var connVal = connLoc.Value == 'E' ? 'z' : (connLoc.Value == 'S' ? 'a' : connLoc.Value);
+                    var connVal = connLoc.Value.Equals('E') ? 'z' : (connLoc.Value.Equals('S') ? 'a' : connLoc.Value);
 
                     if (connVal - locVal < 2)
-                        location.ConnectedLocations.Add(connLoc);
-
+                        _edges.Add(Tuple.Create(location, connLoc));
                 }
 
                 // BOTTOM
                 if (location.Row < _locations.Max(l => l.Row))
                 {
                     var connLoc = _locations.First(l => l.Row == location.Row + 1 && l.Column == location.Column);
-                    var connVal = connLoc.Value == 'E' ? 'z' : (connLoc.Value == 'S' ? 'a' : connLoc.Value);
+                    var connVal = connLoc.Value.Equals('E') ? 'z' : (connLoc.Value.Equals('S') ? 'a' : connLoc.Value);
 
                     if (connVal - locVal < 2)
-                        location.ConnectedLocations.Add(connLoc);
+                        _edges.Add(Tuple.Create(location, connLoc));
                 }
 
                 //TOP
                 if (location.Row > 0)
                 {
                     var connLoc = _locations.First(l => l.Row == location.Row - 1 && l.Column == location.Column);
-                    var connVal = connLoc.Value == 'E' ? 'z' : (connLoc.Value == 'S' ? 'a' : connLoc.Value);
+                    var connVal = connLoc.Value.Equals('E') ? 'z' : (connLoc.Value.Equals('S') ? 'a' : connLoc.Value);
 
                     if (connVal - locVal < 2)
-                        location.ConnectedLocations.Add(connLoc);
+                        _edges.Add(Tuple.Create(location, connLoc));
                 }
 
                 //LEFT
                 if (location.Column > 0)
                 {
                     var connLoc = _locations.First(l => l.Row == location.Row && l.Column == location.Column - 1);
-                    var connVal = connLoc.Value == 'E' ? 'z' : (connLoc.Value == 'S' ? 'a' : connLoc.Value);
+                    var connVal = connLoc.Value.Equals('E') ? 'z' : (connLoc.Value.Equals('S') ? 'a' : connLoc.Value);
 
                     if (connVal - locVal < 2)
-                        location.ConnectedLocations.Add(connLoc);
+                        _edges.Add(Tuple.Create(location, connLoc));
                 }
             }
+
+            _graph = new Graph<Location>(_locations, _edges, false);
+            _algorithms = new Algorithms();
         }
 
         public override string RunPart1()
-        {
-            Location startLocation = _locations.First(l => l.Value == 'S');
-            startLocation.Value = 'a';
+            => (_algorithms.ShortestPathFunction(_graph, _startLocation)(_endLocation).Count() - 1).ToString();
 
-            AddNextNode(new() { startLocation });
-
-            return (_paths.Select(p => p.Count()).Min() - 1).ToString();
-        }
-
+        //TODO: Speed up
         public override string RunPart2()
         {
-            foreach (Location location in _locations.Where(s => s.Value == 'a'))
-                AddNextNode(new() { location });
+            int shortestPath = _algorithms.ShortestPathFunction(_graph, _startLocation)(_endLocation).Count();
 
-            return (_paths.Select(p => p.Count()).Min() - 1).ToString();
-        }
-
-        private void AddNextNode(List<Location> path)
-        {
-            var lastLocation = path.Last();
-
-            if (lastLocation.Value == 'E')
+            foreach (var location in _locations.Where(l => l.Value == 'a'))
             {
-                Console.WriteLine(String.Join(" ", path.Select(p => p.Value)));
-                _paths.Add(path);
+                try
+                {
+                    int pathLength = _algorithms.ShortestPathFunction(_graph, location)(_endLocation).Count();
+                    shortestPath = pathLength < shortestPath ? pathLength : shortestPath;
+                }
+                catch { }
             }
-            else
-                foreach (var connectedLocation in lastLocation.ConnectedLocations)
-                    if (!path.Contains(connectedLocation) && (_paths.Count() > 0 ? (path.Count() < _paths.Select(p => p.Count()).Min()) : true))
-                    {
-                        var newPath = path.ToList();
-                        newPath.Add(connectedLocation);
 
-                        AddNextNode(newPath);
-                    }
+            return (shortestPath - 1).ToString();
         }
-
-        //private void FindPath(int maxHeightDiff, Location location, List<(int, int)> visitedLocations, Location endlocation, int steps)
-        //{
-        //    if (_cache.Contains($"FindPath({maxHeightDiff}, ({location.Row}, {location.Column}) - {location.Value}, {visitedLocations.Distinct().Count()}, {endlocation.Value}, {steps})"))
-        //        return;
-
-        //    _cache.Add($"FindPath({maxHeightDiff}, ({location.Row}, {location.Column}) - {location.Value}, {visitedLocations.Distinct().Count()}, {endlocation.Value}, {steps})");
-
-        //    //if (location.Value > 105)
-        //    Console.WriteLine($"FindPath({maxHeightDiff}, ({location.Row}, {location.Column}) - {location.Value}, {visitedLocations.Distinct().Count()}, {endlocation.Value}, {steps})");
-
-        //    var newVisitedLocations = new List<(int, int)>(visitedLocations);
-        //    newVisitedLocations.Add((location.Row, location.Column));
-
-        //    if (location.DistanceFromSource > 0 && location.DistanceFromSource < steps)
-        //        return;
-
-        //    location.DistanceFromSource = steps;
-
-        //    if (_paths.Count() > 0)
-        //        if (steps >= _paths.Min())
-        //            return;
-
-        //    if (location == endlocation)
-        //    {
-        //        _paths.Add(steps);
-        //        Console.WriteLine(steps);
-        //        return;
-        //    }
-
-        //    List<Location> nextLocations = new();
-
-        //    if (location.Column < _locations.Max(l => l.Column))
-        //        nextLocations.Add(_locations.First(l => l.Row == location.Row && l.Column == location.Column + 1));
-        //    if (location.Row < _locations.Max(l => l.Row))
-        //        nextLocations.Add(_locations.First(l => l.Row == location.Row + 1 && l.Column == location.Column));
-        //    if (location.Row > 0)
-        //        nextLocations.Add(_locations.First(l => l.Row == location.Row - 1 && l.Column == location.Column));
-        //    if (location.Column > 0)
-        //        nextLocations.Add(_locations.First(l => l.Row == location.Row && l.Column == location.Column - 1));
-
-        //    foreach (Location l in nextLocations.Where(n => newVisitedLocations.Where(v => v.Item1 == n.Row && v.Item2 == n.Column).Count() == 0 && n.Value - location.Value <= maxHeightDiff))
-        //        FindPath(maxHeightDiff, l, newVisitedLocations, endlocation, steps + 1);
-        //}
     }
 
     public class Location
@@ -151,18 +100,12 @@ namespace AdventOfCode.Y2022.Days
         public int Row { get; set; }
         public int Column { get; set; }
         public char Value { get; set; }
-        public long DistanceFromSource { get; set; }
-        public bool IsVisited { get; set; }
-        public List<Location> ConnectedLocations { get; set; }
 
-        public Location(int row, int col, char val, long dist, bool isVisited)
+        public Location(int row, int column, char value)
         {
             Row = row;
-            Column = col;
-            Value = val;
-            DistanceFromSource = dist;
-            IsVisited = isVisited;
-            ConnectedLocations = new();
+            Column = column;
+            Value = value;
         }
     }
 }
