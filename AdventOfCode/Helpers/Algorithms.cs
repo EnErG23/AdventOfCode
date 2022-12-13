@@ -9,6 +9,9 @@ namespace AdventOfCode.Helpers
 {
     public class Algorithms
     {
+        //  PATHFINDING
+
+        //  BFS
         public HashSet<T> BFS<T>(Graph<T> graph, T start)
         {
             var visited = new HashSet<T>();
@@ -56,7 +59,8 @@ namespace AdventOfCode.Helpers
                 }
             }
 
-            Func<T, IEnumerable<T>> shortestPath = v => {
+            Func<T, IEnumerable<T>> shortestPath = v =>
+            {
                 var path = new List<T> { };
 
                 var current = v;
