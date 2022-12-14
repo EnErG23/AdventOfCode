@@ -94,18 +94,4 @@ namespace AdventOfCode.Y2022.Days
             return (shortestPath - 1).ToString();
         }
     }
-
-    public class Location
-    {
-        public int Row { get; set; }
-        public int Column { get; set; }
-        public char Value { get; set; }
-
-        public Location(int row, int column, char value)
-        {
-            Row = row;
-            Column = column;
-            Value = value;
-        }
-    }
 }

@@ -30,7 +30,7 @@ namespace AdventOfCode.Y2022.Days
             nonEmptyInputs.Add("[[6]]");
 
             nonEmptyInputs.Sort((i1, i2) => Compare(i1, i2) ? -1 : 1);
-
+            
             return ((nonEmptyInputs.IndexOf("[[2]]") + 1) * (nonEmptyInputs.IndexOf("[[6]]") + 1)).ToString();
         }
 
