@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace AdventOfCode.Helpers
 {
@@ -52,7 +53,7 @@ namespace AdventOfCode.Helpers
             var url = $"{website}/{Year}/day/{day}";
 
             HttpClient client = new();
-            //client.DefaultRequestHeaders.UserAgent.ParseAdd("vandenabbeelegeert@gmail.com");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd($".NET 6.0 (+via https://github.com/EnErG23/AdventOfCode by vandenabbeelegeert@gmail.com)");
             client.DefaultRequestHeaders.Add("cookie", $"session={sessionID}");
 
             var response = await client.GetAsync(url);
@@ -75,8 +76,8 @@ namespace AdventOfCode.Helpers
         {
             var url = $"{website}/{Year}/day/{day}/input";
 
-            HttpClient client = new(); 
-            //client.DefaultRequestHeaders.UserAgent.ParseAdd("vandenabbeelegeert@gmail.com");
+            HttpClient client = new();            
+            client.DefaultRequestHeaders.UserAgent.ParseAdd($".NET 6.0 (+via https://github.com/EnErG23/AdventOfCode by vandenabbeelegeert@gmail.com)");
             client.DefaultRequestHeaders.Add("cookie", $"session={sessionID}");
 
             var response = await client.GetAsync(url);
@@ -94,7 +95,7 @@ namespace AdventOfCode.Helpers
             var level = dayClass.GetProperty("Answer2").GetValue(day, null) == "Undefined" ? 1 : 2;
 
             HttpClient client = new();
-            //client.DefaultRequestHeaders.UserAgent.ParseAdd("vandenabbeelegeert@gmail.com");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd($".NET 6.0 (+via https://github.com/EnErG23/AdventOfCode by vandenabbeelegeert@gmail.com)");
             client.DefaultRequestHeaders.Add("cookie", $"session={sessionID}");
 
             var values = new Dictionary<string, string>
