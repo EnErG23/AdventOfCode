@@ -14,14 +14,10 @@ namespace AdventOfCode.Y2022.Days
             {
                 var words = input.Replace(":", "").Split(" ");
 
-                if (words.Length > 2)
-                {
-                    _monkeys.Add(new Monkey(words[0], words[1], words[2], words[3]));
-                }
-                else
-                {
-                    _monkeys.Add(new Monkey(words[0], long.Parse(words[1])));
-                }
+                if (words.Length > 2)                
+                    _monkeys.Add(new Monkey(words[0], words[1], words[2], words[3]));                
+                else                
+                    _monkeys.Add(new Monkey(words[0], long.Parse(words[1])));                
             }
         }
 

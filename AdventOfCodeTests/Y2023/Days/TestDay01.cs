@@ -1,20 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using AdventOfCode.Y2022.Days;
+using AdventOfCode.Y2023.Days;
 
-namespace AdventOfCodeTests.Y2022.Days
+namespace AdventOfCodeTests.Y2023.Days
 {
     [TestClass]
-    public class TestDay19
+    public class TestDay01
     {
         int y;
         int d;
 
-        Day19? testDay;
-        Day19? day;
-        string[] results = new[] { "33", "undefined", "undefined", "undefined" };
+        Day01? testDay;
+        Day01? day;
+        string[] results = new[] { "undefined", "undefined", "undefined", "undefined" };
 
-        public TestDay19()
+        public TestDay01()
         {
             var type = GetType();
             y = Convert.ToInt32(type.Namespace.Substring(type.Namespace.Length - 9, 4));

@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using AdventOfCode.Y2022.Days;
+using AdventOfCode.Y2023.Days;
 
-namespace AdventOfCodeTests.Y2022.Days
+namespace AdventOfCodeTests.Y2023.Days
 {
     [TestClass]
     public class TestDay19
@@ -12,7 +12,7 @@ namespace AdventOfCodeTests.Y2022.Days
 
         Day19? testDay;
         Day19? day;
-        string[] results = new[] { "33", "undefined", "undefined", "undefined" };
+        string[] results = new[] { "undefined", "undefined", "undefined", "undefined" };
 
         public TestDay19()
         {
