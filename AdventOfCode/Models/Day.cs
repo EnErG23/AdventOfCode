@@ -14,12 +14,14 @@ namespace AdventOfCode.Models
         public string Answer1 { get; set; } = "Undefined";
         public string Answer2 { get; set; } = "Undefined";
 
+        public bool Test;
         public List<string> Inputs { get; set; }
 
         public Day(int year, int day, bool test)
         {
             this.year = year;
             this.day = day;
+            this.Test = test;
             Inputs = InputManager.GetInputAsStrings(year, day, test);
         }
 
