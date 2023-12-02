@@ -18,24 +18,13 @@ namespace AdventOfCode.Y2023.Days
                 char lastNumber = 'x';
 
                 foreach (var letter in input)
-                {
                     if (Char.IsDigit(letter))
-                    {
                         if (firstNumber == 'x')
-                        {
                             firstNumber = letter;
-                        }
                         else
-                        {
                             lastNumber = letter;
-                        }
-                    }
-                }
 
-                if (lastNumber == 'x')
-                    lastNumber = firstNumber;
-
-                result += int.Parse($"{firstNumber}{lastNumber}");
+                result += int.Parse($"{firstNumber}{(lastNumber == 'x' ? firstNumber : lastNumber)}");
             }
 
             return result.ToString();
@@ -58,41 +47,24 @@ namespace AdventOfCode.Y2023.Days
                     var letter = input[i];
 
                     if (Char.IsDigit(letter))
-                    {
                         if (firstNumber == 'x')
-                        {
                             firstNumber = letter;
-                        }
                         else
-                        {
                             lastNumber = letter;
-                        }
-                    }
                     else
-                    {
                         for (int j = 0; j < numbers.Count; j++)
                         {
                             var number = numbers[j];
 
                             if (input.Substring(i, Math.Min(number.Length, input.Length - i)) == number)
-                            {
                                 if (firstNumber == 'x')
-                                {
                                     firstNumber = char.Parse($"{j + 1}");
-                                }
                                 else
-                                {
                                     lastNumber = char.Parse($"{j + 1}");
-                                }
-                            }
                         }
-                    }
                 }
 
-                if (lastNumber == 'x')
-                    lastNumber = firstNumber;
-
-                result += int.Parse($"{firstNumber}{lastNumber}");
+                result += int.Parse($"{firstNumber}{(lastNumber == 'x' ? firstNumber : lastNumber)}");
             }
 
             return result.ToString();
