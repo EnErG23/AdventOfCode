@@ -8,27 +8,7 @@ namespace AdventOfCode.Y2023.Days
     {
         public Day01(int year, int day, bool test) : base(year, day, test) { }
 
-        public override string RunPart1()
-        {
-            var result = 0;
-
-            foreach (var input in Inputs)
-            {
-                char firstNumber = 'x';
-                char lastNumber = 'x';
-
-                foreach (var letter in input)
-                    if (Char.IsDigit(letter))
-                        if (firstNumber == 'x')
-                            firstNumber = letter;
-                        else
-                            lastNumber = letter;
-
-                result += int.Parse($"{firstNumber}{(lastNumber == 'x' ? firstNumber : lastNumber)}");
-            }
-
-            return result.ToString();
-        }
+        public override string RunPart1() => Inputs.Sum(i => int.Parse($"{i.First(c => char.IsDigit(c))}{i.Last(c => char.IsDigit(c))}")).ToString();
 
         public override string RunPart2()
         {
