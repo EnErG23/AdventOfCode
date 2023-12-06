@@ -116,13 +116,7 @@ namespace AdventOfCode.Y2023.Days
     {
         public (int, int) Coords { get; set; }
         public List<int> Values { get; set; }
-        public int Ratio
-        {
-            get
-            {
-                return Values[0] * Values[1];
-            }
-        }
+        public int Ratio => Values[0] * Values[1];        
 
         public Gear((int, int) coords, int value)
         {
