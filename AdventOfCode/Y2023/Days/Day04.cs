@@ -5,16 +5,6 @@ namespace AdventOfCode.Y2023.Days
     public class Day04 : Day
     {
         private List<Game> _games;
-        private double _totalScore => _games.Sum(g => g.Score);
-        private int _totalCards
-        {
-            get
-            {
-                _games.ForEach(game => _games.Where(g => g.ID > game.ID && g.ID <= game.ID + game.Matches).ToList().ForEach(g => g.Cards += game.Matches > 0 ? game.Cards : 0));
-
-                return _games.Sum(g => g.Cards);
-            }
-        }
 
         public Day04(int year, int day, bool test) : base(year, day, test)
         {
@@ -30,9 +20,14 @@ namespace AdventOfCode.Y2023.Days
             }
         }
 
-        public override string RunPart1() => _totalScore.ToString();
+        public override string RunPart1() => _games.Sum(g => g.Score).ToString();
 
-        public override string RunPart2() => _totalCards.ToString();
+        public override string RunPart2()
+        {
+            _games.ForEach(game => _games.Where(g => g.ID > game.ID && g.ID <= game.ID + game.Matches).ToList().ForEach(g => g.Cards += game.Matches > 0 ? game.Cards : 0));
+
+            return _games.Sum(g => g.Cards).ToString();
+        }
     }
 
     public class Game
