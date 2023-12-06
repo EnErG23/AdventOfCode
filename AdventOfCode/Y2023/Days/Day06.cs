@@ -5,58 +5,46 @@ namespace AdventOfCode.Y2023.Days
 {
     public class Day06 : Day
     {
-        private List<int> _times;
-        private List<int> _distances;
+        private List<(BigInteger, BigInteger)> _races;
 
         public Day06(int year, int day, bool test) : base(year, day, test)
         {
+            _races = new();
+
             var timesS = Inputs[0].Replace("Time: ", "");
 
             while (timesS.Contains("  "))
                 timesS = timesS.Replace("  ", " ");
 
-            _times = timesS.Trim().Split(" ").Select(i => int.Parse(i)).ToList();
-
+            var times = timesS.Trim().Split(" ").Select(i => BigInteger.Parse(i)).ToList();
 
             var distanceS = Inputs[1].Replace("Distance: ", "");
 
             while (distanceS.Contains("  "))
                 distanceS = distanceS.Replace("  ", " ");
 
-            _distances = distanceS.Trim().Split(" ").Select(i => int.Parse(i)).ToList();
+            var distances = distanceS.Trim().Split(" ").Select(i => BigInteger.Parse(i)).ToList();
+
+            for (int t = 0; t < times.Count; t++)
+                _races.Add((times[t], distances[t]));
         }
 
-        public override string RunPart1()
+        public override string RunPart1() => _races.Select(r => GetWins(r)).Aggregate(1, (BigInteger x, BigInteger y) => x * y).ToString();
+
+        public override string RunPart2() => GetWins((BigInteger.Parse(string.Join("", _races.Select(r => r.Item1))), BigInteger.Parse(string.Join("", _races.Select(r => r.Item2))))).ToString();
+
+        public BigInteger GetWins((BigInteger, BigInteger) race)
         {
-            int totalWins = 1;
-
-            for (int t = 0; t < _times.Count; t++)
-            {
-                int time = _times[t];
-                int distance = _distances[t];
-                int wins = 0;
-
-                for (int i = 0; i <= time / 2; i++)
-                    if ((time - i) * i > distance)
-                        wins++;
-
-                totalWins *= 2 * wins - (time % 2 == 0 ? 1 : 0);
-            }
-
-            return totalWins.ToString();
-        }
-
-        public override string RunPart2()
-        {
-            BigInteger time = BigInteger.Parse(string.Join("", _times));
-            BigInteger distance = BigInteger.Parse(string.Join("", _distances));
             BigInteger wins = 0;
 
-            for (BigInteger i = 0; i <= time / 2; i++)
-                if ((time - i) * i > distance)
-                    wins++;
+            for (BigInteger i = 0; i <= race.Item1 / 2; i++)
+                if ((race.Item1 - i) * i > race.Item2)
+                {
+                    wins = i - 1;
+                    break;
+                }
 
-            return (2 * wins - (time % 2 == 0 ? 1 : 0)).ToString();
+            return 2 * (race.Item1 / 2 - wins) - (race.Item1 % 2 == 0 ? 1 : 0);
         }
     }
 }
