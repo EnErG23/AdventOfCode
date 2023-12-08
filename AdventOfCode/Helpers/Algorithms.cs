@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Helpers
 {
-    public class Algorithms
+    public static class Algorithms
     {
         //  PATHFINDING
 
         //  BFS
-        public HashSet<T> BFS<T>(Graph<T> graph, T start)
+        public static HashSet<T> BFS<T>(Graph<T> graph, T start)
         {
             var visited = new HashSet<T>();
 
@@ -39,7 +39,7 @@ namespace AdventOfCode.Helpers
             return visited;
         }
 
-        public Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start)
+        public static Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start)
         {
             var previous = new Dictionary<T, T>();
 
@@ -78,5 +78,11 @@ namespace AdventOfCode.Helpers
 
             return shortestPath;
         }
+
+        // GCD
+        public static long GCD(long n1, long n2) => n2 == 0 ? n1 : GCD(n2, n1 % n2);  
+
+        // LCM
+        public static long LCM(List<long> numbers) => numbers.Aggregate((S, val) => S * val / GCD(S, val));
     }
 }
