@@ -56,8 +56,6 @@ namespace AdventOfCode.Y2023.Days
                     newCardsString = newCardsString.Replace("J", cardGroup.First(x => x.Count() == maxCount).Key.ToString());
                 }
 
-                Console.Write(newCardsString);
-
                 var newCards = newCardsString.ToList();
 
                 switch (newCards.Distinct().Count())
