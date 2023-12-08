@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Models;
-using System.Collections;
 
 namespace AdventOfCode.Y2023.Days
 {

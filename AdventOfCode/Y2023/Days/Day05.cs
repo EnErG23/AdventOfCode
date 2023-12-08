@@ -1,6 +1,4 @@
 ﻿using AdventOfCode.Models;
-using System.ComponentModel.Design;
-using System.IO.Compression;
 using System.Numerics;
 
 namespace AdventOfCode.Y2023.Days

@@ -1,7 +1,5 @@
 ﻿using AdventOfCode.Helpers;
 using AdventOfCode.Models;
-using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
 
 namespace AdventOfCode.Y2023.Days
 {
