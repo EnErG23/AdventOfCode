@@ -15,7 +15,7 @@ namespace AdventOfCode.Y2023.Days
             {
                 List<List<int>> sequences = new() { history.First() };
 
-                while (sequences.Last().Count(d => d != 0) > 0)
+                while (!sequences.Last().TrueForAll(d => d == 0))
                 {
                     var lastSequence = sequences.Last();
 
