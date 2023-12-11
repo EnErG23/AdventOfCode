@@ -12,7 +12,7 @@ namespace AdventOfCodeTests.Y2023.Days
 
         Day10? testDay;
         Day10? day;
-        string[] results = new[] { "80", "6947", "10", "undefined" };
+        string[] results = new[] { "80", "6947", "10", "273" };
 
         public TestDay10()
         {
