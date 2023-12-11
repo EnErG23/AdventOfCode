@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Helpers
 {
-    public class Algorithms
+    public static class Algorithms
     {
         //  PATHFINDING
 
-        //  BFS
-        public HashSet<T> BFS<T>(Graph<T> graph, T start)
+        //  Breadth-First Search
+        public static HashSet<T> BFS<T>(Graph<T> graph, T start)
         {
             var visited = new HashSet<T>();
 
@@ -39,7 +39,7 @@ namespace AdventOfCode.Helpers
             return visited;
         }
 
-        public Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start)
+        public static Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start)
         {
             var previous = new Dictionary<T, T>();
 
@@ -77,6 +77,39 @@ namespace AdventOfCode.Helpers
             };
 
             return shortestPath;
+        }
+
+        // Greatest Common Divider
+        public static long GCD(long n1, long n2) => n2 == 0 ? n1 : GCD(n2, n1 % n2);
+
+        // Least Common Multiple
+        public static long LCM(List<long> numbers) => numbers.Aggregate((S, val) => S * val / GCD(S, val));
+
+        // Chinese Remainder Theorem
+        public static long CRT(List<long> n, List<long> a)
+        {
+            long prod = n.Aggregate(1, (long i, long j) => i * j);
+            long p;
+            long sm = 0;
+
+            for (int i = 0; i < n.Count; i++)
+            {
+                p = prod / n[i];
+                sm += a[i] * MMI(p, n[i]) * p;
+            }
+            return sm % prod;
+        }
+
+        // Modular Multiplicative Inverse
+        public static long MMI(long a, long mod)
+        {
+            long b = a % mod;
+
+            for (int x = 1; x < mod; x++)
+                if ((b * x) % mod == 1)
+                    return x;
+
+            return 1;
         }
     }
 }

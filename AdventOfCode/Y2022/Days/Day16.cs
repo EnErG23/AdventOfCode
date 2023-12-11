@@ -8,7 +8,6 @@ namespace AdventOfCode.Y2022.Days
         private List<Room> _rooms;
         private readonly List<Tuple<Room, Room>> _edges;
         private readonly Graph<Room> _graph;
-        private readonly Algorithms _algorithms;
         private long _totalPressureReleased;
 
         public Day16(int year, int day, bool test) : base(year, day, test)
@@ -25,7 +24,6 @@ namespace AdventOfCode.Y2022.Days
                     _edges.Add(new Tuple<Room, Room>(room, _rooms.FirstOrDefault(r => r.Name == conRoom)));
 
             _graph = new Graph<Room>(_rooms, _edges, false);
-            _algorithms = new Algorithms();
         }
 
         public override string RunPart1()
@@ -98,8 +96,7 @@ namespace AdventOfCode.Y2022.Days
             }
         }
 
-        public int TimeToMove(Room from, Room to)
-            => _algorithms.ShortestPathFunction(_graph, from)(to).Count() - 1;
+        public int TimeToMove(Room from, Room to) => Algorithms.ShortestPathFunction(_graph, from)(to).Count() - 1;
     }
 
     public class Room

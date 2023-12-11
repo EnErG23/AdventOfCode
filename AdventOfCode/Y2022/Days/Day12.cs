@@ -8,7 +8,6 @@ namespace AdventOfCode.Y2022.Days
         private readonly List<Location> _locations;
         private readonly List<Tuple<Location, Location>> _edges;
         private readonly Graph<Location> _graph;
-        private readonly Algorithms _algorithms;
         private Location _startLocation;
         private Location _endLocation;
 
@@ -70,22 +69,21 @@ namespace AdventOfCode.Y2022.Days
             }
 
             _graph = new Graph<Location>(_locations, _edges, false);
-            _algorithms = new Algorithms();
         }
 
         public override string RunPart1()
-            => (_algorithms.ShortestPathFunction(_graph, _startLocation)(_endLocation).Count() - 1).ToString();
+            => (Algorithms.ShortestPathFunction(_graph, _startLocation)(_endLocation).Count() - 1).ToString();
 
         //TODO: Speed up
         public override string RunPart2()
         {
-            int shortestPath = _algorithms.ShortestPathFunction(_graph, _startLocation)(_endLocation).Count();
+            int shortestPath = Algorithms.ShortestPathFunction(_graph, _startLocation)(_endLocation).Count();
 
             foreach (var location in _locations.Where(l => l.Value == 'a'))
             {
                 try
                 {
-                    int pathLength = _algorithms.ShortestPathFunction(_graph, location)(_endLocation).Count();
+                    int pathLength = Algorithms.ShortestPathFunction(_graph, location)(_endLocation).Count();
                     shortestPath = pathLength < shortestPath ? pathLength : shortestPath;
                 }
                 catch { }
