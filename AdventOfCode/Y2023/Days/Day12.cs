@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Models;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -8,82 +9,67 @@ namespace AdventOfCode.Y2023.Days
     public class Day12 : Day
     {
         private List<Record> _records;
+        private List<(List<int>, long)>? _checked;
 
         public Day12(int year, int day, bool test) : base(year, day, test) => _records = Inputs.Select(i => new Record(i.Split(" ")[0], i.Split(" ")[1].Split(",").Select(i => int.Parse(i)).ToList())).ToList();
 
-        public override string RunPart1() => _records.Sum(r => GetArrangements(r.Springs, r.SpringGroups)).ToString();
+        public override string RunPart1()
+        {
+            long result = 0;
+
+            foreach (var record in _records)
+            {
+                _checked = new();
+                result += CalculatePossibilities(record, 0, 0, 0);
+            }
+
+            return result.ToString();
+        }
 
         public override string RunPart2()
         {
+            long result = 0;
+
             foreach (var record in _records)
             {
+                _checked = new();
+
                 record.Springs = $"{record.Springs}?{record.Springs}?{record.Springs}?{record.Springs}?{record.Springs}";
-                record.SpringGroups.AddRange(record.SpringGroups);
-                record.SpringGroups.AddRange(record.SpringGroups);
-                record.SpringGroups.AddRange(record.SpringGroups);
-                record.SpringGroups.AddRange(record.SpringGroups);
+                
+                var springGroups = record.SpringGroups.ToList();
+                record.SpringGroups.AddRange(springGroups);
+                record.SpringGroups.AddRange(springGroups);
+                record.SpringGroups.AddRange(springGroups);
+                record.SpringGroups.AddRange(springGroups);
+
+                result += CalculatePossibilities(record, 0, 0, 0);
             }
 
-            return _records.Sum(r => GetArrangements(r.Springs, r.SpringGroups)).ToString();
+            return result.ToString();
         }
 
-        private int GetArrangements(string springs, List<int> springCounts)
+        private long CalculatePossibilities(Record record, int springIndex, int groupIndex, int currentGroupLength)
         {
-            int arrangements = 0;
+            if (_checked.Exists(c => c.Item1[0] == springIndex && c.Item1[1] == groupIndex && c.Item1[2] == currentGroupLength))
+                return _checked.First(c => c.Item1[0] == springIndex && c.Item1[1] == groupIndex && c.Item1[2] == currentGroupLength).Item2;
 
-            var regex = new Regex(Regex.Escape("?"));
+            if (springIndex == record.Springs.Length)
+                return (groupIndex == record.SpringGroups.Count && currentGroupLength == 0) || (groupIndex == record.SpringGroups.Count - 1 && record.SpringGroups[groupIndex] == currentGroupLength) ? 1 : 0;
 
-            foreach (var s in new string[] { ".", "#" })
-            {
-                var newString = regex.Replace(springs, s, 1);
-                var firstUnknown = newString.IndexOf("?");
+            long possibilities = 0;
 
-                if (firstUnknown < 0)
-                    arrangements += IsValid(newString, springCounts) ? 1 : 0;
-                else if (firstUnknown < 2 || newString.Substring(firstUnknown - 2, 2) != "#." || IsValid(newString.Substring(0, firstUnknown), springCounts.Take(GetSpringCount(newString.Substring(0, firstUnknown)).Count()).ToList()))
-                {
-                    var shortString = newString.Substring(0, firstUnknown);
+            foreach (var c in new char[] { '.', '#' })
+                if (record.Springs[springIndex] == c || record.Springs[springIndex] == '?')
+                    if (c == '.' && currentGroupLength == 0)
+                        possibilities += CalculatePossibilities(record, springIndex + 1, groupIndex, 0);
+                    else if (c == '.' && currentGroupLength > 0 && groupIndex < record.SpringGroups.Count && record.SpringGroups[groupIndex] == currentGroupLength)
+                        possibilities += CalculatePossibilities(record, springIndex + 1, groupIndex + 1, 0);
+                    else if (c == '#')
+                        possibilities += CalculatePossibilities(record, springIndex + 1, groupIndex, currentGroupLength + 1);
 
-                    while (shortString.Contains(".."))
-                        shortString = shortString.Replace("..", ".");
+            _checked.Add((new List<int>() { springIndex, groupIndex, currentGroupLength }, possibilities));
 
-                    var tempArrangements = GetArrangements(newString, springCounts);
-                    arrangements += tempArrangements;
-                }
-            }
-
-            return arrangements;
-        }
-
-        private List<int> GetSpringCount(string springs)
-        {
-            while (springs.Contains(".."))
-                springs = springs.Replace("..", ".");
-
-            if (springs[0] == '.')
-                springs = springs.Substring(1);
-
-            if (springs == null || springs == "")
-                return new List<int> { 0 };
-
-            if (springs[springs.Length - 1] == '.')
-                springs = springs.Substring(0, springs.Length - 1);
-
-            return springs.Split(".").Select(s => s.Length).ToList();
-        }
-
-        private bool IsValid(string springs, List<int> springCounts)
-        {
-            List<int> springCount = GetSpringCount(springs);
-
-            if (springCount.Count != springCounts.Count)
-                return false;
-
-            for (int i = 0; i < springCount.Count; i++)
-                if (springCount[i] != springCounts[i])
-                    return false;
-
-            return true;
+            return possibilities;
         }
     }
 
