@@ -27,7 +27,7 @@ namespace AdventOfCode.Y2023.Days
 
         public override string RunPart1() => TiltNorth(_roundedRocks).Sum(r => _rows - r.Item1).ToString();
 
-        public override string RunPart2() => Test ? "64" : "104671"; //Cycle(_roundedRocks, 1000000000).Sum(r => _rows - r.Item1).ToString();
+        public override string RunPart2() => Cycle(_roundedRocks, 1000000000).Sum(r => _rows - r.Item1).ToString(); //Test ? "64" : "104671"; 
 
         public override void VisualizePart2()
         {
@@ -124,22 +124,32 @@ namespace AdventOfCode.Y2023.Days
 
         public List<(int, int)> Cycle(List<(int, int)> roundedRocks, int cycles)
         {
-            var newRoundedRocks = roundedRocks.ToList();
-
-            List<int> results = new();
+            List<List<(int, int)>> platformHistory = new() { roundedRocks };
 
             for (int i = 0; i < cycles; i++)
             {
-                newRoundedRocks = TiltEast(TiltSouth(TiltWest(TiltNorth(newRoundedRocks))));
-                results.Add(newRoundedRocks.Sum(r => _rows - r.Item1));
+                var newRoundedRocks = TiltEast(TiltSouth(TiltWest(TiltNorth(platformHistory.Last()))));
+                if (i > 135)
+                    Console.WriteLine(i + ": " + newRoundedRocks.Sum(r => _rows - r.Item1));
 
-                //temp manually chipotage in console/excel
-                //check if loop is found
-                //create list of looped results
-                //return element (cycles % list.count)-1      
+                if (platformHistory.Select(p => string.Join("", p.Select(m => m.Item1 + " " + m.Item1))).ToList().Contains(string.Join("", newRoundedRocks.Select(m => m.Item1 + " " + m.Item1))))
+                {
+                    var firstLoopIndex = platformHistory.Select(p => string.Join("", p.Select(m => m.Item1 + " " + m.Item1))).ToList().LastIndexOf(string.Join("", newRoundedRocks.Select(m => m.Item1 + " " + m.Item1))) - 1;
+                    var lastLoopIndex = i - 1;
+                    Console.WriteLine($"First repeat at {i}");
+                    Console.WriteLine($"Previous occurence: {firstLoopIndex}");
+                    Console.WriteLine($"Loop length: {lastLoopIndex - firstLoopIndex + 1}");
+                    Console.WriteLine($"Mod needed: {cycles % (lastLoopIndex - firstLoopIndex)}");
+                    Console.WriteLine($"1.000.000.000 score: {platformHistory[(cycles % (lastLoopIndex - firstLoopIndex)) + firstLoopIndex].Sum(r => _rows - r.Item1)}");
+
+                    //TODO: FIX THIS SHIT
+                    return platformHistory[(cycles % (lastLoopIndex - firstLoopIndex)) + firstLoopIndex];
+                }
+                else
+                    platformHistory.Add(newRoundedRocks);
             }
 
-            return newRoundedRocks;
+            return platformHistory.Last();
         }
 
         public List<(int, int)> TiltNorth(List<(int, int)> roundedRocks)
