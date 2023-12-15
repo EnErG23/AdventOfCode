@@ -27,123 +27,104 @@ namespace AdventOfCode.Y2023.Days
 
         public override string RunPart1() => TiltNorth(_roundedRocks).Sum(r => _rows - r.Item1).ToString();
 
-        public override string RunPart2() => Cycle(_roundedRocks, 1000000000).Sum(r => _rows - r.Item1).ToString(); //Test ? "64" : "104671"; 
+        public override string RunPart2() => Cycle(1000000000).Sum(r => _rows - r.Item1).ToString();
 
         public override void VisualizePart2()
         {
-            var newRoundedRocks = _roundedRocks.ToList();
+            List<List<(int, int)>> platformHistory = new() { _roundedRocks };
+
+            var newRoundedRocks = platformHistory.Last();
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"Starting State:");
+            Print(newRoundedRocks);
+
+            Thread.Sleep(1000);
 
             for (int i = 0; i < 1000000000; i++)
             {
-                //newRoundedRocks = TiltNorth(newRoundedRocks).ToList();
+                newRoundedRocks = TiltNorth(newRoundedRocks).ToList();
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"Cycle {i} (Tilt North):");
+                Print(newRoundedRocks);
 
-                //Console.WriteLine();
-                //Console.WriteLine($"Tilt North:");
+                Thread.Sleep(500);
 
-                //for (int r = 0; r < _rows; r++)
-                //{
-                //    for (int c = 0; c < _cols; c++)
-                //    {
-                //        if (_cubedRocks.Contains((r, c)))
-                //            Console.Write("#");
-                //        else if (newRoundedRocks.Contains((r, c)))
-                //            Console.Write("O");
-                //        else
-                //            Console.Write(".");
-                //    }
-                //    Console.WriteLine();
-                //}
+                newRoundedRocks = TiltWest(newRoundedRocks).ToList();
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"Cycle {i} (Tilt West):");
+                Print(newRoundedRocks);
 
-                //newRoundedRocks = TiltWest(newRoundedRocks).ToList();
+                Thread.Sleep(500);
 
-                //Console.WriteLine();
-                //Console.WriteLine($"Tilt West:");
+                newRoundedRocks = TiltSouth(newRoundedRocks).ToList();
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"Cycle {i} (Tilt South):");
+                Print(newRoundedRocks);
 
-                //for (int r = 0; r < _rows; r++)
-                //{
-                //    for (int c = 0; c < _cols; c++)
-                //    {
-                //        if (_cubedRocks.Contains((r, c)))
-                //            Console.Write("#");
-                //        else if (newRoundedRocks.Contains((r, c)))
-                //            Console.Write("O");
-                //        else
-                //            Console.Write(".");
-                //    }
-                //    Console.WriteLine();
-                //}
+                Thread.Sleep(500);
 
-                //newRoundedRocks = TiltSouth(newRoundedRocks).ToList();
+                newRoundedRocks = TiltEast(newRoundedRocks).ToList();
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"Cycle {i} (Tilt East):");
+                Print(newRoundedRocks);
 
-                //Console.WriteLine();
-                //Console.WriteLine($"Tilt South:");
+                Thread.Sleep(500);
 
-                //for (int r = 0; r < _rows; r++)
-                //{
-                //    for (int c = 0; c < _cols; c++)
-                //    {
-                //        if (_cubedRocks.Contains((r, c)))
-                //            Console.Write("#");
-                //        else if (newRoundedRocks.Contains((r, c)))
-                //            Console.Write("O");
-                //        else
-                //            Console.Write(".");
-                //    }
-                //    Console.WriteLine();
-                //}
+                // Check if state has occured before (Probably a more efficient way, but I've spend enough time on fixing this shit.)
+                if (platformHistory.Select(p => string.Join("", p.Select(m => m.Item1 + " " + m.Item1))).ToList().Contains(string.Join("", newRoundedRocks.Select(m => m.Item1 + " " + m.Item1))))
+                {
+                    // Determine loop properties
+                    var loopFirstIndex = platformHistory.Select(p => string.Join("", p.Select(m => m.Item1 + " " + m.Item1))).ToList().LastIndexOf(string.Join("", newRoundedRocks.Select(m => m.Item1 + " " + m.Item1))) - 1;
+                    var loopLastIndex = i - 1;
+                    var loopItems = loopLastIndex - loopFirstIndex + 1;
 
-                //newRoundedRocks = TiltEast(newRoundedRocks).ToList();
+                    // Check where index % loop length is 0
+                    int offset = Enumerable.Range(loopFirstIndex, loopLastIndex).First(i => i % loopItems == 0);
 
-                //Console.WriteLine();
-                //Console.WriteLine($"Tilt East:");
+                    // Use mod to determine which state to take after offset
+                    int mod = 1000000000 % loopItems;
 
-                //for (int r = 0; r < _rows; r++)
-                //{
-                //    for (int c = 0; c < _cols; c++)
-                //    {
-                //        if (_cubedRocks.Contains((r, c)))
-                //            Console.Write("#");
-                //        else if (newRoundedRocks.Contains((r, c)))
-                //            Console.Write("O");
-                //        else
-                //            Console.Write(".");
-                //    }
-                //    Console.WriteLine();
-                //}
-
-                //Console.WriteLine($"{string.Join(", ", newRoundedRocks.OrderBy(n => n.Item1).ThenBy(n => n.Item2))}");
-
-                newRoundedRocks = TiltEast(TiltSouth(TiltWest(TiltNorth(newRoundedRocks))));
-                Console.WriteLine($"After cycle {i}: {newRoundedRocks.Sum(r => _rows - r.Item1)}");
-
-                if (i % 100 == 0)
-                    Console.Read();
-                //Console.WriteLine($"After cycle {i}: {newRoundedRocks.Sum(r => _rows - r.Item1)}");
+                    // Get index of state after 1.000.000.000 cycles (if index would be out of range, take value before offset)
+                    int index = offset + mod > platformHistory.Count ? offset - (offset - mod) : offset + mod;
+                    break;
+                }
+                else
+                    platformHistory.Add(newRoundedRocks);
             }
         }
 
-        public List<(int, int)> Cycle(List<(int, int)> roundedRocks, int cycles)
+        private List<(int, int)> Cycle(int cycles)
         {
-            List<List<(int, int)>> platformHistory = new() { roundedRocks };
+            List<List<(int, int)>> platformHistory = new() { _roundedRocks };
 
             for (int i = 0; i < cycles; i++)
             {
                 var newRoundedRocks = TiltEast(TiltSouth(TiltWest(TiltNorth(platformHistory.Last()))));
-                if (i > 135)
-                    Console.WriteLine(i + ": " + newRoundedRocks.Sum(r => _rows - r.Item1));
 
+                // Check if state has occured before (Probably a more efficient way, but I've spend enough time on fixing this shit.)
                 if (platformHistory.Select(p => string.Join("", p.Select(m => m.Item1 + " " + m.Item1))).ToList().Contains(string.Join("", newRoundedRocks.Select(m => m.Item1 + " " + m.Item1))))
                 {
-                    var firstLoopIndex = platformHistory.Select(p => string.Join("", p.Select(m => m.Item1 + " " + m.Item1))).ToList().LastIndexOf(string.Join("", newRoundedRocks.Select(m => m.Item1 + " " + m.Item1))) - 1;
-                    var lastLoopIndex = i - 1;
-                    Console.WriteLine($"First repeat at {i}");
-                    Console.WriteLine($"Previous occurence: {firstLoopIndex}");
-                    Console.WriteLine($"Loop length: {lastLoopIndex - firstLoopIndex + 1}");
-                    Console.WriteLine($"Mod needed: {cycles % (lastLoopIndex - firstLoopIndex)}");
-                    Console.WriteLine($"1.000.000.000 score: {platformHistory[(cycles % (lastLoopIndex - firstLoopIndex)) + firstLoopIndex].Sum(r => _rows - r.Item1)}");
+                    // Determine loop properties
+                    var loopFirstIndex = platformHistory.Select(p => string.Join("", p.Select(m => m.Item1 + " " + m.Item1))).ToList().LastIndexOf(string.Join("", newRoundedRocks.Select(m => m.Item1 + " " + m.Item1))) - 1;
+                    var loopLastIndex = i - 1;
+                    var loopItems = loopLastIndex - loopFirstIndex + 1;
 
-                    //TODO: FIX THIS SHIT
-                    return platformHistory[(cycles % (lastLoopIndex - firstLoopIndex)) + firstLoopIndex];
+                    // Check where index % loop length is 0
+                    int offset = Enumerable.Range(loopFirstIndex, loopLastIndex).First(i => i % loopItems == 0);
+
+                    // Use mod to determine which state to take after offset
+                    int mod = cycles % loopItems;
+
+                    // Get index of state after 1.000.000.000 cycles (if index would be out of range, take value before offset)
+                    int index = offset + mod > platformHistory.Count ? offset - (offset - mod) : offset + mod;
+
+                    return platformHistory[index];
                 }
                 else
                     platformHistory.Add(newRoundedRocks);
@@ -152,7 +133,7 @@ namespace AdventOfCode.Y2023.Days
             return platformHistory.Last();
         }
 
-        public List<(int, int)> TiltNorth(List<(int, int)> roundedRocks)
+        private List<(int, int)> TiltNorth(List<(int, int)> roundedRocks)
         {
             List<(int, int)> newRoundedRocks = new();
 
@@ -167,7 +148,7 @@ namespace AdventOfCode.Y2023.Days
             return newRoundedRocks;
         }
 
-        public List<(int, int)> TiltEast(List<(int, int)> roundedRocks)
+        private List<(int, int)> TiltEast(List<(int, int)> roundedRocks)
         {
             List<(int, int)> newRoundedRocks = new();
 
@@ -182,7 +163,7 @@ namespace AdventOfCode.Y2023.Days
             return newRoundedRocks;
         }
 
-        public List<(int, int)> TiltSouth(List<(int, int)> roundedRocks)
+        private List<(int, int)> TiltSouth(List<(int, int)> roundedRocks)
         {
             List<(int, int)> newRoundedRocks = new();
 
@@ -197,7 +178,7 @@ namespace AdventOfCode.Y2023.Days
             return newRoundedRocks;
         }
 
-        public List<(int, int)> TiltWest(List<(int, int)> roundedRocks)
+        private List<(int, int)> TiltWest(List<(int, int)> roundedRocks)
         {
             List<(int, int)> newRoundedRocks = new();
 
@@ -210,6 +191,32 @@ namespace AdventOfCode.Y2023.Days
                     }
 
             return newRoundedRocks;
+        }
+
+        private void Print(List<(int, int)> newRoundedRocks)
+        {
+            for (int r = 0; r < _rows; r++)
+            {
+                for (int c = 0; c < _cols; c++)
+                {
+                    if (_cubedRocks.Contains((r, c)))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("#");
+                    }
+                    else if (newRoundedRocks.Contains((r, c)))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("O");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write(".");
+                    }
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
