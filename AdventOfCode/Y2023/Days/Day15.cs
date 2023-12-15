@@ -26,16 +26,14 @@ namespace AdventOfCode.Y2023.Days
                 int focalLength = command == "=" ? int.Parse(input.Substring(input.Length - 1, 1)) : 0;
 
                 if (command == "=")
-                    if (_boxes.Exists(b => b.Item1 == hash))
-                        if (_boxes.First(b => b.Item1 == hash).Item2.Exists(l => l.Label == label))
-                            _boxes.First(b => b.Item1 == hash).Item2.First(l => l.Label == label).FocalLength = focalLength;
-                        else
-                            _boxes.First(b => b.Item1 == hash).Item2.Add(new Lens(label, focalLength));
-                    else
+                    if (!_boxes.Exists(b => b.Item1 == hash))
                         _boxes.Add((hash, new() { new Lens(label, focalLength) }));
-                else if (_boxes.Exists(b => b.Item1 == hash))
-                    if (_boxes.First(b => b.Item1 == hash).Item2.Exists(l => l.Label == label))
-                        _boxes.First(b => b.Item1 == hash).Item2.Remove(_boxes.First(b => b.Item1 == hash).Item2.First(l => l.Label == label));
+                    else if (!_boxes.First(b => b.Item1 == hash).Item2.Exists(l => l.Label == label))
+                        _boxes.First(b => b.Item1 == hash).Item2.Add(new Lens(label, focalLength));
+                    else
+                        _boxes.First(b => b.Item1 == hash).Item2.First(l => l.Label == label).FocalLength = focalLength;
+                else if (_boxes.Exists(b => b.Item1 == hash) && _boxes.First(b => b.Item1 == hash).Item2.Exists(l => l.Label == label))
+                    _boxes.First(b => b.Item1 == hash).Item2.Remove(_boxes.First(b => b.Item1 == hash).Item2.First(l => l.Label == label));
             }
 
             long result = 0;
