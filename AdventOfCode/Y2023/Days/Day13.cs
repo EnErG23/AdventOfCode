@@ -119,7 +119,6 @@ namespace AdventOfCode.Y2023.Days
 
                     if (differences == 1)
                     {
-                        Console.WriteLine($"({i}, {pos})");
                         smudgeFixed = true;
                         continue;
                     }

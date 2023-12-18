@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
 
 namespace AdventOfCode.Helpers
 {
@@ -112,5 +114,52 @@ namespace AdventOfCode.Helpers
 
             return 1;
         }
+
+        // Pick's Theorem (Count nodes inside polygon)
+        public static long PicksTheorem(List<Node> nodes) => IrregularPolygonArea(nodes) - (IrregularPolygonCircumference(nodes) / 2) + 1;
+
+        // Polygon Area
+        public static long IrregularPolygonArea(List<Node> nodes)
+        {
+            long sum1 = 0;
+            long sum2 = 0;
+
+            for (int i = 0; i < nodes.Count(); i++)
+            {
+                var node1 = nodes[i];
+                var node2 = i == nodes.Count() - 1 ? nodes[0] : nodes[i + 1];
+
+                sum1 += node1.Coords.Item2 * node2.Coords.Item1;
+                sum2 += node1.Coords.Item1 * node2.Coords.Item2;
+            }
+
+            return Math.Abs((sum1 - sum2) / 2);
+        }
+
+        // Polygon Circumference
+        public static long IrregularPolygonCircumference(List<Node> nodes)
+        {
+            long circumference = 0;
+
+            for (int i = 0; i < nodes.Count(); i++)
+            {
+                var node1 = nodes[i];
+                var node2 = i == nodes.Count() - 1 ? nodes[0] : nodes[i + 1];
+
+                if (node1.Coords.Item1 != node2.Coords.Item1)
+                    circumference += Math.Abs(node2.Coords.Item1 - node1.Coords.Item1);
+                else
+                    circumference += Math.Abs(node2.Coords.Item2 - node1.Coords.Item2);
+            }
+
+            return circumference;
+        }
+    }
+
+    public class Node
+    {
+        public (long, long) Coords { get; set; }
+
+        public Node((long, long) coords) => Coords = coords;
     }
 }

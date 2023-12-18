@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Models;
+﻿using AdventOfCode.Helpers;
+using AdventOfCode.Models;
 
 namespace AdventOfCode.Y2023.Days
 {
@@ -35,7 +36,7 @@ namespace AdventOfCode.Y2023.Days
                     break;
 
                 if (currentPipe.Char != '-' && currentPipe.Char != '|')
-                    _nodes.Add(currentPipe);                                
+                    _nodes.Add(currentPipe);
             }
         }
 
@@ -57,7 +58,7 @@ namespace AdventOfCode.Y2023.Days
             }
 
             //Pick's Theorem (blijkbaar) en wa cheaten voor test result te fixen
-            return (Math.Abs((sum1 - sum2) / 2) - (_pipes.Count(p => p.Visited) / 2) + (Test ? 2 : 0)).ToString();
+            return (Algorithms.PicksTheorem(_nodes.Select(n => new Helpers.Node((n.Coords.Item1, n.Coords.Item2))).ToList()) - (Test ? 0 : 2)).ToString();
         }
 
         public override void VisualizePart2()

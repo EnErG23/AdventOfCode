@@ -109,7 +109,11 @@ namespace AdventOfCode.Helpers
             skipDays.Add("202017");
 
             // 2021 - Too long
-            skipDays.Add("202115"); // Hours           
+            skipDays.Add("202115"); // Hours
+
+            // 2023 - Unfinished
+            //skipDays.Add("202316");
+            //skipDays.Add("202317");
         }
 
         public static void PrintHeader()
