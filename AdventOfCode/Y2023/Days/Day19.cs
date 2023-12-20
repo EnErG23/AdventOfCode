@@ -51,13 +51,13 @@ namespace AdventOfCode.Y2023.Days
 
         public override string RunPart1() => _parts.Where(p => p.Accepted(_workflows)).Sum(p => p.Score).ToString();
 
-        public override string RunPart2() => FollowWorkflow((_workflows.First(w => w.Name == "in"), new() { 1, 4000, 1, 4000, 1, 4000, 1, 4000 })).ToString();
+        public override string RunPart2() => FollowWorkflow(new() { 1, 4000, 1, 4000, 1, 4000, 1, 4000 }).ToString();
 
-        public long FollowWorkflow((Workflow, List<long>) startPath)
+        public long FollowWorkflow(List<long> partIntervals)
         {
             long parts = 0;
 
-            List<(Workflow, List<long>)> paths = new() { startPath };
+            List<(Workflow, List<long>)> paths = new() { (_workflows.First(w => w.Name == "in"), partIntervals) };
 
             while (paths.Any())
             {
@@ -171,14 +171,6 @@ namespace AdventOfCode.Y2023.Days
                     break;
             }
 
-            Operator = op;
-            Value = value;
-            Destination = destination;
-        }
-
-        public Rule(int category, char op, long value, string destination)
-        {
-            Category = category;
             Operator = op;
             Value = value;
             Destination = destination;
