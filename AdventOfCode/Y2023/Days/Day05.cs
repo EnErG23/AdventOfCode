@@ -1,17 +1,17 @@
 ﻿using AdventOfCode.Models;
-using System.Numerics;
+using AdventOfCode.Y2023.Models;
 
 namespace AdventOfCode.Y2023.Days
 {
     public class Day05 : Day
     {
-        private List<BigInteger> _seeds;
-        private List<Range> _ranges;
+        private List<long> _seeds;
+        private List<Interval> _intervals;
 
         public Day05(int year, int day, bool test) : base(year, day, test)
         {
-            _seeds = Inputs[0].Replace("seeds: ", "").Split(" ").Select(s => BigInteger.Parse(s)).ToList();
-            _ranges = new List<Range>();
+            _seeds = Inputs[0].Replace("seeds: ", "").Split(" ").Select(s => long.Parse(s)).ToList();
+            _intervals = new List<Interval>();
 
             int category = -1;
 
@@ -19,27 +19,27 @@ namespace AdventOfCode.Y2023.Days
                 if (input == "")
                     continue;
                 else if (char.IsDigit(input[0]))
-                    _ranges.Add(new Range(category, BigInteger.Parse(input.Split(" ")[0]), BigInteger.Parse(input.Split(" ")[1]), BigInteger.Parse(input.Split(" ")[2])));
+                    _intervals.Add(new Interval(category, long.Parse(input.Split(" ")[0]), long.Parse(input.Split(" ")[1]), long.Parse(input.Split(" ")[2])));
                 else
                     category++;
         }
 
         public override string RunPart1()
         {
-            BigInteger closestLocation = 0;
+            long closestLocation = 0;
 
             foreach (var seed in _seeds)
             {
-                BigInteger source = seed;
+                long source = seed;
 
-                for (int c = 0; c <= _ranges.Max(r => r.Category); c++)
-                    if (_ranges.Exists(r => r.Category == c && source >= r.SourceStart && source <= (r.SourceStart + r.RangeLength)))
+                for (int c = 0; c <= _intervals.Max(r => r.Category); c++)
+                    if (_intervals.Exists(r => r.Category == c && source >= r.SourceStart && source <= (r.SourceStart + r.IntervalLength)))
                     {
-                        var range = _ranges.First(r => r.Category == c && source >= r.SourceStart && source < (r.SourceStart + r.RangeLength));
-                        source = source - range.SourceStart + range.DestinationStart;
+                        var interval = _intervals.First(r => r.Category == c && source >= r.SourceStart && source < (r.SourceStart + r.IntervalLength));
+                        source = source - interval.SourceStart + interval.DestinationStart;
                     }
 
-                closestLocation = closestLocation == 0 ? source : BigInteger.Min(closestLocation, source);
+                closestLocation = closestLocation == 0 ? source : Math.Min(closestLocation, source);
             }
 
             return closestLocation.ToString();
@@ -47,104 +47,86 @@ namespace AdventOfCode.Y2023.Days
 
         public override string RunPart2()
         {
-            var seedRanges = new List<(BigInteger, BigInteger)>();
+            var seedIntervals = new List<(long, long)>();
 
             for (int i = 0; i < _seeds.Count; i += 2)
-                seedRanges.Add(new(_seeds[i], _seeds[i] + _seeds[i + 1] - 1));
+                seedIntervals.Add(new(_seeds[i], _seeds[i] + _seeds[i + 1] - 1));
 
-            for (int c = 0; c <= _ranges.Max(r => r.Category); c++)
+            for (int c = 0; c <= _intervals.Max(r => r.Category); c++)
             {
-                var rangesToCheck = seedRanges.ToList();
-                seedRanges = new List<(BigInteger, BigInteger)>();
+                var intervalsToCheck = seedIntervals.ToList();
+                seedIntervals = new List<(long, long)>();
 
-                foreach (var range in _ranges.Where(r => r.Category == c).OrderBy(r => r.SourceStart))
+                foreach (var interval in _intervals.Where(r => r.Category == c).OrderBy(r => r.SourceStart))
                 {
-                    var rangesToAdd = new List<(BigInteger, BigInteger)>();
-                    var rangesToRemove = new List<(BigInteger, BigInteger)>();
+                    var intervalsToAdd = new List<(long, long)>();
+                    var intervalsToRemove = new List<(long, long)>();
 
-                    foreach (var seedRange in rangesToCheck.OrderBy(s => s.Item1))
+                    foreach (var seedInterval in intervalsToCheck.OrderBy(s => s.Item1))
                     {
-                        var source = (range.SourceStart, range.SourceEnd);
-                        var destination = (range.DestinationStart, range.DestinationEnd);
+                        var source = (interval.SourceStart, interval.SourceEnd);
+                        var destination = (interval.DestinationStart, interval.DestinationEnd);
 
-                        if (seedRange.Item1 < source.Item1)
+                        if (seedInterval.Item1 < source.Item1)
                         {
-                            rangesToRemove.Add(seedRange);
+                            intervalsToRemove.Add(seedInterval);
 
-                            if (seedRange.Item2 >= source.Item1)
+                            if (seedInterval.Item2 >= source.Item1)
                             {
-                                if (seedRange.Item2 <= source.Item2) // CASE 2
+                                if (seedInterval.Item2 <= source.Item2) // CASE 2
                                 {
                                     //UNCHANGED, NO NEED TO KEEP CHECKING
-                                    seedRanges.Add((seedRange.Item1, source.Item1 - 1));
+                                    seedIntervals.Add((seedInterval.Item1, source.Item1 - 1));
 
                                     //CHANGED 
-                                    seedRanges.Add((destination.Item1, seedRange.Item2 - source.Item1 + destination.Item1));
+                                    seedIntervals.Add((destination.Item1, seedInterval.Item2 - source.Item1 + destination.Item1));
                                 }
                                 else // CASE 3
                                 {
                                     //UNCHANGED, NO NEED TO KEEP CHECKING
-                                    seedRanges.Add((seedRange.Item1, source.Item1 - 1));
+                                    seedIntervals.Add((seedInterval.Item1, source.Item1 - 1));
 
                                     //CHANGED 
-                                    seedRanges.Add((destination.Item1, destination.Item2));
+                                    seedIntervals.Add((destination.Item1, destination.Item2));
 
                                     //UNCHANGED, KEEP CHECKING
-                                    rangesToAdd.Add((destination.Item2 + 1, seedRange.Item2));
+                                    intervalsToAdd.Add((destination.Item2 + 1, seedInterval.Item2));
                                 }
                             }
                             else
-                                seedRanges.Add(seedRange);
+                                seedIntervals.Add(seedInterval);
                         }
                         else
                         {
-                            if (seedRange.Item1 <= source.Item2)
-                                if (seedRange.Item2 > source.Item2) // CASE 5
+                            if (seedInterval.Item1 <= source.Item2)
+                                if (seedInterval.Item2 > source.Item2) // CASE 5
                                 {
                                     //CHANGED 
-                                    seedRanges.Add((seedRange.Item1 - source.Item1 + destination.Item1, destination.Item2));
-                                    rangesToRemove.Add(seedRange);
+                                    seedIntervals.Add((seedInterval.Item1 - source.Item1 + destination.Item1, destination.Item2));
+                                    intervalsToRemove.Add(seedInterval);
 
                                     //UNCHANGED, KEEP CHECKING
-                                    rangesToAdd.Add((source.Item2 + 1, seedRange.Item2));
+                                    intervalsToAdd.Add((source.Item2 + 1, seedInterval.Item2));
                                 }
                                 else // CASE 6
                                 {
                                     //CHANGED 
-                                    seedRanges.Add((seedRange.Item1 - source.Item1 + destination.Item1, seedRange.Item2 - source.Item1 + destination.Item1));
-                                    rangesToRemove.Add(seedRange);
+                                    seedIntervals.Add((seedInterval.Item1 - source.Item1 + destination.Item1, seedInterval.Item2 - source.Item1 + destination.Item1));
+                                    intervalsToRemove.Add(seedInterval);
                                 }
                         }
                     }
 
-                    foreach (var rangeToRemove in rangesToRemove)
-                        rangesToCheck.Remove(rangeToRemove);
+                    foreach (var intervalToRemove in intervalsToRemove)
+                        intervalsToCheck.Remove(intervalToRemove);
 
-                    rangesToCheck.AddRange(rangesToAdd);
+                    intervalsToCheck.AddRange(intervalsToAdd);
                 }
 
-                seedRanges.AddRange(rangesToCheck);
+                seedIntervals.AddRange(intervalsToCheck);
             }
 
-            return seedRanges.Min(s => s.Item1).ToString();
-        }
-    }
-
-    public class Range
-    {
-        public int Category { get; set; }
-        public BigInteger DestinationStart { get; set; }
-        public BigInteger SourceStart { get; set; }
-        public BigInteger RangeLength { get; set; }
-        public BigInteger DestinationEnd => DestinationStart + RangeLength - 1;
-        public BigInteger SourceEnd => SourceStart + RangeLength - 1;
-
-        public Range(int category, BigInteger destinationStart, BigInteger sourceStart, BigInteger rangeLength)
-        {
-            Category = category;
-            DestinationStart = destinationStart;
-            SourceStart = sourceStart;
-            RangeLength = rangeLength;
+            return seedIntervals.Min(s => s.Item1).ToString();
         }
     }
 }
