@@ -9,12 +9,12 @@ namespace AdventOfCode.Y2019.Days
 
         public override string RunPart1()
         {
-            return "Undefined";
+            return "undefined";
         }
 
         public override string RunPart2()
         {
-            return "Undefined";
+            return "undefined";
         }
     }
 }

@@ -11,8 +11,8 @@ namespace AdventOfCode.Models
         private TimeSpan time1;
         private TimeSpan time2;
 
-        public string Answer1 { get; set; } = "Undefined";
-        public string Answer2 { get; set; } = "Undefined";
+        public string Answer1 { get; set; } = "undefined";
+        public string Answer2 { get; set; } = "undefined";
 
         public bool Test;
         public List<string> Inputs { get; set; }

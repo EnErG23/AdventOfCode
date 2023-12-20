@@ -27,7 +27,7 @@ namespace AdventOfCode.Y2021.Days
                     return i.ToString();
             }
 
-            return "Undefined";
+            return "undefined";
         }
 
         public override string RunPart2()
@@ -39,7 +39,7 @@ namespace AdventOfCode.Y2021.Days
 
             //return z.ToString();
 
-            return "Undefined";
+            return "undefined";
         }
 
         public bool ValidateSerialNumber(long serialNumber)

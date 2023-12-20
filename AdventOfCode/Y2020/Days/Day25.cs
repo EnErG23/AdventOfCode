@@ -31,7 +31,7 @@ namespace AdventOfCode.Y2020.Days
 
         public override string RunPart2()
         {
-            return "Undefined";
+            return "undefined";
         }
 
         private long Transform(int subjectNumber, int loopSize)

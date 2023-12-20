@@ -91,8 +91,8 @@ namespace AdventOfCode.Helpers
         public static async void SubmitAnswer(object day)
         {
             Type dayClass = day.GetType();
-            object? answer = dayClass.GetProperty("Answer2").GetValue(day, null) == "Undefined" ? dayClass.GetProperty("Answer1").GetValue(day, null) : dayClass.GetProperty("Answer2").GetValue(day, null);
-            var level = dayClass.GetProperty("Answer2").GetValue(day, null) == "Undefined" ? 1 : 2;
+            object? answer = dayClass.GetProperty("Answer2").GetValue(day, null) == "undefined" ? dayClass.GetProperty("Answer1").GetValue(day, null) : dayClass.GetProperty("Answer2").GetValue(day, null);
+            var level = dayClass.GetProperty("Answer2").GetValue(day, null) == "undefined" ? 1 : 2;
 
             HttpClient client = new();
             client.DefaultRequestHeaders.UserAgent.ParseAdd($".NET 6.0 (+via https://github.com/EnErG23/AdventOfCode by vandenabbeelegeert@gmail.com)");
