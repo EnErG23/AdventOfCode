@@ -1,12 +1,4 @@
 ﻿using AdventOfCode.Models;
-using AdventOfCode.Y2023.Days;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
 
 namespace AdventOfCode.Helpers
 {
@@ -25,7 +17,7 @@ namespace AdventOfCode.Helpers
             var queue = new Queue<T>();
             queue.Enqueue(start);
 
-            while (queue.Count > 0)
+            while (queue.Any())
             {
                 var vertex = queue.Dequeue();
 
@@ -40,6 +32,44 @@ namespace AdventOfCode.Helpers
             }
 
             return visited;
+        }
+
+        public static HashSet<T> BFS<T>(Graph<T> graph, T start, long distance)
+        {
+            var visited = new HashSet<T>();
+            var visitedEven = new HashSet<T>() { start };
+
+            if (!graph.AdjacencyList.ContainsKey(start))
+                return visited;
+
+            var queue = new Queue<(T, long)>();
+            queue.Enqueue((start, 0));
+
+            while (queue.Any())
+            {
+                var item = queue.Dequeue();
+                var vertex = item.Item1;
+                var d = item.Item2;
+
+                if (d > distance)
+                    break;
+
+                if (visited.Contains(vertex))
+                    continue;
+
+                visited.Add(vertex);
+
+                if (d % 2 == 0)
+                    visitedEven.Add(vertex);
+
+                Console.WriteLine($"{vertex} - {d}");
+
+                foreach (var neighbor in graph.AdjacencyList[vertex])
+                    if (!visited.Contains(neighbor))
+                        queue.Enqueue((neighbor, d + 1));
+            }
+
+            return visitedEven;
         }
 
         public static Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start)

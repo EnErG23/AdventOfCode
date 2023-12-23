@@ -18,5 +18,7 @@ namespace AdventOfCode.Models
             Column = column;
             Value = value;
         }
+
+        public override string ToString() => $"({Row}, {Column})";
     }
 }
