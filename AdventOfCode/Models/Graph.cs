@@ -8,9 +8,12 @@ namespace AdventOfCode.Models
 {
     public class Graph<T>
     {
+        public IEnumerable<T> Vertices { get; set; }
+
         public Graph() { }
         public Graph(IEnumerable<T> vertices, IEnumerable<Tuple<T, T>> edges, bool isUndirected)
         {
+            Vertices = vertices;
             foreach (var vertex in vertices)
                 AddVertex(vertex);
 

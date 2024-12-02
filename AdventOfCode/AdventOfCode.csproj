@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <Folder Include="Y2022\Models\" />
+    <Folder Include="Y2024\Models\" />
   </ItemGroup>
 
 </Project>
