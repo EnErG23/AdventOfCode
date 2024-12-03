@@ -1,6 +1,4 @@
 ﻿using AdventOfCode.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Runtime.CompilerServices;
 
 namespace AdventOfCode.Y2024.Days
 {

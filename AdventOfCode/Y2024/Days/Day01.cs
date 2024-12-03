@@ -4,7 +4,7 @@ namespace AdventOfCode.Y2024.Days
 {
     public class Day01 : Day
     {
-        public Day01(int year, int day, bool test) : base(year, day, test) { }
+        public Day01(int year, int day, bool test) : base(year, day, test) => Inputs = Inputs.Select(i => i.Replace("   ", " ")).ToList();
 
         public override string RunPart1()
         {
@@ -13,9 +13,7 @@ namespace AdventOfCode.Y2024.Days
             var left = new List<int>();
             var right = new List<int>();
 
-            var inputs = Inputs.Select(i => i.Replace("   ", " "));
-
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 left.Add(int.Parse(input.Split(" ")[0]));
                 right.Add(int.Parse(input.Split(" ")[1]));
@@ -39,9 +37,7 @@ namespace AdventOfCode.Y2024.Days
             var left = new List<int>();
             var right = new List<int>();
 
-            var inputs = Inputs.Select(i => i.Replace("   ", " "));
-
-            foreach (var input in inputs)
+            foreach (var input in Inputs)
             {
                 left.Add(int.Parse(input.Split(" ")[0]));
                 right.Add(int.Parse(input.Split(" ")[1]));
