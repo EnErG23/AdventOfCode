@@ -63,7 +63,7 @@ namespace AdventOfCode.Y2023.Days
             return "undefined";
         }
 
-        private void Print() => _connections.ToList().ForEach(c => Console.WriteLine($"{c.Item1} - {c.Item2}"));
+        new private void Print() => _connections.ToList().ForEach(c => Console.WriteLine($"{c.Item1} - {c.Item2}"));
 
         public (bool, List<int>) GetGroupCounts(HashSet<(string, string)> conns)
         {
