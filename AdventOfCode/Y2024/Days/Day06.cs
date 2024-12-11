@@ -1,9 +1,4 @@
 ﻿using AdventOfCode.Models;
-using AdventOfCode.Y2023.Days;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Y2024.Days
 {

@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Models;
-using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Y2024.Days
 {
