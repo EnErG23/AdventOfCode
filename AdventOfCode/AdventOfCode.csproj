@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>4a67a746-0b96-4be8-959d-3e311282cab8</UserSecretsId>
@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <Folder Include="Y2022\Models\" />
+    <Folder Include="Y2025\Models\" />
     <Folder Include="Y2024\Models\" />
   </ItemGroup>
 
