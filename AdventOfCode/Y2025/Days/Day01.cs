@@ -4,51 +4,84 @@ namespace AdventOfCode.Y2025.Days
 {
     public class Day01 : Day
     {
-        public Day01(int year, int day, bool test) : base(year, day, test)
-            => Inputs = Inputs.Select(i => i.Replace("   ", " ")).ToList();
+        public Day01(int year, int day, bool test) : base(year, day, test) { }
 
         public override string RunPart1()
         {
-            var result = 0;
+            long result = 0;
 
-            var left = new List<int>();
-            var right = new List<int>();
+            long dial = 50;
 
             foreach (var input in Inputs)
             {
-                left.Add(int.Parse(input.Split(" ")[0]));
-                right.Add(int.Parse(input.Split(" ")[1]));
-            }
+                var rot = input[0];
+                var clicks = long.Parse(input[1..]);
 
-            left = left.OrderBy(i => i).ToList();
-            right = right.OrderBy(i => i).ToList();
+                if (rot == 'L')
+                {
+                    dial -= clicks % 100;
 
-            for(int i = 0; i < left.Count; i++)
-            {
-                result += Math.Abs(left[i] - right[i]);
-            }
+                    if (dial < 0)
+                        dial = 100 + (dial % 100);
+                }
+                else if (rot == 'R')
+                {
+                    dial += clicks % 100;
+
+                    if (dial > 99)
+                        dial = (dial % 100);
+                }
+
+                if (dial == 0)
+                    result++;
+            }           
 
             return result.ToString();
         }
 
         public override string RunPart2()
         {
-            var result = 0;
+            long result = 0;
 
-            var left = new List<int>();
-            var right = new List<int>();
+            long dial = 50;
 
             foreach (var input in Inputs)
             {
-                left.Add(int.Parse(input.Split(" ")[0]));
-                right.Add(int.Parse(input.Split(" ")[1]));
-            }
+                var rot = input[0];
+                var clicks = long.Parse(input[1..]);
 
-            foreach (var l in left)
-            {
-                result += l * right.Count(r => r == l);
-            }
+                if (rot == 'L')
+                {
+                    dial -= clicks % 100;
 
+                    if (dial < 0)
+                    {
+                        dial = 100 + (dial % 100);
+                        result += 1 + (clicks / 99);
+                    }
+                }
+                else if (rot == 'R')
+                {
+                    dial += clicks % 100;
+
+                    if (dial > 99)
+                    {
+                        dial = (dial % 100);
+                        result += 1 + (clicks / 99);
+                    }
+                }
+                //if (clicks > 100)
+                //{
+                    Console.WriteLine(input);
+                    Console.WriteLine(clicks/99);
+                    Console.WriteLine(dial);
+                    Console.WriteLine(result);
+                    //Console.ReadLine();
+                //}
+
+                if (dial == 0)
+                    result++;
+            }
 
             return result.ToString();
         }
