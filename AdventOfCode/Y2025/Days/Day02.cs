@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace AdventOfCode.Y2025.Days
 {
