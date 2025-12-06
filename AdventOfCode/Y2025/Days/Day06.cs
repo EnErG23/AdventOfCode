@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Models;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AdventOfCode.Y2025.Days
 {
@@ -52,6 +51,46 @@ namespace AdventOfCode.Y2025.Days
         public override string RunPart2()
         {
             long result = 0;
+
+            var lengthLongestInput = Inputs.Aggregate("", (max, cur) => max.Length > cur.Length ? max : cur).Length;
+
+            var operatorC = '+';
+            long problemResult = 0;
+
+            for (int i = 0; i < lengthLongestInput; i++)
+            {
+                string numberS = "";
+
+                try
+                {
+                    var newOperatorS = Inputs[Inputs.Count - 1][i];
+
+                    if (!string.IsNullOrEmpty(newOperatorS.ToString().Trim()))
+                    {
+                        result += problemResult;
+                        operatorC = newOperatorS;
+
+                        if (operatorC == '+')
+                            problemResult = 0;
+                        else
+                            problemResult = 1;
+                    }
+                }
+                catch { }
+
+                foreach (var input in Inputs.SkipLast(1))
+                {
+                    numberS += input[i];
+                }
+
+                if (!string.IsNullOrEmpty(numberS.Trim()))
+                    if (operatorC == '+')
+                        problemResult += long.Parse(numberS.Trim());
+                    else
+                        problemResult *= long.Parse(numberS.Trim());
+            }
+
+            result += problemResult;
 
             return result.ToString();
         }
