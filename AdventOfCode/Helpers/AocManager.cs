@@ -95,7 +95,7 @@ namespace AdventOfCode.Helpers
             var level = dayClass.GetProperty("Answer2").GetValue(day, null) == "undefined" ? 1 : 2;
 
             HttpClient client = new();
-            client.DefaultRequestHeaders.UserAgent.ParseAdd($".NET 6.0 (+via https://github.com/EnErG23/AdventOfCode by vandenabbeelegeert@gmail.com)");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd($".NET 8.0 (+via https://github.com/EnErG23/AdventOfCode by vandenabbeelegeert@gmail.com)");
             client.DefaultRequestHeaders.Add("cookie", $"session={sessionID}");
 
             var values = new Dictionary<string, string>
