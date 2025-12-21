@@ -18,17 +18,14 @@ namespace AdventOfCode.Y2025.Days
                 circuits.Add([new(coords[0], coords[1], coords[2])]);
             }
 
-            List<List<Location3D>> circuitsChecked = new();
+            List<Location3D> boxesChecked = new();
 
-            foreach (var circuit in circuits)
+            foreach (var box1 in circuits.Select(b => b[0]))
             {
-                circuitsChecked.Add(circuit);
+                boxesChecked.Add(box1);
 
-                foreach (var box1 in circuit)
-                    foreach (var circuit2 in circuits.Where(c => !circuitsChecked.Contains(c)))
-                        foreach (var box2 in circuit2)
-                            if (!openConnections.Any(c => (c.Location1 == box1 && c.Location2 == box2) || (c.Location1 == box2 && c.Location2 == box1)))
-                                openConnections.Add(new(box1, box2));                
+                foreach (var circuit2 in circuits.Where(c => !boxesChecked.Contains(c[0])))
+                    openConnections.Add(new(box1, circuit2[0]));
             }
 
             openConnections = openConnections.OrderBy(c => c.Distance).ToList();
